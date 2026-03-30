@@ -23,13 +23,12 @@ MSc Klinische Psychologie und Psychotherapie
 
 MSc Umweltpsychologie / Mensch-Technik-Interaktion
 
-\vspace{3mm}
+\vspace{2mm}
 SoSe 2026
 
 \vspace{2mm}
 \normalsize
 Prof. Dr. Dirk Ostwald
-
 
 #  {.plain}
 \vfill
@@ -102,9 +101,9 @@ Vorlesung Interventionsforschung SoSe 2026 (2 SWS)
 \vspace{-1mm}
 
 * Freitags 9 - 11 Uhr in G22A-216
-* Kursmaterialien (Folien, Videos) auf der [\textcolor{darkblue{Kurswebseite}]()
-* Quarto und R Code der Kursmaterialien auf der [\textcolor{darkblue{Githubseite}]()
-* Ankündigungen und weiterführende Literatur auf der [\textcolor{darkblue{Moodleseite}]()
+* Kursmaterialien (Folien, Videos) auf der [\textcolor{darkblue}{Kurswebseite}](https://tinyurl.com/25k2yot2)
+* Quarto und R Code der Kursmaterialien auf der [\textcolor{darkblue}{Githubseite}](https://github.com/dirk-ostwald/Interventionsforschung-SoSe-2026)
+* Ankündigungen, weiterführende Literatur und Seminarmaterialien auf der [\textcolor{darkblue}{Moodleseite}](https://elearning.ovgu.de/course/view.php?id=21030)
 
 Vorwissen aus dem BSc Psychologie
 \vspace{-1mm}
@@ -184,12 +183,23 @@ Praktische Datenanalyse in R
 
 
 # Formalia
-Literaturempfehlungen
+Literatur
+\footnotesize
 
-* Demidenko (2013) Mixed Models, Second Edition
-* Raudenbusch & Bryk (2002) Hierarchical Linear Models
-* Hedges & Olkin (1985) Statistical Methods for Meta-Analysis
-* Harrer et al. (2022) Doing Meta-Analysis with **R**
+Demidenko, Eugene (2013) Mixed Models: Theory and Applications with R. Second Edition. Wiley Series in Probability and Statistics. Hoboken, New Jersey: Wiley.
+
+Friedman, Lawrence M., Curt D. Furberg, David L. DeMets, Christopher B. Reboussin, and Christopher B. Granger (2015) Fundamentals of Clinical Trials. Fifth Edition. New York, New York: Springer.
+
+Harrer, Mathias, Pim Cuijpers, Toshi A. Furukawa, and David D. Ebert (2022) Doing Meta-Analysis with R: A Hands-On Guide. First Edition. Boca Raton, Florida: CRC Press.
+
+Hedges, Larry V., and Ingram Olkin (1985) Statistical Methods for Meta-Analysis. First Edition. Orlando, Florida: Academic Press.
+
+
+Raudenbush, Stephen W., and Anthony S. Bryk (2002) Hierarchical Linear Models: Applications and Data Analysis Methods. Second Edition. Advanced Quantitative Techniques in the Social Sciences Series. Thousand Oaks, California: Sage Publications.
+
+Snijders, Tom A. B., and Roel J. Bosker (2012) Multilevel Analysis: An Introduction to Basic and Advanced Multilevel Modeling. Second Edition. Los Angeles, California: Sage Publications.
+
+Tango, Toshiro (2018) Repeated Measures Design with Generalized Linear Mixed Models for Randomized Controlled Trials. First Edition. Boca Raton, Florida: CRC Press.
 
 # Formalia
 \vfill
