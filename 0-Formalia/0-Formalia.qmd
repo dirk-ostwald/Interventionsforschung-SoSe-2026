@@ -1,0 +1,200 @@
+---
+fontsize: 8pt
+lang: de
+format:
+    beamer:
+        include-in-header: "0-Header.tex"
+bibliography: 0-Referenzen.bib
+---
+
+#  {.plain}
+\center
+```{r, echo = FALSE, out.width = "20%", fig.align = "center"}
+knitr::include_graphics("0-Abbildungen/ivf-0-otto.png")
+```
+\vspace{2mm}
+
+\huge
+Interventionsforschung
+\vspace{4mm}
+
+\large
+MSc Klinische Psychologie und Psychotherapie
+
+MSc Umweltpsychologie / Mensch-Technik-Interaktion
+
+\vspace{3mm}
+SoSe 2026
+
+\vspace{2mm}
+\normalsize
+Prof. Dr. Dirk Ostwald
+
+
+#  {.plain}
+\vfill
+\center
+\Huge
+\textcolor{red}{Aufnahme läuft!}
+\vfill
+
+
+
+# Formalia
+\footnotesize
+
+**MSc Klinische Psychologie und Psychotherapie**
+
+
+Modul A2.  Vertiefung allgemeine Forschungsmethoden
+
+* A2.1 Vorlesung: Methoden der Evaluationsforschung (2 SWS)
+* A2.2 Seminar: Methoden der Evaluationsforschung   (1 SWS)
+
+Inhalt
+
+In Vorlesung und Seminar A2.1 und A2.2 werden neben den wissenschaftshistorischen
+und messtheoretischen Grundlagen der Evaluation z.B. folgende Themengebiete abgedeckt:
+Hierarchische Modelle und Strukturgleichungsmodelle; Verfahren der Metaanalyse;
+Prinzipien der kausalen Inferenz und Propensity Scores. Insbesondere im Seminar wird
+die selbstständige Durchführung exemplarischer Analysemethoden in Anwendungsbeispielen
+mit modernen datenanalytischen Programmierumgebungen wie R, Python und Julia
+behandelt und eingeübt.
+
+Prüfungsleistungen
+
+* Modulprüfung A2.1: Klausur (60 Minuten) (30 Multiple Choice Fragen)
+* Studienleistung A2.2: Die Form des Leistungsnachweises wird zu Beginn der Lehrveranstaltung bekannt gegeben.
+* Die Modulnote entspricht der Klausurnote.
+
+
+# Formalia
+\footnotesize
+
+**MSc Umweltpsychologie / Mensch-Technik-Interaktion**
+
+Modul A1. Methoden der Evaluationsforschung
+
+* A1.1: Vorlesung: Methoden der Evaluationsforschung (2 SWS)
+* A1.2: Seminar: Methoden der Evaluationsforschung (1 SWS)
+
+Inhalt
+
+Begriffe und Paradigmen der Evaluationsforschung, Evaluationsstandards. Prinzipen
+und Probleme der Untersuchungsplanung: Experimentelle und quasi-experimentelle
+Untersuchungsdesigns, Einzelfalldesigns, Längsschnittdesigns. Spezifische Methoden
+der Evaluationsforschung. Metaanalytische Methoden. Insbesondere im Seminar wird
+die selbstständige Durchführung exemplarischer Analysemethoden in Anwendungsbeispielen
+mit modernen datenanalytischen Programmierumgebungen wie R, Python und Julia
+behandelt und eingeübt.
+
+Prüfungsleistungen
+
+* Modulklausur am Ende des 2. Semesters zusammen mit Multivariate Verfahren (2 x 30 Multiple Choice Fragen)
+* Studienleistung A1.2: Die Form des Leistungsnachweises wird zu Beginn der Lehrveranstaltung bekannt gegeben.
+* Die Modulnote entspricht der Klausurnote.
+
+
+# Formalia
+\footnotesize
+\vspace{1mm}
+Vorlesung Interventionsforschung SoSe 2026 (2 SWS)
+\vspace{-1mm}
+
+* Freitags 9 - 11 Uhr in G22A-216
+* Kursmaterialien (Folien, Videos) auf der [\textcolor{darkblue{Kurswebseite}]()
+* Quarto und R Code der Kursmaterialien auf der [\textcolor{darkblue{Githubseite}]()
+* Ankündigungen und weiterführende Literatur auf der [\textcolor{darkblue{Moodleseite}]()
+
+Vorwissen aus dem BSc Psychologie
+\vspace{-1mm}
+
+* [\textcolor{darkblue}{Probabilistische Datenwissenschaft für die Psychologie}](https://dirk-ostwald.github.io/)
+* [\textcolor{darkblue}{Mathematische Grundlagen}](https://tinyurl.com/2d9ptjso)
+* [\textcolor{darkblue}{Wahrscheinlichkeitstheorie und Frequentistische Inferenz}](https://tinyurl.com/29dcsqah)
+* [\textcolor{darkblue}{Allgemeines Lineares Modell}](https://tinyurl.com/24a7nj9b)
+* [\textcolor{darkblue}{Programmierung und Deskriptive Statistik}](https://tinyurl.com/2aanpg4r)
+
+
+Prüfungsmodalitäten
+\vspace{-1mm}
+
+* Vorlesungsfolien inklusive Selbstkontrollfragen sind klausurrelevant
+* Selbstkontrollfragen fokussieren den Kursinhalt
+* Selbstkontrollfragen sind Grundlage für Prüfungsfragen
+* Benotete digitale Multiple Choice Klausur im Universitätstestzentrum
+* Klausurwiederholungstermin am Ende des WiSe 2026/27
+
+
+# Formalia
+\footnotesize
+\center
+
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{lll}
+Datum           & Thema					       	    \\\hline
+10.04.2026      & (0) Formalia                      \\
+17.04.2026      & (1) Interventionsforschung        \\
+24.04.2026      & (2) Kovarianzanalyse              \\
+01.05.2026      & Feiertag                          \\
+08.05.2026      & (2) Kovarianzanalyse              \\
+15.05.2026      & (3) Pretest-Posttest-Designs      \\
+22.05.2026      & (3) Pretest-Posttest-Designs      \\
+29.05.2026      & (4) Linear Mixed Models           \\
+05.06.2026      & (4) Linear Mixed Models           \\
+12.06.2026      & (4) Linear Mixed Models           \\
+19.06.2026      & (5) Metaanalyse                   \\
+26.06.2026      & (5) Metaanalyse                   \\
+03.07.2026      & (6) Propensity-Score-Matching     \\
+10.07.2026      & (6) Propensity-Score-Matching     \\\hline
+17.07.2026      & Klausurtermin                     \\
+Februar 2027    & Klausurwiederholungstermin        \\
+\end{tabular}
+
+# Formalia
+\footnotesize
+Seminar Interventionsforschung SoSe 2026 (1 SWS)
+\vspace{-1mm}
+
+* Freitags 11 - 12 Uhr in G22A-020
+* *"Die Form des Leistungsnachweises wird zu Beginn der Lehrveranstaltung bekannt gegeben."*
+* Terminvergabe durch OVGU-Cloud Excel-Datei Eintrag
+
+Unweltpsychologie
+\vspace{-1mm}
+
+* Vorstellung der Prinzipien umweltpsychologischer Interventionsforschung
+* Vorstellung einer randomisierten umweltpsychologischen Interventionsstudie oder Metaanalyse
+* Studienvorschläge im Moodle, aber siehe auch z.B. [\textcolor{darkblue}{Journal of Environmental Psychology}](https://www.sciencedirect.com/journal/journal-of-environmental-psychology)
+* Anwendung von Linear Mixed Model Analysen
+
+Klinische Psychologie und Psychotherapie
+\vspace{-1mm}
+
+* Vorstellung einer randomisierten psychotherapeutischen Interventionsstudie oder Metaanalyse
+* Studienvorschläge im Moodle, aber siehe auch z.B. [\textcolor{darkblue}{Psychotherapy and Psychosomatics}](https://karger.com/pps)
+* Anwendung von Linear Mixed Model Analysen
+
+Praktische Datenanalyse in R
+\vspace{-1mm}
+
+* Workshop zu `nlme`, `lmer` für Linear Mixed Models oder `metafor` für Metaanalyse
+
+
+
+
+# Formalia
+Literaturempfehlungen
+
+* Demidenko (2013) Mixed Models, Second Edition
+* Raudenbusch & Bryk (2002) Hierarchical Linear Models
+* Hedges & Olkin (1985) Statistical Methods for Meta-Analysis
+* Harrer et al. (2022) Doing Meta-Analysis with **R**
+
+# Formalia
+\vfill
+\Huge
+\center
+Q & A
+\vfill
+
