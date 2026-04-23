@@ -37,7 +37,6 @@ Prof. Dr. Dirk Ostwald
 \textcolor{black}{(1) Interventionsforschung}
 \vfill
 
-
 #
 \footnotesize
 
@@ -133,7 +132,6 @@ Wissenschaftliche Anerkennung von Psychotherapieverfahren in Deutschland
 * @duehrssen1965 zur Aufnahme in die gesetzliche Krankenversorgung
 * [\textcolor{darkblue}{Wissenschaftlicher Beirat Psychotherapie}](www.wbpsychotherapie.de/)
 * [\textcolor{darkblue}{Methodenpapier des Wissenschaftlichen Beirats Psychotherapie 2023}](https://www.wbpsychotherapie.de/methodenpapier)
-
 
 #
 \large
@@ -483,7 +481,7 @@ Präklinische Phase
 Phase I
 \vspace{-2mm}
 
-* Studien an geringer Zahl gesunder Freiwilliger zur Verträglichkeitprüfung.
+* Studien an geringer Zahl gesunder Freiwilliger zur Verträglichkeitsprüfung.
 * Ziel ist es festzustellen, ob die Behandlung für den Menschen überhaupt geeignet ist.
 
 \vspace{-1mm}
@@ -584,7 +582,7 @@ $\Rightarrow$ Sinnvoller Ansatzpunkt für umwelt- und transformationspsychologis
 
 $\Rightarrow$ Standards für die Durchführung und Dokumentation von Studien
 
-# Anforderungen an Wirksamkeitstudien
+# Anforderungen an Wirksamkeitsstudien
 \setstretch{1.8}
 
 [\textcolor{darkblue}{EQUATOR (Enhancing the QUAlity and Transparency Of health Research) Network}](https://www.equator-network.org/)
@@ -601,11 +599,11 @@ $\Rightarrow$ Standards für die Durchführung und Dokumentation von Studien
 Beispiele
 
 * Consolidated Standards of Reporting Trials ([\textcolor{darkblue}{CONSORT}](https://www.equator-network.org/reporting-guidelines/consort/))
-* Standard Protocol Items: Recommendations for Interventional Trials ([\textcolor{darkblue}{SPIRIT})](https://www.equator-network.org/reporting-guidelines/spirit-2013-statement-defining-standard-protocol-items-for-clinical-trials)
+* Standard Protocol Items: Recommendations for Interventional Trials ([\textcolor{darkblue}{SPIRIT})](https://www.equator-network.org/reporting-guidelines/spirit-2013-statement-defining-standard-protocol-items-for-clinical-trials))
 * Preferred Reporting Items for Systematic Reviews and Meta-Analyses ([\textcolor{darkblue}{PRISMA}](https://www.prisma-statement.org/))
 * Strengthening the Reporting of Observational Studies in Epidemiology ([\textcolor{darkblue}{STROBE}](https://www.strobe-statement.org/))
 
-# Anforderungen an Wirksamkeitstudien
+# Anforderungen an Wirksamkeitsstudien
 \vspace{2mm}
 ```{r, echo = FALSE, out.width = "40%", fig.align = "center"}
 knitr::include_graphics("1-Abbildungen/ivf-1-spirit-consort.png")
@@ -614,8 +612,8 @@ knitr::include_graphics("1-Abbildungen/ivf-1-spirit-consort.png")
 
 SPIRIT und CONSORT 2025
 
-# Anforderungen an Wirksamkeitstudien
-Consort Checklist 2025
+# Anforderungen an Wirksamkeitsstudien
+CONSORT Checklist 2025
 ```{r, echo = FALSE, out.width = "85%", fig.align = "center"}
 knitr::include_graphics("1-Abbildungen/ivf-1-consort-1.pdf")
 ```
@@ -623,15 +621,14 @@ knitr::include_graphics("1-Abbildungen/ivf-1-consort-1.pdf")
 \footnotesize
 @hopewell2025, @moher2010
 
-# Anforderungen an Wirksamkeitstudien
-Consort Checklist 2025 (fortgeführt)
+# Anforderungen an Wirksamkeitsstudien
+CONSORT Checklist 2025 (fortgeführt)
 ```{r, echo = FALSE, out.width = "85%", fig.align = "center"}
 knitr::include_graphics("1-Abbildungen/ivf-1-consort-2.pdf")
 ```
 \flushright
 \footnotesize
 @hopewell2025, @moher2010
-
 
 #
 \large
@@ -653,12 +650,27 @@ Selbstkontrollfragen
 
 # Grundmodell randomisierter kontrollierter Studien
 \vspace{1mm}
-\setstretch{1.2}
-\center
-**Randomisierte kontrollierte Studie (Randomized controlled trial (RCT))**
+\setstretch{2.5}
+Randomized controlled trial (RCT)
 
 \small
-***Randomisierte* Zuweisung von Proband:innen zu Interventions- und *Kontrollbedingungen***
+
+* Randomisierte kontrollierte Studie
+
+* Experimentelle Studie zur Prüfung der Wirkung einer Intervention
+
+* Randomisierte Zuweisung von Proband:innen zu Interventions- und Kontrollbedingungen
+
+* Vergleich der Ergebnisse zwischen Interventions- und Kontrollbedingungen
+
+* Ziel ist eine möglichst unverzerrte Schätzung des Interventionseffekts
+
+
+
+# Grundmodell randomisierter kontrollierter Studien
+
+Motivation für randomisierte kontrollierte Studien
+
 \footnotesize
 
 \flushleft
@@ -776,7 +788,7 @@ Studienvorbereitung durch Principal Investigators (PIs)
 * Dokumentation von Fragestellung, Hypothese, Design, Messmethoden, Analysen
 * Dokumentation von Änderungen im Studienverlauf
 * Einholung eines Ethikvotums durch die zuständige Ethikkommission
-* Proband:innenaufklärung und schriftliche Studieneinwillung (Informed consent)
+* Proband:innenaufklärung und schriftliche Studieneinwilligung (Informed consent)
 * Datenschutz und Datenmanagementplan, inkl. Datenbereitstellung (Data sharing)
 
 # Ablaufprinzipien randomisierter kontrollierter Studien
@@ -794,7 +806,7 @@ Umsetzung der intendierten Behandlungsmaßnahme (Treatment Fidelity)
 \setstretch{2.5}
 Primary Outcome Variable
 
-* Im Vorfeld der Studie festgelegtes zentrales Maß zur Messung des Therapieeffektes
+* Im Vorfeld der Studie festgelegtes zentrales Maß zur Messung des Interventionseffekts
 * Aka "Primäre Zielvariable", "Target variable", "Primary endpoint"
 * Beispiel: BDI-II Score als Maß für Depressionssymptomatik
 * Häufig dichotomisiert im Sinne eines Therapieerfolgs bzw. -nichterfolgs
@@ -810,7 +822,7 @@ Häufig genutzte Kontrollgruppen
 |---------------------------------------|----------------------------------------------------------------------------------------------------|
 | Active comparator                     | Eine evidenzbasiert wirksame Behandlung, die sich von der experimentellen Behandlung unterscheidet |
 | Minimal treatment control             | Treatment-Behandlung, die weniger als vier Sitzungen umfassen |
-| Nonspecific factors control | Zeit mit Therapeuten:innen von gleicher Dauer und Häufigkeit wie die experimentelle Behandlung, aber keine Durchführung als therapeutisch angesehenen Übungen oder Techniken. Diese Kontrollbedingung umfasst oft edukative Sitzungen, in denen Patienten nur über verfügbare Behandlungen oder Selbsthilfemöglichkeiten informiert werden |
+| Nonspecific factors control | Zeit mit Therapeut:innen von gleicher Dauer und Häufigkeit wie die experimentelle Behandlung, aber keine Durchführung als therapeutisch angesehenen Übungen oder Techniken. Diese Kontrollbedingung umfasst oft edukative Sitzungen, in denen Patienten nur über verfügbare Behandlungen oder Selbsthilfemöglichkeiten informiert werden |
 | No-Treatment control                  | Enthält keine Studienbehandlung und wird nicht in einem Umfeld durchgeführt, in dem eine Behandlung verfügbar wäre |
 | Patient choice                        | Patienten können frei zwischen den in einer Studie angebotenen Behandlungen wählen (z. B. eine von mehreren Arten der Psychotherapie oder zwischen Psychotherapie und Medikation) |
 
@@ -827,7 +839,7 @@ Häufig genutzte Kontrollgruppen
 | Kontrollbedingung                     | Kurzbeschreibung                                                                                   |
 |---------------------------------------|----------------------------------------------------------------------------------------------------|
 | Pill placebo      | Eine Placebo-Pille wird der Kontrollgruppe verabreicht, die die experimentelle Verhaltenstherapie nicht erhält |
-| Specifc factors control | Patienten erhalten die gleiche Zeit mit einem Therapeuten wie in der experimentellen Bedingung, jedoch mit einer anderen oder reduzierten Anzahl spezifischer Faktoren zusätzlich zu den unspezifischen Faktoren |
+| Specific factors control | Patienten erhalten die gleiche Zeit mit einem Therapeuten wie in der experimentellen Bedingung, jedoch mit einer anderen oder reduzierten Anzahl spezifischer Faktoren zusätzlich zu den unspezifischen Faktoren |
 | Treatment as usual | Erfordert, dass die Studie in einer Klinik durchgeführt wird, in der Patienten Zugang zu einer Form der Behandlung haben. Was diese übliche Behandlung umfasst, wird jedoch oft nicht berichtet oder sogar bewertet. In den letzten Jahren gab es eine zunehmende Anzahl von Studien, die eine optimierte Behandlung als übliche Kontrollgruppe anwenden, insbesondere bei schweren Störungen (z. B. Anorexia nervosa) |
 | Waitlist control | Während des experimentellen Behandlungszeitraums wird keine Behandlung angeboten, aber die experimentelle Behandlung wird nach der Nachbeurteilung angeboten |
 
@@ -850,7 +862,7 @@ knitr::include_graphics("1-Abbildungen/ivf-1-control-effects.pdf")
 
 # Ablaufprinzipien randomisierter kontrollierter Studien
 \setstretch{2}
-Minimierug von systematischen Verzerrungen (Bias minimization)
+Minimierung von systematischen Verzerrungen (Bias minimization)
 
 Verblindung
 
@@ -941,7 +953,7 @@ Intention-To-Treat Analyse | Beispiel
 
 * Nichteffektive Psychotherapie zur Prävention von Panikattacken vs. Wartelistenkontrolle
 * Relative Häufigkeit einer Panikattacke im Beobachtungszeitraum als primäres Outcomemaß
-* Auftreten einer Panikattacke führt zum Auschluss aus der Studie und klinischer Standardbehandlung
+* Auftreten einer Panikattacke führt zum Ausschluss aus der Studie und klinischer Standardbehandlung
 * Bestimmung der relativen Häufigkeit unter Intention-To-Treat (ITT) und Per-Protocol (PP)
 
 \vspace{-1mm}
@@ -985,11 +997,9 @@ Ablaufprinzipien randomisierter kontrollierter Studien
 1. Erläutern Sie den Begriff der Primary Outcome Variable.
 1. Erläutern Sie den Begriff der Waitlist Control Bedingung.
 1. Erläutern Sie die Begriffe des Parallelgruppen- und Crossoverdesigns.
-1. Eräutern Sie den Begriff der Multizentrenstudie.
+1. Erläutern Sie den Begriff der Multizentrenstudie.
 1. Differenzieren Sie die Begriffe der Intention-To-Treat- und Per-Protocol-Analyse.
 1. Erläutern Sie den Sinn einer Intention-To-Treat-Analyse an einem Beispiel.
 
 # Referenzen {.allowframebreaks}
 \footnotesize
-
-

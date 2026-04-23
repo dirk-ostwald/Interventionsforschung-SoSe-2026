@@ -1,0 +1,3384 @@
+---
+fontsize: 8pt
+format:
+    beamer:
+        include-in-header: "2-Header.tex"
+bibliography: 2-Referenzen.bib
+---
+
+#  {.plain}
+\center
+```{r, echo = FALSE, out.width = "20%", fig.align = "center"}
+knitr::include_graphics("2-Abbildungen/ivf-2-otto.png")
+```
+\vspace{2mm}
+
+\huge
+Interventionsforschung
+\vspace{4mm}
+
+\large
+MSc Klinische Psychologie und Psychotherapie
+
+MSc Umweltpsychologie / Mensch-Technik-Interaktion
+
+\vspace{2mm}
+SoSe 2026
+
+\vspace{2mm}
+\normalsize
+Prof. Dr. Dirk Ostwald
+
+#  {.plain}
+\vfill
+\center
+\huge
+\textcolor{black}{(2) Kovarianzanalyse}
+\vfill
+
+#
+\large
+\vfill
+\setstretch{2.7}
+Allgemeines lineares Modell
+
+`lm()` und `formulas`
+
+Parallelgruppendesigns und Regression
+
+Kovarianzanalyse
+
+Selbstkontrollfragen
+\vfill
+
+
+#
+\large
+\vfill
+\setstretch{2.7}
+**Allgemeines lineares Modell**
+
+`lm()` und `formulas`
+
+Parallelgruppendesigns und Regression
+
+Kovarianzanalyse
+
+Selbstkontrollfragen
+\vfill
+
+
+# Allgemeines lineares Modell
+Modellbasierter Realismus \vspace{7mm}
+
+```{r, echo = FALSE, out.width = "90%"}
+knitr::include_graphics("2-Abbildungen/ivf-2-modellbasierter-realismus.pdf")
+```
+
+
+# Allgemeines lineares Modell
+\vfill
+Modellformulierung
+
+\begin{equation}
+y = X\beta + \varepsilon, \varepsilon \sim N(0_n,\sigma^2I_n)
+\end{equation}
+
+Modellschätzung
+\begin{equation}
+\hat{\beta} = (X^TX)^{-1} X^Ty, \quad  \hat{\sigma}^2 = \frac{(y-X\hat{\beta})^T(y-X\hat{\beta})}{n-p}
+\end{equation}
+
+Modellevaluation
+\begin{equation}
+T = \frac{c^T\hat{\beta} - c^T\beta_0}{\sqrt{\hat{\sigma}^2c^T(X^TX)^{-1}c}},\quad
+F = \frac{(\hat{\varepsilon}_0^T\hat{\varepsilon}_0 - \hat{\varepsilon}^T\hat{\varepsilon})/p_1}{\hat{\varepsilon}^T\hat{\varepsilon}/(n-p)}
+\end{equation}
+\vfill
+
+# Allgemeines lineares Modell
+Möglichkeiten der Minderung des Einflusses von Störvariablen in empirischen Studien
+\vspace{2mm}
+\center
+```{r, echo = FALSE, out.width = "80%", fig.align = "center"}
+knitr::include_graphics("2-Abbildungen/ivf-2-kontrolle-von-störvariablen.pdf")
+```
+
+# Allgemeines lineares Modell
+Möglichkeiten der Minderung des Einflusses von Störvariablen in empirischen Studien
+\footnotesize
+\vspace{-1mm}
+
+* Neben den UVen beeinflussen auch andere Störvariablen die Werte der AVen
+* Störvariablen können bekannt sein, es sind aber auch unbekannte Störvariablen denkbar
+
+\small
+Experimentelle Kontrolle
+\footnotesize
+\vspace{-1mm}
+
+* Treatment und Kontrollbedingungen finden unter kontrollierten Störvariablen-Bedingungen statt
+* Die Kontrolle von Störvariablen schränkt die Generalisierbarkeit von Ergebnissen ein
+* Ergebnisse gelten nur für die spezifisch gewählten Bedingungen der Störvariablen
+
+\small
+Randomisierung
+\footnotesize
+\vspace{-1mm}
+
+* Proband:innen werden zufällig auf die Experimentalbedingungen aufgeteilt
+* Man hofft auf den Ausgleich von Störeffekten im Durchschnitt
+* Randomisierung kann sowohl bekannte als auch unbekannte Störvariablen kontrollieren
+
+\small
+Statistische Anpassung im Rahmen des Allgemeinen Linearen Modells (Kovarianzanalyse)
+\footnotesize
+\vspace{-1mm}
+
+* Im Rahmen der Datenanalyse werden Störvariablen modellbasiert posthoc kontrolliert
+* Voraussetzung ist die Messung der Störvariablen während der Studiendurchführung
+* Voraussetzung ist weiterhin ein gewisses Maß an Unabhängigkeit von Störvariablen und UVen
+
+\flushright
+@linden2016
+
+# Allgemeines lineares Modell
+
+Datenvariabilitätszerlegung
+
+\small
+\setstretch{2.2}
+Variabilität der Werte einer abhängigen Variable
+
+
+* Die Werte einer AV unterscheiden sich im Allgemeinen zwischen experimentellen Einheiten.
+* Die Schwankungen der Werte einer AV bezeichnet man als *Datenvariabilität*.
+* Ziel jeder Datenanalyse ist die Erklärung von Datenvariabilität durch Zerlegung.
+
+Datenvariabilität und Allgemeines lineares Modell
+
+* Eine spezielle Art der Quantifizierung von Datenvariabilität ist die Stichprobenvarianz.
+* Einen additiven Zugang zur Dekomposition von Datenvariabilität bietet das ALM.
+* Den folgenden Überlegungen entspricht datenanalytisch insbesondere die Kovarianzanalyse.
+
+# Allgemeines lineares Modell
+
+Gesamtvariabilität = Primärvariabilität + Residualvariabilität
+
+\vspace{2mm}
+
+\small
+Primärvariabilität
+
+Systematische Veränderung der AVeh, die allein auf Variation der UVen zurückzuführen ist.
+
+
+\normalsize
+\vspace{2mm}
+Residualvariabilität = Sekundärvariabilität + Zufallsfehler
+\small
+
+\vspace{2mm}
+Sekundärvariabilität
+
+Systematische Veränderung der AVen, die auf die Wirkung von unkontrollierten
+Störvariablen, nicht aber auf die Variation der UVen, zurückzuführen ist.
+
+\vspace{2mm}
+Zufallsfehler
+
+Unsystematische Veränderung der AVen, die weder auf die Variation der UVen, noch
+auf den Einfluss von Störvariablen zurückzuführen ist.
+
+# Allgemeines lineares Modell
+\vfill
+```{r, echo = FALSE, out.width = "100%"}
+knitr::include_graphics("2-Abbildungen/ivf-2-variabilitätsquellen.pdf")
+```
+
+
+# Allgemeines lineares Modell
+
+\vspace{2mm}
+\setstretch{1.3}
+Allgemeines lineares Modell (ALM)
+\footnotesize
+
+* Mathematischer Framework, in dem viele lineare statistische Methoden formuliert werden können
+* Daten als lineare Kombination systematischer Einflüsse plus normalverteilte Zufallsfehler
+* Normalverteilte Zufallsfehler als summarische Repräsentation aller nicht-modellierten Einflüsse auf die Daten
+* Verschiedenen Verfahren unterscheiden sich bezüglich Designmatrix und Betaparameterinterpretation
+
+Kategoriale Designs
+\vspace{-2mm}
+
+* Spalten der Designmatrix repräsentieren experimentelle Faktoren
+* Level von Faktoren werden mit $1$en und $0$en, manchmal $-1$en, kodiert
+* Betaparameter repräsentieren Gruppenerwartungswerte oder Kontraste.
+* $\Rightarrow$ T-Tests, Einfaktorielle Varianzanalyse, Mehrfaktorielle Varianzanalyse
+
+Kontinuierliche Designs
+\vspace{-2mm}
+
+* Spalten der Designmatrix werden als Regressoren, Prädiktoren oder Kovariaten bezeichnet
+* Betaparameter repräsentieren Interzepte und Steigungen
+* Enge Bezüge zur Korrelationsanalyse, insbesondere zur partiellen Korrelation
+* $\Rightarrow$ Einfache lineare Regression, Multiple lineare Regression
+
+Kombination kategorialer und kontinuierlicher Designs
+\vspace{-2mm}
+
+* Integration beider Designs in einer gemeinsamen Designmatrix
+* Betaparameter repräsentieren Gruppenerwartungswerte, Kontraste, Interzepte und Steigungen
+* $\Rightarrow$ Kovarianzanalyse und Moderationsanalyse
+
+
+# Allgemeines lineares Modell
+\small
+\begin{definition}[Allgemeines lineares Modell]
+Es sei
+\begin{equation}\label{eq:alm}
+y = X\beta + \varepsilon,
+\end{equation}
+wobei
+\begin{itemize}
+\item $y$ ein $n$-dimensionaler beobachtbarer Zufallsvektor ist, der \textit{Daten} genannt wird,
+\item $X \in \mathbb{R}^{n \times p}$ mit $n>p$ eine vorgegebene Matrix ist, die \textit{Designmatrix} genannt wird,
+\item $\beta \in \mathbb{R}^p$ ein unbekannter Parametervektor ist, der \textit{Betaparametervektor} genannt wird,
+\item $\varepsilon$ ein $n$-dimensionaler nicht-beobachtbarer Zufallsvektor ist, der \textit{Zufallsfehler} genannt wird und für den angenommen wird, dass
+mit einem unbekannten Varianzparameter $\sigma^2>0$ gilt, dass
+\begin{equation}
+\varepsilon \sim N\left(0_n, \sigma^2I_n\right).
+\end{equation}
+\end{itemize}
+Dann heißt \eqref{eq:alm} \textit{Allgemeines lineares Modell (ALM)}.
+\end{definition}
+
+
+
+# Allgemeines lineares Modell
+\footnotesize
+Bemerkungen
+\setstretch{1.8}
+
+* \justifying Wir nehmen durchgängig an, dass $X \in \mathbb{R}^{n \times p}$ vollen Spaltenrang hat, also dass $\mbox{rg}(X)=p$.
+* $y$ ist ein Zufallsvektor, weil er aus der Addition des Zufallsvektors $\varepsilon$ zu dem Vektor $X\beta \in \mathbb{R}^n$ resultiert.
+* Wir nennen $X\beta \in \mathbb{R}^n$ den \textit{deterministischen Modellaspekt} und $\varepsilon$ den \textit{probabilistischen Modellaspekt}.
+* $n \in \mathbb{N}$ bezeichnet durchgängig die Anzahl an Datenpunkten.
+* $p \in \mathbb{N}$ bezeichnet durchgängig die Anzahl an Betaparametern.
+* Die Gesamtzahl an Parametern des ALMs ist $p + 1$ ($p$ Betaparameterkomponenten und $1$ Varianzparameter).
+* Der Betaparametervektor wird auch \textit{Gewichtsvektor} oder \textit{Effektvektor} genannt.
+* Weil der Kovarianzmatrixparameter von $\varepsilon$ als sphärisch angenommen wird,
+sind die $\varepsilon_1,...,\varepsilon_n$ unabhängige normalverteilte
+Zufallsvariablen mit identischem Varianzparameter; weil zusätzlich der
+Erwartungswertparameter von $\varepsilon$ als $0_n$ angenommen wird, sind die
+$\varepsilon_1,...,\varepsilon_n$ auch identisch normalverteilte Zufallsvariablen.
+* Für jede Komponente $y_i, i = 1,...,n$ von $y$ impliziert \eqref{eq:alm} nach Definition des Matrixprodukts, dass
+\begin{equation}
+y_i = x_{i1}\beta_1 + x_{i2}\beta_2 + \cdots +  x_{ip}\beta_p + \varepsilon_i \mbox{ mit } \varepsilon_i \sim N\left(0,\sigma^2\right),
+\end{equation}
+wobei $x_{ij} \in \mathbb{R}$ das $ij$te Element der Designmatrix $X$ bezeichnet.
+
+
+# Allgemeines lineares Modell
+\footnotesize
+\begin{theorem}[Datenverteilung des Allgemeinen Linearen Modells]
+\justifying
+\normalfont
+Es sei
+\begin{equation}
+y = X\beta + \varepsilon \mbox{ mit } \varepsilon \sim N(0_n,\sigma^2I_n)
+\end{equation}
+das ALM. Dann gilt
+\begin{equation}
+y \sim N(\mu,\sigma^2I_n) \mbox{ mit } \mu := X\beta \in \mathbb{R}^n.
+\end{equation}
+\end{theorem}
+
+\underline{Beweis}
+
+Mit dem Theorem zur linear-affinen Transformation multivariater Normalverteilungen
+gilt für $\varepsilon \sim N(0_n,\sigma^2I_n)$ und $y := I_n\varepsilon + X\beta$, dass
+\begin{equation}
+y \sim N\left(I_n0_n + X\beta, I_n (\sigma^2 I_n) I_n^T\right) = N(X\beta, \sigma^2 I_n) = N(\mu,\sigma^2I_n) \mbox{ mit } \mu := X\beta \in \mathbb{R}^n.
+\end{equation}
+Bemerkungen
+
+* \justifying Im ALM sind die Daten $y$ also ein $n$-dimensionaler normalverteilter
+Zufallsvektor mit Erwartungswertparameter $\mu = X\beta \in \mathbb{R}^n$ und
+Kovarianzmatrixparameter $\sigma^2I_n \in \mathbb{R}^{n \times n}$.
+* Die Komponenten $y_1,...,y_n$ von $y$, also die Datenpunkte, sind damit
+unabhängige, aber im Allgemeinen nicht identisch verteilte, normalverteilte
+Zufallsvariablen der Form $y_i \sim N\left(\mu_i,\sigma^2\right)$ für $i = 1,...,n$.
+
+
+# Allgemeines lineares Modell
+\footnotesize
+\begin{theorem}[Betaparameterschätzer]
+\justifying
+\normalfont
+Es sei
+\begin{equation}
+y = X\beta + \varepsilon \mbox{ mit } \varepsilon \sim N(0_n,\sigma^2I_n)
+\end{equation}
+das ALM und es sei
+\begin{equation}
+\hat{\beta} := \left(X^TX\right)^{-1}X^Ty.
+\end{equation}
+der \textit{Betaparameterschätzer}. Dann gilt, dass $\hat{\beta}$ die Summe der Abweichungsquadrate minimiert,
+\begin{equation}
+\hat{\beta} = \argmin_{\tilde{\beta}} (y-X\tilde{\beta})^T(y-X\tilde{\beta}),
+\end{equation}
+und dass $\hat{\beta}$ ein unverzerrter Maximum-Likelihood Schätzer von $\beta \in \mathbb{R}^p$ ist.
+\end{theorem}
+
+Bemerkungen
+
+* Das Theorem gibt eine Formel an, um $\beta$ anhand von Designmatrix und Daten zu schätzen.
+* Da $\hat{\beta}$ die Summe der Abweichungsquadrate minimiert, heißt $\hat{\beta}$ auch Kleinste-Quadrate (KQ) Schätzer.
+* Die $\tilde{\beta}$-Notation des Maximierungsarguments dient lediglich zur Abgrenzung vom w.a.u. $\beta$.
+* Als ML Schätzer ist $\hat{\beta}$ weiterhin konsistent, asymptotisch normalverteilt und asymptotisch effizient.
+* Wir sehen später, dass $\hat{\beta}$ sogar normalverteilt ist.
+* Außerdem hat $\hat{\beta}$ die "kleinste Varianz" in der Klasse der linearen unverzerrten Schätzer von $\beta$.
+* Letztere Eigenschaft ist Kernaussage des \textit{Gauss-Markov Theorems}, auf das wir hier nicht näher eingehen wollen.
+* Für eine Diskussion und einen Beweis des Gauss-Markov Theorems siehe z.B. @searle1971, Kapitel 3.
+
+
+# Allgemeines lineares Modell
+\footnotesize
+\begin{theorem}[Frequentistische Verteilung des Betaparameterschätzers]
+\justifying
+\normalfont
+Es sei
+\begin{equation}
+y = X\beta + \varepsilon \mbox{ mit } \varepsilon \sim N(0_n,\sigma^2I_n)
+\end{equation}
+das ALM. Weiterhin sei
+\begin{equation}
+\hat{\beta} := \left(X^TX\right)^{-1}X^Ty
+\end{equation}
+der Betaparameterschätzer. Dann gilt
+\begin{equation}
+\hat{\beta} \sim N\left(\beta,\sigma^2(X^T X)^{-1}\right).
+\end{equation}
+\end{theorem}
+
+Bemerkungen
+
+* \justifying Es gilt also wie bereits gesehen $\mathbb{E}(\hat{\beta}) = \beta$ und außerdem $\mathbb{C}(\hat{\beta}) = \sigma^2(X^TX)^{-1}$.
+* Die Varianzen der Komponenten von $\hat{\beta}$ sind die Diagonalelemente von $\mathbb{C}(\hat{\beta})$, also
+\begin{equation}
+\mathbb{V}(\hat{\beta}_i) = (\sigma^2(X^TX)^{-1})_{ii} \mbox{ für } i = 1,...p.
+\end{equation}
+* Die Streuung von $\hat{\beta}$ hängt von $\sigma^2$ und der Designmatrix $X$ ab.
+$\sigma^2$ ist ein experimentell nicht zu beinflussender wahrer, aber unbekannter, Parameter
+* $X$ dagegen kann so gewählt werden, um zum Beispiel die Diagonalelemente von
+$\mathbb{C}(\hat{\beta})$ bei festem $\sigma^2$ zu minimieren.
+
+
+# Allgemeines lineares Modell
+\footnotesize
+\setstretch{1.3}
+\begin{theorem}[Varianzparameterschätzer]
+\justifying
+\normalfont
+Es sei
+\begin{equation}
+y = X\beta + \varepsilon \mbox{ mit } \varepsilon \sim N(0_n,\sigma^2I_n)
+\end{equation}
+das ALM in generativer Form. Dann ist
+\begin{equation}
+\hat{\sigma}^2 := \frac{(y-X\hat{\beta})^T(y-X\hat{\beta})}{n - p}
+\end{equation}
+ein unverzerrter Schätzer von $\sigma^2 > 0$.
+\end{theorem}
+\vspace{-2mm}
+
+\footnotesize
+
+Bemerkungen
+
+* Es handelt sich bei $\hat{\sigma}^2$ \textit{nicht} um einen Maximum Likelihood Schätzer von $\sigma^2$.
+* Für einen Beweis siehe z.B. @searle1971, Kapitel 3 oder @rencher2008, Kapitel 7.
+* Mit Definition des Residuenvektors und der Residuen bieten sich für $\hat{\sigma}^2$ auch folgende Schreibweisen an:
+\begin{equation}
+\hat{\sigma}^2
+= \frac{\hat{\varepsilon}^T \hat{\varepsilon}}{n-p}
+= \frac{1}{n-p} \sum_{i=1}^n \hat{\varepsilon}_i^2
+= \frac{1}{n-p} \sum_{i=1}^n \left(y_i - (X\hat{\beta})_i \right)^2
+\end{equation}
+* $\sigma^2$ wird also durch eine skalierte Residualquadratsumme geschätzt.
+* Der Maximum Likelihood Schätzer des Varianzparameters ist $\hat{\sigma}^2_{\tiny \mbox{ML}} := \frac{1}{n}\hat{\varepsilon}^T \hat{\varepsilon}$.
+
+
+# Allgemeines lineares Modell
+\footnotesize
+\begin{theorem}[Frequentistische Verteilung des Varianzparameterschätzers]
+\normalfont
+\justifying
+Es sei
+\begin{equation}
+y = X\beta + \varepsilon \mbox{ mit } \varepsilon \sim N(0_n,\sigma^2I_n)
+\end{equation}
+das ALM. Weiterhin sei
+\begin{equation}
+\hat{\sigma}^2 = \frac{(y -  X\hat{\beta})^T(y -  X\hat{\beta})}{n-p}
+\end{equation}
+der Varianzparameterschätzer. Dann gilt
+\begin{equation}
+\frac{n-p}{\sigma^2}\hat{\sigma}^2 \sim \chi^2(n-p)
+\end{equation}
+\end{theorem}
+
+Bemerkungen
+
+* \justifying Wir verzichten auf einen Beweis. Da es sich bei $(y-X\hat{\beta})^T(y-X\hat{\beta})$
+um eine Summe quadrierter normalverteilter Zufallsvariablen handelt, liegt die
+$\chi^2$-Verteilung im Lichte der $\chi^2$-Transformation zumindest nahe.
+
+
+# Allgemeines lineares Modell
+\footnotesize
+\begin{definition}[T-Statistik]
+Es sei
+\begin{equation}
+y = X\beta + \varepsilon \mbox{ mit } \varepsilon \sim N\left(0_n,\sigma^2I_n\right)
+\end{equation}
+das ALM. Weiterhin seien
+\begin{equation}
+\hat{\beta} := (X^TX)^{-1}X^Ty \mbox{ und } \hat{\sigma}^2 := \frac{(y - X\hat{\beta})^T(y - X\hat{\beta})}{n-p}
+\end{equation}
+die Betaparameter- und Varianzparameterschätzer, respektive. Dann ist für einen
+\textit{Kontrastgewichtsvektor} $c \in \mathbb{R}^p$ und einen Parameter
+$\beta_0 \in \mathbb{R}^p$ die \textit{T-Statistik} definiert als
+\begin{equation}
+T := \frac{c^T\hat{\beta} - c^T\beta_0}{\sqrt{\hat{\sigma}^2c^T(X^TX)^{-1}c}}.
+\end{equation}
+\end{definition}
+
+Bemerkungen
+
+* Die T-Statistik hängt via $\hat{\beta}$ und $\hat{\sigma}^2$ von den Daten $y$ ab.
+* Der Kontrastgewichtsvektor projiziert $\hat{\beta}$ auf einen Skalar $c^T\hat{\beta} \in \mathbb{R}$.
+* Die Wahl $p$-dimensionaler Einheitsvektoren für $c$ erlaubt die Auswahl einzelner Komponenten von $\hat{\beta}$ bzw. $\beta_0$.
+* Eine generelle Wahl von $c$ erlaubt die Evaluation beliebiger Linearkombinationen von $\hat{\beta}$ bzw. $\beta_0$.
+
+# Allgemeines lineares Modell
+
+\footnotesize
+Bemerkungen (fortgeführt)
+
+Die Wahl von $\beta_0 \in \mathbb{R}^p$ erlaubt es, die T-Statistik unterschiedlich einzusetzen:
+
+* \justifying Wählt man $\beta_0 := 0_p$, so erhält man mit der T-Statistik eine Deskriptivstatistik,
+die es erlaubt, geschätzte Regressoreffekte, also Komponenten oder Linearkombinationen von $\hat{\beta}$,
+im Sinne eines Signal-zu-Rauschen Verhältnisses in Bezug zu der durch $\hat{\sigma}^2$
+quantifizierten Residualdatenvariabilität zu setzen. Der Nenner der T-Statistik
+stellt dabei sicher, dass insbesondere die adäquate (Ko)Standardabweichung der
+entsprechenden Betaparameterkomponentenkombination als Bezugsgröße dient, da es
+sich bei $\hat{\sigma}^2\left(X^TX\right)^{-1}$ bekanntlich um die Kovarianz des
+Betaparameterschätzers handelt. Folgende erste Intuition ist in diesem Kontext hilfreich:
+\begin{equation}
+T = \frac{\mbox{Geschätzte Effektstärke}}{\mbox{Geschätzte stichprobenumfangskalierte Datenvariabilität}}
+\end{equation}
+
+* \justifying Wählt man für $\beta_0 = \beta$, also den wahren, aber unbekannten, Betaparameterwert,
+so eröffnet die T-Statistik die Möglichkeit, für einzelne Komponenten des
+Betaparametervektors Konfidenzintervalle zu bestimmen.
+
+* \justifying Deklariert man schließlich $\beta_0 \in \Theta_0$ im Kontext eines Testszenarios
+als das Element einer Nullhypothese $\Theta_0$, so eröffnet die T-Statistik die
+Hypothesentest-basierte Inferenz über Betaparameterkomponenten und ihrer Linearkombinationen.
+
+
+# Allgemeines lineares Modell
+\vspace{1mm}
+\footnotesize
+\begin{theorem}[Frequentistische Verteilung der T-Statistik]
+\normalfont
+\justifying
+Es sei
+\begin{equation}
+y = X\beta + \varepsilon \mbox{ mit } \varepsilon \sim N(0_n,\sigma^2I_n)
+\end{equation}
+das ALM. Weiterhin seien
+\begin{equation}
+\hat{\beta} := (X^TX)^{-1}X^Ty \mbox{ und } \hat{\sigma}^2 := \frac{(y-X\hat{\beta})^T(y-X\hat{\beta})}{n-p}
+\end{equation}
+die Betaparameter- und Varianzparameterschätzer, respektive. Schließlich sei für
+einen Kontrastgewichtsvektor $c \in \mathbb{R}^p$ und einen Parameter
+$\beta_0 \in \mathbb{R}^p$
+\begin{equation}
+T := \frac{c^T\hat{\beta} - c^T\beta_0}{\sqrt{\hat{\sigma}^2 c^T(X^TX)^{-1}c}}
+\end{equation}
+die T-Statistik. Dann gilt
+\begin{equation}
+T \sim t(\delta, n-p) \mbox{ mit } \delta := \frac{c^T\beta - c^T\beta_0}{\sqrt{\sigma^2 c^T(X^TX)^{-1}c}}.
+\end{equation}
+\end{theorem}
+\vspace{-2mm}
+
+Bemerkungen
+\vspace{-2mm}
+
+* Wir verzichten auf einen Beweis.
+* $T$ ist eine Funktion der Parameterschätzer, $\delta$ ist eine Funktion der wahren, aber unbekannten, Parameter
+* Für $c^T\beta = c^T\beta_0$, also bei Zutreffen der Nullhypothese, gilt $\delta = 0$ und damit $T \sim t(n-p)$.
+* Unter der Annahme des Zutreffens der Nullhypothese wird $t(n-p)$ zur Bestimmung von p-Werten genutzt.
+* Für $c^T\beta \neq c^T\beta_0$ kann die Verteilung von $T$ zur Herleitung von Powerfunktionen genutzt werden.
+
+
+# Allgemeines lineares Modell
+\footnotesize
+\begin{theorem}[Konfidenzintervalle für Betaparameterkomponenten]
+\justifying
+\normalfont
+Es sei
+\begin{equation}
+y = X\beta + \varepsilon \mbox{ mit } \varepsilon \sim N(0_n,\sigma^2I_n)
+\end{equation}
+das ALM,  $\hat{\beta}$ und $\hat{\sigma}^2$ seien die Betaparameter- und Varianzparameterschätzer,
+respektive und für ein $\delta \in ]0,1[$ sei
+\begin{equation}
+t_\delta := \Psi^{-1}\left(\frac{1+\delta}{2}; n - p \right).
+\end{equation}
+Schließlich sei für $j = 1,...p$
+\begin{equation}
+\lambda_j := \left(\left(X^TX \right)^{-1}\right)_{jj}
+\mbox{ das $j$te Diagonalelement von } \left(X^TX \right)^{-1}.
+\end{equation}
+Dann ist für $j = 1,...p$
+\begin{equation}
+\kappa_j := \left[\hat{\beta}_j - \hat{\sigma}\sqrt{\lambda_j}t_{\delta},\hat{\beta}_j + \hat{\sigma}\sqrt{\lambda_j}t_{\delta}\right]
+\end{equation}
+ein $\delta$-Konfidenzintervall für die $j$te Komponente $\beta_j$ des Betaparameters $\beta = (\beta_1,...,\beta_p)^T$.
+\end{theorem}
+
+Bemerkungen
+
+* Intuitiv gilt im Vergleich zum  Konfidenzintervall für den Erwartungswertparameter bei Normalverteilung
+\begin{equation}
+\hat{\beta}_j \approx \bar{y}, \hat{\sigma} \approx S, \sqrt{\lambda_j} \approx \sqrt{n^{-1}} \mbox{ und } t_\delta = t_\delta.
+\end{equation}
+
+
+# Allgemeines lineares Modell
+\footnotesize
+\begin{theorem}[Konfidenzintervalle für Betaparameterkontraste]
+\justifying
+\normalfont
+Es sei
+\begin{equation}
+y = X\beta + \varepsilon \mbox{ mit } \varepsilon \sim N(0_n,\sigma^2I_n)
+\end{equation}
+das ALM, $\hat{\beta}$ und $\hat{\sigma}^2$ seien die Betaparameter- und
+Varianzparameterschätzer, respektive, und für ein $\delta \in ]0,1[$ sei
+\begin{equation}
+t_\delta := \Psi^{-1}\left(\frac{1+\delta}{2}; n - p \right).
+\end{equation}
+Ferner sei $c \in \mathbb{R}^p$ ein Kontrastgewichtsvektor und
+\begin{equation}
+\lambda_c := c^T\left(X^TX \right)^{-1}c.
+\end{equation}
+Dann ist
+\begin{equation}
+\kappa_c := \left[c^T\hat{\beta} - \hat{\sigma}\sqrt{\lambda_c}t_{\delta},
+c^T\hat{\beta} + \hat{\sigma}\sqrt{\lambda_c}t_{\delta}\right]
+\end{equation}
+ein $\delta$-Konfidenzintervall für den Betaparameterkontrast $c^T\beta$.
+\end{theorem}
+
+Bemerkungen
+
+* Das vorige Theorem ergibt sich als Spezialfall mit dem Einheitsvektor $c = e_j$.
+
+#
+\large
+\vfill
+\setstretch{2.7}
+Allgemeines lineares Modell
+
+**`lm()` und `formulas`**
+
+Parallelgruppendesigns und Regression
+
+Kovarianzanalyse
+
+Selbstkontrollfragen
+\vfill
+
+# `lm()` und `formulas`
+\setstretch{2.7}
+
+Die **R** Implementation des Allgemeinen linearen Modells
+\small
+
+* In R wird das ALM  mit der Funktion `lm()` formuliert und geschätzt
+* `lm()` wird üblicherweise in der Form `alm = lm(formula, data)` aufgerufen
+* `lm()` schätzt  das durch `formula` spezifizierte Modell anhand der Daten im Dataframe `data`
+* Zur Modellevaluation können verschiedene Funktionen auf `alm` angewendet werden
+* `summary(alm)` gibt vor allem Schätzer und Konfidenzintervalle aus
+* `aov(alm)` gibt ANOVA Tabellen aus
+* Eine ausführliche Dokumentation von `lm()` geben @chambers1992
+
+# `lm()` und `formulas`
+\footnotesize
+Modelle der Form $y = X\beta + \varepsilon$ mit $\varepsilon \sim N(0_n,\sigma^2 I_n)$ werden in R symbolisch durch `formulas` dargestellt
+
+\vspace{2mm}
+```{r, eval = F, error = F, echo = T}
+Daten ~ Term 1 + Term 2 + ... + Term k
+```
+
+* Der `~` Operator trennt die linke Seite und rechte Seite einer `formula`
+* `Daten` wird zur Identifikation der abhängigen Variable $y$ genutzt
+* `Term 1 + Term 2 + ... + Term k` dient der Spezifikation der Spalten der Designmatrix $X$
+* Die `formulas` Syntax geht zurück auf @wilkinson1973 und @chambers1992
+
+Terme können numerische Prädiktoren oder kategoriale Faktoren (R `factors`) sein
+
+Die `formula` Syntax ist symbolisch, zur Laufzeit müssen die Prädiktoren und Faktoren nicht spezifiziert sein
+
+Essentielle Operatoren in `formulas` sind `+` und `:`
+
+* `+` fügt der Designmatrix Prädiktoren hinzu, `:` dient der Spezifikation von Interaktionen
+
+Nichtessentielle Operatoren in `formulas` sind `*`, `/`, `%in%`, `-` und `^`
+
+* Für zwei Faktoren `f1` und `f2` gilt beispielsweise `f1*f2 = f1 + f2 + f1:f2`
+
+
+# `lm()` und `formulas`
+
+\footnotesize
+Beispiele mit `f1`, `f2` als R `factors` und `x1`, `x2` als numerische Vektoren
+\vspace{3mm}
+
+\setstretch{1.5}
+\tiny
+```{r, echo = T, eval = F}
+formula(y ~ f1)         # Spezifikation eines einfaktoriellen ANOVA Designs mithilfe der formula() Funktion
+y ~ f1                  # Aufruf der formula() Funktion ist aber nicht nötig, R erkennt formulas auch so
+y ~ f1 + f2             # Additives zweifaktorielles ANOVA Design
+y ~ f1 + f2 + f1:f2     # Zweifaktorielles ANOVA Design mit Interaktion
+y ~ f1 + x1             # Additives einfaktorielles ANCOVA Design mit einer Kovariate
+
+formula(y ~ x1)         # Spezifikation einer einfachen linearen Regresssion mithilfe der formula() Funktion
+y ~ x1                  # Aufruf der formula() Funktion ist aber nicht nötig, R erkennt formulas auch so
+y ~ 1 + x1              # Explizite Interzeptdefinition bei einfacher linearer Regression, nicht nötig
+y ~ 0 + x1              # Verzicht auf Interzeptdefinition bei einfacher lineare Regression
+y ~ 1 + x1 + x2         # Multiple Regression mit zwei Regressoren und expliziter Interzeptdefinition
+y ~ f1 + x1 + f1:x1     # Einfaktorielles ANCOVA Design mit einer Kovariate und Interaktion
+```
+
+\footnotesize
+Wir betrachten im Folgenden die durch diese `formulas` erzeugten Designmatrizen $X \in \mathbb{R}^{n \times p}$.
+
+
+# `lm()` und `formulas`
+\footnotesize
+Parallelgruppen = Einfaktorielles ANOVA Design mit zwei Faktorleveln
+
+\vspace{2mm}
+\tiny
+\setstretch{1.1}
+```{r, echo = T}
+n   = 12                                                    # Anzahl Datenpunkte
+f1  = as.factor(c(1,1,1,1,1,1,2,2,2,2,2,2))                 # Faktorlevel der Datenpunkte
+y   = rnorm(n)                                              # Primäre Zielvariable
+D   = data.frame(y = y, f1 = f1)                            # Dataframe
+M   = lm(y ~ f1, D)                                         # Modellevaluation
+X   = model.matrix(M)                                       # Designmatrix
+```
+```{r}
+print(X)
+```
+
+# `lm()` und `formulas`
+\footnotesize
+Einfaktorielles ANOVA Design mit drei Faktorleveln
+
+\vspace{2mm}
+\tiny
+\setstretch{1.1}
+```{r, echo = T}
+n   = 12                                                    # Anzahl Datenpunkte
+f1  = as.factor(c(1,1,1,1,2,2,2,2,3,3,3,3))                 # Faktorlevel der Datenpunkte
+y   = rnorm(n)                                              # Primäre Zielvariable
+D   = data.frame(y = y, f1 = f1)                            # Dataframe
+M   = lm(y ~ f1, D)                                         # Modellevaluation
+X   = model.matrix(M)                                       # Designmatrix
+```
+```{r}
+print(X)
+```
+
+# `lm()` und `formulas`
+
+\footnotesize
+Zweifaktorielles additives ANOVA Design mit jeweils zwei Faktorleveln
+
+\vspace{2mm}
+\tiny
+\setstretch{1.1}
+```{r, echo = T}
+n   = 12                                                    # Anzahl Datenpunkte
+f1  = as.factor(c(1,1,1,1,1,1,2,2,2,2,2,2))                 # Faktor-1-Level der Datenpunkte
+f2  = as.factor(c(1,1,1,2,2,2,1,1,1,2,2,2))                 # Faktor-2-Level der Datenpunkte
+y   = rnorm(n)                                              # Primäre Zielvariable
+D   = data.frame(y = y, f1 = f1, f2 = f2)                   # Dataframe
+M   = lm(y ~ f1 + f2, D)                                    # Modellevaluation
+X   = model.matrix(M)                                       # Designmatrix
+```
+```{r}
+print(X)
+```
+
+
+# `lm()` und `formulas`
+\footnotesize
+Zweifaktorielles additives ANOVA Design mit Interaktion
+
+\vspace{2mm}
+\tiny
+\setstretch{1.1}
+```{r, echo = T}
+n   = 12                                                    # Anzahl Datenpunkte
+f1  = as.factor(c(1,1,1,1,1,1,2,2,2,2,2,2))                 # Faktor-1-Level der Datenpunkte
+f2  = as.factor(c(1,1,1,2,2,2,1,1,1,2,2,2))                 # Faktor-2-Level der Datenpunkte
+y   = rnorm(n)                                              # Primäre Zielvariable
+D   = data.frame(y = y, f1 = f1, f2 = f2)                   # Dataframe
+M   = lm(y ~ f1 + f2 + f1:f2, D)                            # Modellevaluation
+X   = model.matrix(M)                                       # Designmatrix
+```
+```{r}
+print(X)
+```
+
+# `lm()` und `formulas`
+
+\footnotesize
+Einfache Lineare Regression
+
+\vspace{2mm}
+\tiny
+\setstretch{1.1}
+```{r, echo = T}
+n   = 12                                                    # Anzahl Datenpunkte
+x1  = 1:n                                                   # Regressor
+y   = rnorm(n)                                              # Primäre Zielvariable
+D   = data.frame(y = y, x1 = x1)                            # Dataframe
+M   = lm(y ~ x1, D)                                         # Modellevaluation
+X   = model.matrix(M)                                       # Designmatrix
+```
+```{r}
+print(X)
+```
+
+
+# `lm()` und `formulas`
+
+\footnotesize
+Einfache Lineare Regression mit expliziter Interzeptdefinition
+
+\vspace{2mm}
+\tiny
+\setstretch{1.1}
+```{r, echo = T}
+n   = 12                                                    # Anzahl Datenpunkte
+x1  = 1:n                                                   # Regressor
+y   = rnorm(n)                                              # Primäre Zielvariable
+D   = data.frame(y = y, x1 = x1)                            # Dataframe
+M   = lm(y ~ 1 + x1, D)                                     # Modellevaluation
+X   = model.matrix(M)                                       # Designmatrix
+```
+```{r}
+print(X)
+```
+
+
+# `lm()` und `formulas`
+\footnotesize
+Einfache Lineare Regression mit Verzicht auf Interzeptdefinition
+
+\vspace{2mm}
+\tiny
+\setstretch{1.1}
+```{r, echo = T}
+n   = 12                                                    # Anzahl Datenpunkte
+x1  = 1:n                                                   # Regressor
+y   = rnorm(n)                                              # Primäre Zielvariable
+D   = data.frame(y = y, x1 = x1)                            # Dataframe
+M   = lm(y ~ 0 + x1, D)                                     # Modellevaluation
+X   = model.matrix(M)                                       # Designmatrix
+```
+```{r}
+print(X)
+```
+
+# `lm()` und `formulas`
+
+\footnotesize
+Multiple Regression mit zwei Regressoren und expliziter Interzeptdefinition
+
+\vspace{2mm}
+\tiny
+\setstretch{1.1}
+```{r, echo = T}
+n   = 12                                                    # Anzahl Datenpunkte
+x1  = 1:n                                                   # Regressor 1
+x2  = (1:n)+5                                               # Regressor 2
+y   = rnorm(n)                                              # Primäre Zielvariable
+D   = data.frame(y = y, x1 = x1, x2 = x2)                   # Dataframe
+M   = lm(y ~ 1 + x1 + x2, D)                                # Modellevaluation
+X   = model.matrix(M)                                       # Designmatrix
+```
+```{r}
+print(X)
+```
+
+# `lm()` und `formulas`
+\footnotesize
+Additives einfaktorielles ANCOVA Design mit einer Kovariate
+
+\vspace{2mm}
+\tiny
+\setstretch{1.1}
+```{r, echo = T}
+n   = 12                                                    # Anzahl Datenpunkte
+f1  = as.factor(c(1,1,1,1,1,1,2,2,2,2,2,2))                 # Faktorlevel der Datenpunkte
+x1  = 1:n                                                   # Kovariatenwerte der Datenpunkte
+y   = rnorm(n)                                              # Primäre Zielvariable
+D   = data.frame(y = y, f1 = f1, x1 = x1)                   # Dataframe
+M   = lm(y ~ f1 + x1, D)                                    # Modellevaluation
+X   = model.matrix(M)                                       # Designmatrix
+```
+```{r}
+print(X)
+```
+
+# `lm()` und `formulas`
+\footnotesize
+Einfaktorielles ANCOVA Design mit einer Kovariate und Interaktion
+
+\vspace{2mm}
+\tiny
+\setstretch{1.1}
+```{r, echo = T}
+n   = 12                                                    # Anzahl Datenpunkte
+f1  = as.factor(c(1,1,1,1,1,1,2,2,2,2,2,2))                 # Faktorlevel der Datenpunkte
+x1  = 1:n                                                   # Kovariatenwerte der Datenpunkte
+y   = rnorm(n)                                              # Primäre Zielvariable
+D   = data.frame(y = y, f1 = f1, x1 = x1)                   # Dataframe
+M   = lm(y ~ f1 + x1 + f1:x1, D)                            # Modellevaluation
+X   = model.matrix(M)                                       # Designmatrix
+```
+```{r}
+print(X)
+```
+
+
+#
+\large
+\vfill
+\setstretch{2.7}
+Allgemeines lineares Modell
+
+`lm()` und `formulas`
+
+**Parallelgruppendesigns und Regression**
+
+Kovarianzanalyse
+
+Selbstkontrollfragen
+\vfill
+
+
+# Parallelgruppendesigns und Regression
+
+Parallelgruppendesign mit Post-Messung
+
+= Zweistichproben-T-Test-Design
+
+= Einfaktorielle Varianzanalyse mit zwei Faktorleveln
+
+\small
+
+Designannahmen
+
+* Zwei Gruppen/Stichproben randomisierter experimenteller Einheiten.
+* Üblicherweise eine Kontrollgruppe und eine Treatmentgruppe
+* Einmalige Messung der Outcomevariable an jeder experimentellen Einheit
+
+Modellannahmen
+
+* Gruppenspezifische Normalverteilungen $N\left(\mu_0,\sigma^2\right)$ und $N\left(\mu_0+\alpha_2,\sigma^2\right)$
+* $\mu_0,\alpha_2$ und $\sigma^2$ unbekannt
+* Annahme eines identischen Varianzparameters $\sigma^2$ für beide Gruppen
+* Ziel ist ein inferentieller Vergleich von $\alpha_2$ mit $0$
+
+# Parallelgruppendesigns und Regression
+\setstretch{1.2}
+Anwendungsbeispiel Klinische Psychologie
+
+\footnotesize
+Beeinflusst die Selbstoffenbarung von Therapeut:innen die Bereitschaft zur Therapieaufnahme?
+
+Randomisierte Zuweisung von $n = 20$ Proband:innen zu zwei Gruppen
+
+* Gruppe 1: Video ohne Selbstoffenbarung durch Therapeut:in
+* Gruppe 2: Video mit Selbstoffenbarung durch Therapeut:in
+
+$\Rightarrow$ Messung der Bereitschaft zur Therapieaufnahme
+
+\vspace{3mm}
+
+\normalsize
+Anwendungsbeispiel Umweltpsychologie
+\footnotesize
+
+Beeinflusst die Exposition gegenüber einer spezifischen Umgebung das unmittelbare Stresserleben?
+
+Randomisierte Zuweisung von $n = 20$ Proband:innen zu zwei Gruppen
+
+* Gruppe 1: Video mit Naturumgebung
+* Gruppe 2: Video mit urbaner Umgebung
+
+$\Rightarrow$  Messung des subjektiven Stresserlebens
+
+
+# Parallelgruppendesigns und Regression
+\footnotesize
+\setstretch{1.3}
+\begin{definition}[Parallelgruppen-Modell in Effektdarstellung]
+\justifying
+\normalfont
+Für $i = 1,2$ Gruppen und $j = 1,...,n_i$ experimentelle Einheiten pro Gruppe  seien
+$y_{ij}$ Zufallsvariablen, die die Datenpunkte eines Parallelgruppen
+Szenarios modellieren. Dann hat das \textit{Parallelgruppen-Modell in Effektdarstellung}
+die strukturelle Form
+\begin{align}
+\begin{split}
+y_{1j} & = \mu_0 + \varepsilon_{1j} \quad\quad\,\,  \mbox{ mit }  \varepsilon_{1j} \sim N(0,\sigma^2) \mbox{ u.i.v. für } j = 1,...,n_1     \\
+y_{2j} & = \mu_0 + \alpha_2 + \varepsilon_{2j}      \mbox{ mit }  \varepsilon_{2j} \sim N(0,\sigma^2) \mbox{ u.i.v. für } j = 1,...,n_2
+\end{split}
+\end{align}
+und die entsprechende Datenverteilungsform
+\begin{align}
+\begin{split}
+y_{1j} & \sim N(\mu_0,\sigma^2)  \quad\quad\,\, \mbox{ u.i.v. für } j = 1,...,n_1 \mbox{ mit } \mu_0 \in \mathbb{R}, \sigma^2 > 0           \\
+y_{2j} & \sim N(\mu_0 + \alpha_2,\sigma^2)      \mbox{ u.i.v. für } j = 1,...,n_2 \mbox{ mit } \mu_0, \alpha_2 \in \mathbb{R}, \sigma^2 > 0 \\
+\end{split}
+\end{align}
+\end{definition}
+\vspace{-2mm}
+\footnotesize
+Bemerkung
+
+* Das Parallelgruppenmodell in Effektdarstellung entspricht dem einfaktoriellen
+Varianzanalysemodell in Effektdarstellung mit Referenzgruppe für einen experimentellen
+Faktor mit zwei Leveln.
+
+# Parallelgruppendesigns und Regression
+\footnotesize
+\vspace{2mm}
+\begin{theorem}[Parallelgruppen-Modell in Effektdarstellung]
+\justifying
+\normalfont
+Gegeben sei die strukturelle Form des Parallelgruppen-Modells in Effektdarstellung.
+Dann hat dieses Modell die Designmatrixform
+\begin{equation}
+y =  X\beta + \varepsilon \mbox{ mit } \varepsilon \sim N(0_n,\sigma^2 I_n), n := n_1 + n_2
+\end{equation}
+und
+\begin{equation}
+y
+:=
+\begin{pmatrix}
+y_{11} 	\\ 	\vdots 	\\ y_{1n_1}
+\\
+y_{21} 	\\ 	\vdots 	\\ y_{2n_2}
+\end{pmatrix}
+\in \mathbb{R}^n, \,
+X :=
+\begin{pmatrix}
+1 		    & 	0		    \\
+\vdots    &  	\vdots  \\
+1 		    & 	0		    \\
+1 		    & 	1		    \\
+\vdots    & 	\vdots  \\
+1 		    & 	1 		  \\
+\end{pmatrix}
+\in \mathbb{R}^{n \times 2},\,
+\beta :=
+\begin{pmatrix}
+\mu_0 		\\
+\alpha_2	\\
+\end{pmatrix}
+\in \mathbb{R}^2
+\mbox{ und }
+\sigma^2 > 0.
+\end{equation}
+\end{theorem}
+Bemerkung
+
+* Das Theorem ergibt sich direkt mit den Regeln der Matrixmultiplikation.
+
+# Parallelgruppendesigns und Regression
+\vspace{1mm}
+Datengeneration
+\vspace{2mm}
+
+\tiny
+\setstretch{1.6}
+```{r, echo = T}
+library(MASS)                                                        # multivariate Normalverteilung
+set.seed(0)                                                          # Zufallszahlengeneratorzustand
+n_j     = 2                                                          # Anzahl Gruppen
+n_i     = 10                                                         # Proband:innen pro Gruppe
+n       = n_i*n_j                                                    # Gesamtanzahl an Proband:innen
+X       = kronecker(matrix(c(1,1,0,1), ncol = 2), rep(1,n_i))        # Treatment-Control Designmatrix
+beta    = matrix(c(5,2), nrow = n_j)                                 # Betaparameter
+s_eps   = 1                                                          # Varianzparameter
+eps     = mvrnorm(1, rep(0,n), s_eps*diag(n))                        # Fehlervektor
+y       = X %*% beta + eps                                           # Primäre Zielvariable
+GRP     = kronecker(c(1:n_j), rep(1,n_i))                            # Treatmentfaktor
+D       = data.frame(GRP = GRP, Y =  y)                              # Dataframe
+write.csv(D, "2-Daten/pgd.csv", row.names = FALSE)                   # Speichern
+```
+
+# Parallelgruppendesigns und Regression
+\vspace{1mm}
+Datensatz
+\vspace{2mm}
+\footnotesize
+\setstretch{1}
+```{r}
+fname = "2-Daten/pgd.csv"
+D     = read.table(fname, sep = ",", header = T)
+```
+\vspace{2mm}
+
+```{r, echo = F}
+knitr::kable(D, "pipe", align = "rr", digits = 1)
+```
+
+
+# Parallelgruppendesigns und Regression
+\vspace{1mm}
+Deskriptivstatistik
+\vspace{2mm}
+
+\setstretch{1.6}
+\tiny
+```{r, echo = T}
+library(dplyr)                                                       # dplyr für einfache Datengruppierung
+D   = read.csv("2-Daten/pgd.csv")                                    # Dateneinlesen
+DS  = D %>% group_by(GRP) %>%  summarise(av = mean(Y, na.rm = TRUE), # Gruppenmittelwerte
+                                         sd = sd(Y, na.rm = TRUE),   # Gruppenstandardabweichungen
+                                         .groups = "drop")           # Gruppierungsaufhebung
+print(DS)
+```
+
+
+# Parallelgruppendesigns und Regression
+\vspace{3mm}
+Visualisierung
+
+```{r, eval = F}
+pdf(
+file        = "2-Abbildungen/ivf-2-pgd.pdf",
+width       = 5,
+height      = 5)
+par(
+family      = "sans",
+mfcol       = c(1,1),
+pty         = "m",
+bty         = "l",
+lwd         = 1,
+las         = 1,
+mgp         = c(2,1,0),
+xaxs        = "i",
+yaxs        = "i",
+font.main   = 1,
+cex         = 1,
+cex.main    = 1)
+
+# Datenreformatierung für barplot
+av_m        = with(DS, tapply(av, list(GRP), identity))
+sd_m        = with(DS, tapply(sd, list(GRP), identity))
+
+# Barplot mit Fehlerbalken
+x           = barplot(
+av_m,
+beside      = TRUE,
+col         = "gray90",
+ylim        = c(0, 10),
+xlim        = c(-.5, 3.0),
+ylab        = "Y",
+xaxt        = "n")
+axis(
+side        = 1,
+at          = x,
+labels      = c("Gruppe 1", "Gruppe 2"))
+arrows(
+x0          = x,
+y0          = av_m,
+x1          = x,
+y1          = av_m + sd_m,
+angle       = 90,
+code        = 2,
+length      = 0.05)
+arrows(
+x0          = x,
+y0          = av_m,
+x1          = x,
+y1          = av_m - sd_m,
+angle       = 90,
+code        = 2,
+length      = 0.05)
+abline(h    = 0)
+dev.off()
+```
+
+```{r, echo = FALSE, out.width="65%", fig.align = "center"}
+knitr::include_graphics("2-Abbildungen/ivf-2-pgd.pdf")
+```
+
+# Parallelgruppendesigns und Regression
+\vspace{1mm}
+Modellschätzung und Modellevaluation
+\vspace{2mm}
+\setstretch{1.6}
+\tiny
+```{r, echo = T}
+D           = read.csv("2-Daten/pgd.csv")                         # Dateneinlesen
+n_j         = 2                                                   # Anzahl Gruppen
+n_i         = 10                                                  # Proband:innen pro Gruppe
+n           = n_i*n_j                                             # Gesamtanzahl an Proband:innen
+p           = 2                                                   # Anzahl Betaparameter
+X           = kronecker(matrix(c(1,1,0,1), ncol = p), rep(1,n_i)) # Designmatrix
+y           = D$Y                                                 # Primäre Zielvariable
+beta_hat    = solve(t(X) %*% X) %*% t(X) %*% y                    # Betaparameterschätzer
+eps_hat     = y - X %*% beta_hat                                  # Prädiktionsfehler
+sigsqr_hat  = (t(eps_hat) %*% eps_hat)/(n-p)                      # Varianzparameterschätzer
+delta       = 0.95                                                # Konfidenzbedingung
+t_delta     = qt((1+delta)/2,n-p)                                 # \Psi^{-1}((1+\delta)/2,n-p)
+lambda      = diag(solve(t(X) %*% X))                             # \lambda_j Werte
+ses         = sqrt(sigsqr_hat)*sqrt(lambda)                       # Betaparameterstandardfehlerschätzer
+tvals       = beta_hat/ses                                        # T Werte
+kappa_u     = beta_hat - ses*t_delta                              # untere KI Grenze
+kappa_o     = beta_hat + ses*t_delta                              # obere  KI Grenze
+```
+
+# Parallelgruppendesigns und Regression
+\vspace{1mm}
+Modellschätzung und Modellevaluation
+\vspace{2mm}
+\setstretch{1.6}
+\tiny
+```{r, echo = T}
+# Ergebnisausgabe
+print(
+data.frame(
+"Estimate"   = beta_hat,
+"Std.Error"  = ses,
+"t.value"    = beta_hat/ses,
+"p.value"    = 2*(1-pt(abs(tvals), n-p)),
+"KI.u"       = kappa_u,
+"KI.o"       = kappa_o,
+row.names    = c("mu_0_hat", "alpha_2_hat")),
+digits = 4)
+```
+
+
+# Parallelgruppendesigns und Regression
+\vspace{1mm}
+Modellschätzung und Modellevaluation mit `lm()`
+\vspace{2mm}
+\tiny
+\setstretch{1.6}
+```{r, echo = T}
+D           = read.csv("2-Daten/pgd.csv", head = T)             # Dataframe
+D$GRP       = as.factor(D$GRP)                                  # R Faktor Kodierung
+M           = lm(Y ~ GRP, data = D)                             # ALM Schätzung
+coefs       = summary(M)$coefficients                           # Betaparameterschätzer
+ci          = confint(M, level  = 0.95)                         # Konfidenzintervalle
+print(cbind(coefs, KI.u = ci[, 1], KI.o = ci[, 2]), digits = 4) # Ausgabe
+```
+
+# Parallelgruppendesigns und Regression
+
+Dokumentation
+
+\vspace{2mm}
+\small
+Anwendungsbeispiel Klinische Psychologie
+\vspace{2mm}
+
+\footnotesize
+*Die Bereitschaft zur Therapieaufnahme war in der Gruppe mit Selbstoffenbarung
+durch die Therapeut:in höher (M = 7.36, SD = 1.21) als in der Gruppe ohne
+Selbstoffenbarung (M = 4.64, SD = 0.68); die ALM-Analyse zeigte einen
+signifikanten positiven Effekt der Selbstoffenbarung, b = 2.72, SE = 0.44,
+95%-KI [1.80, 3.64], t(18) = 6.22, p < .001.*
+
+\vspace{2mm}
+\small
+Anwendungsbeispiel Umweltpsychologie
+\vspace{2mm}
+
+\footnotesize
+*Das subjektive Stresserleben war in der Gruppe mit Exposition gegenüber einer
+urbanen Umgebung höher (M = 7.36, SD = 1.21) als in der Gruppe mit Exposition
+gegenüber einer natürlichen Umgebung (M = 4.64, SD = 0.68); die ALM-Analyse
+ergab einen signifikanten Unterschied zwischen den Bedingungen, b = 2.72,
+SE = 0.44, 95%-KI [1.80, 3.64], t(18) = 6.22, p < .001.*
+
+
+# Parallelgruppendesigns und Regression
+
+Regression = Einfache lineare Regression
+
+\small
+
+Designannahmen
+
+* Eine Gruppe experimenteller Einheiten
+* Einmalige Messung einer UV und einer AVe an jeder experimentellen Einheit
+* Frage nach dem linear-affinen Zusammenhang univariater UV und AV
+
+Modellannahmen
+
+* Annahme einer linear-affinen funktionalen Abhängigkeit der Form
+\begin{equation}
+y = \beta_0 + \beta_1 x + \varepsilon \mbox{ mit } \varepsilon \sim N(0,\sigma^2)
+\end{equation}
+* $\beta_0$: Schnittpunkt von Gerade und $y$-Achse (Interzeptparameter)
+* $\beta_1$: $y$-Differenz pro $x$-Einheitsdifferenz (Steigungsparameter)
+* $\beta_0,\beta_1$ und $\sigma^2$ unbekannt.
+* Ziel ist oft insbesondere ein inferentieller Vergleich von $\beta_1$ mit $0$
+
+
+# Parallelgruppendesigns und Regression
+Anwendungsbeispiel Klinische Psychologie
+
+\small
+Hängen allgemeines interpersonelles Vertrauen und die Bereitschaft zur Therapieaufnahme zusammen?
+
+$n = 20$ Proband:innen wird ein Video einer Therapiesitzung gezeigt
+
+$\Rightarrow$ Messung des allgemeinen interpersonellen Vertrauens (UV)
+
+$\Rightarrow$ Messung der Bereitschaft zur Therapieaufnahme (AV)
+
+\vspace{3mm}
+\normalsize
+Anwendungsbeispiel Umweltpsychologie
+\small
+
+Hängen generelle Naturverbundenheit und subjektives Stresserleben zusammen?
+
+$n = 20$ Proband:innen werden in einer urbanen Umgebung befragt
+
+$\Rightarrow$  Messung der generellen Naturverbundenheit (UV)
+
+$\Rightarrow$  Messung des subjektiven Stresserlebens (AV)
+
+# Parallelgruppendesigns und Regression
+\footnotesize
+\begin{definition}[Modell der einfachen linearen Regression I]
+Für $i = 1,...,n$ experimentelle Einheiten hat das \textit{Modell der einfachen linearen Regression}
+die strukturelle Form
+\begin{equation}
+y_i = \beta_0 + \beta_1x_i + \varepsilon_{i} \mbox{ mit } \varepsilon_{i} \sim N(0,\sigma^2)
+\end{equation}\label{eq:modell}
+wobei
+\begin{itemize}
+\item $y_i$ beobachtbare Zufallsvariablen sind, die Werte einer abhängigen Variable modellieren,
+\item $x_i \in \mathbb{R}$ fest vorgegebene sogenannte \textit{Prädiktorwerte} oder \textit{Regressorwerte} sind,
+die Werte einer unabhängigen Variable modellieren
+\item $\beta_0,\beta_1 \in \mathbb{R}$ wahre, aber unbekannte, Interzept- und Steigungsparameterwerte sind und
+\item $\varepsilon_{i} \sim N(0,\sigma^2)$ unabhängig und identisch normalverteilte nicht-beobachtbare Zufallsvariablen mit
+wahrem, aber unbekanntem, Varianzparameter $\sigma^2>0$ sind, die Messfehler modellieren.
+\end{itemize}
+und die entsprechende Datenverteilungsform
+\begin{equation}\label{eq:modell_normal}
+y_i \sim N\left(\mu_i,\sigma^2\right) \mbox{ u.v. für } i = 1,...,n
+\mbox{ mit } \mu_i := \beta_0 + \beta_1x_i
+\end{equation}
+\end{definition}
+
+Bemerkung
+
+* \justifying Die Werte der abhängigen Variable werden im Modell der einfachen
+  linearen Regression also durch unabhängige normalverteilte Zufallsvariablen
+  mit im Allgemeinen unterschiedlichen Erwartungswertparametern modelliert.
+
+# Parallelgruppendesigns und Regression
+\footnotesize
+\vspace{2mm}
+\begin{theorem}[Modell der einfachen linearen Regression II]
+\justifying
+\normalfont
+Gegeben sei die strukturelle Form des Modells der einfachen linearen Regression.
+Dann hat dieses Modell die Designmatrixform
+\begin{equation}
+y =  X\beta + \varepsilon \mbox{ mit } \varepsilon \sim N(0_n,\sigma^2 I_n)
+\end{equation}
+und
+\begin{equation}
+y
+:=
+\begin{pmatrix}
+y_{1}
+\\
+y_{2}
+\\
+\vdots
+\\
+y_{n}
+\end{pmatrix}
+\in \mathbb{R}^n, \,
+X :=
+\begin{pmatrix}
+1 		    & 	x_1		    \\
+1 		    & 	x_2		    \\
+\vdots 	  &  	\vdots    \\
+1 		    & 	x_n		    \\
+\end{pmatrix}
+\in \mathbb{R}^{n \times 2},\,
+\beta :=
+\begin{pmatrix}
+\beta_0 		\\
+\beta_1	\\
+\end{pmatrix}
+\in \mathbb{R}^{2}
+\mbox{ und }
+\sigma^2 > 0.
+\end{equation}
+\end{theorem}
+
+Bemerkung
+
+* Das Theorem ergibt sich direkt mit den Regeln der Matrixmultiplikation.
+
+# Parallelgruppendesigns und Regression
+\vspace{1mm}
+Datengeneration
+\vspace{2mm}
+
+\tiny
+\setstretch{1.6}
+```{r, echo = T}
+library(MASS)                                             # multivariate Normalverteilung
+set.seed(0)                                               # Zufallszahlengeneratorzustand
+n       = 20                                              # Gesamtanzahl an Proband:innen
+x       = mvrnorm(1, 1:n, 4*diag(n))                      # Zufälliger Prädiktor (keine Modellannahme!)
+X       = matrix(c(rep(1,n), x), ncol = 2)                # Designmatrix
+beta    = matrix(c(2,.5), nrow = 2)                       # Betaparameter
+s_eps   = 15                                              # Varianzparameter
+eps     = mvrnorm(1, rep(0,n), s_eps*diag(n))             # Fehlervektor
+y       = X %*% beta + eps                                # Primäre Zielvariable
+D       = data.frame(UV = X[,2], AV = y)                  # Dataframe
+write.csv(D, "2-Daten/elr.csv", row.names = FALSE)        # Speichern
+```
+
+# Parallelgruppendesigns und Regression
+\vspace{1mm}
+Datensatz
+\vspace{2mm}
+\footnotesize
+\setstretch{1}
+```{r}
+fname = "2-Daten/elr.csv"
+D     = read.table(fname, sep = ",", header = T)
+```
+\vspace{2mm}
+
+```{r, echo = F}
+knitr::kable(D, "pipe", align = "rr", digits = 1)
+```
+
+# Parallelgruppendesigns und Regression
+\vspace{1mm}
+Visualisierung
+\vspace{2mm}
+
+```{r, echo = F, eval = F}
+library(latex2exp)
+D           = read.csv("2-Daten/elr.csv")
+x           = D$UV
+y           = D$AV
+pdf(
+file        = "2-Abbildungen/ivf-2-elr.pdf",
+width       = 4,
+height      = 4)
+par(
+family      = "sans",
+mfcol       = c(1,1),
+pty         = "s",
+bty         = "l",
+lwd         = 1,
+las         = 1,
+mgp         = c(2,1,0),
+xaxs        = "i",
+yaxs        = "i",
+font.main   = 1,
+cex         = 1,
+cex.main    = 1,
+xpd         = T)
+plot(
+x,
+y,
+pch         = 21,
+col         = "white",
+bg          = "black",
+xlab        = "UV",
+ylab        = "AV",
+xlim        = c(-5,25),
+ylim        = c(-2,17))
+legend(
+"topleft",
+TeX("$(x_i,y_i)$"),
+pch         = 21,
+col         = "white",
+pt.bg       = "black",
+bty         = "n",
+cex         = .9,
+x.intersp   = 1)
+dev.off()
+```
+
+```{r, echo = FALSE, out.width="60%", fig.align = "center"}
+knitr::include_graphics("2-Abbildungen/ivf-2-elr.pdf")
+```
+
+# Parallelgruppendesigns und Regression
+\vspace{1mm}
+Modellschätzung und Modellevaluation
+\vspace{2mm}
+\setstretch{1.6}
+\tiny
+```{r, echo = T}
+D           = read.csv("2-Daten/elr.csv")                         # Dateneinlesen
+y           = D$AV                                                # Primäre Zielvariable
+n           = nrow(D)                                             # Gesamtanzahl an Proband:innen
+X           = matrix(c(rep(1,n), D$UV), ncol = 2)                 # Designmatrix
+p           = ncol(X)                                             # Anzahl Betaparameter
+beta_hat    = solve(t(X) %*% X) %*% t(X) %*% y                    # Betaparameterschätzer
+eps_hat     = y - X %*% beta_hat                                  # Prädiktionsfehler
+sigsqr_hat  = (t(eps_hat) %*% eps_hat)/(n-p)                      # Varianzparameterschätzer
+delta       = 0.95                                                # Konfidenzbedingung
+t_delta     = qt((1+delta)/2,n-p)                                 # \Psi^{-1}((1+\delta)/2,n-p)
+lambda      = diag(solve(t(X) %*% X))                             # \lambda_j Werte
+ses         = sqrt(sigsqr_hat)*sqrt(lambda)                       # Betaparameterstandardfehlerschätzer
+tvals       = beta_hat/ses                                        # T Werte
+kappa_u     = beta_hat - ses*t_delta                              # untere KI Grenze
+kappa_o     = beta_hat + ses*t_delta                              # obere  KI Grenze
+```
+
+# Parallelgruppendesigns und Regression
+\vspace{1mm}
+Modellschätzung und Modellevaluation
+\vspace{2mm}
+\setstretch{1.6}
+\tiny
+```{r, echo = T}
+# Ergebnisausgabe
+print(
+data.frame(
+"Estimate"   = beta_hat,
+"Std.Error"  = ses,
+"t.value"    = beta_hat/ses,
+"p.value"    = 2*(1-pt(abs(tvals), n-p)),
+"KI.u"       = kappa_u,
+"KI.o"       = kappa_o,
+row.names    = c("beta_0_hat", "beta_1_hat")),
+digits = 4)
+```
+
+
+# Parallelgruppendesigns und Regression
+\vspace{1mm}
+Modellschätzung und Modellevaluation mit `lm()`
+\vspace{2mm}
+\tiny
+\setstretch{1.6}
+```{r, echo = T}
+D           = read.csv("2-Daten/elr.csv", head = T)             # Dataframe
+M           = lm(AV ~ UV, data = D)                             # ALM Schätzung
+coefs       = summary(M)$coefficients                           # Betaparameterschätzer
+ci          = confint(M, level  = 0.95)                         # Konfidenzintervalle
+print(cbind(coefs, KI.u = ci[, 1], KI.o = ci[, 2]), digits = 4) # Ausgabe
+```
+
+# Parallelgruppendesigns und Regression
+\vspace{1mm}
+Visualisierung
+\vspace{2mm}
+
+```{r, echo = F, eval = F}
+library(latex2exp)
+D           = read.csv("2-Daten/elr.csv")
+x           = D$UV
+y           = D$AV
+pdf(
+file        = "2-Abbildungen/ivf-2-elr-line.pdf",
+width       = 4.5,
+height      = 4.5)
+par(
+family      = "sans",
+mfcol       = c(1,1),
+pty         = "s",
+bty         = "l",
+lwd         = 1,
+las         = 1,
+mgp         = c(2,1,0),
+xaxs        = "i",
+yaxs        = "i",
+font.main   = 1,
+cex         = 1,
+cex.main    = 1,
+xpd         = T)
+plot(
+x,
+y,
+pch         = 21,
+col         = "white",
+bg          = "black",
+xlab        = "UV",
+ylab        = "AV",
+xlim        = c(-5,25),
+ylim        = c(-2,17))
+lines(
+x          = range(x),
+y          = beta_hat[1] + beta_hat[2]*range(x),
+lwd        = 2)
+legend(
+"topleft",
+legend      = c(TeX("$(x_i,y_i)$"), TeX("$\\hat{y}_i = \\hat{\\beta}_0 + \\hat{\\beta}_1x_i$")),
+lty         = c(0, 1),
+pch         = c(21, NA),
+col         = c("white", "black"),
+pt.bg       = c("black", NA),
+bty         = "n",
+cex         = .9,
+x.intersp   = 1)
+dev.off()
+```
+
+```{r, echo = FALSE, out.width="60%", fig.align = "center"}
+knitr::include_graphics("2-Abbildungen/ivf-2-elr-line.pdf")
+```
+
+# Parallelgruppendesigns und Regression
+
+Dokumentation
+
+\small
+\vspace{2mm}
+Anwendungsbeispiel Klinische Psychologie
+\vspace{2mm}
+
+*Das allgemeine interpersonelle Vertrauen sagte die Bereitschaft zur
+Therapieaufnahme positiv vorher; in der ALM-Analyse zeigte sich ein signifikanter
+positiver Regressionskoeffizient, b = 0.48, SE = 0.09, 95%-KI [0.28, 0.68],
+t(18) = 5.08, p < .001.*
+
+\vspace{2mm}
+\small
+Anwendungsbeispiel Umweltpsychologie
+\vspace{2mm}
+
+\footnotesize
+*Die generelle Naturverbundenheit sagte das subjektive Stresserleben positiv vorher;
+die einfache Regressionsanalyse im Rahmen des ALM ergab einen signifikanten
+positiven Zusammenhang, b = 0.48, SE = 0.09, 95%-KI [0.28, 0.68], t(18) = 5.08, p < .001.*
+
+#
+\large
+\vfill
+\setstretch{2.7}
+Allgemeines lineares Modell
+
+`lm()` und `formulas`
+
+Parallelgruppendesigns und Regression
+
+**Kovarianzanalyse**
+
+Selbstkontrollfragen
+\vfill
+
+# Kovarianzanalyse
+
+Überblick
+
+\small
+\setstretch{2}
+
+* Analysis of Covariance (ANCOVA)
+* Kombination von Parallelgruppendesigns und Regression
+* Kontrolle von (unkontrollierten) Störvariablen bei Schätzung von Treatmenteffekten
+* Gemessene Werte einer Störvariable werden als *Kovariate* in das Modell aufgenommen
+* "Herausrechnen der Kovarianz von Störvariable und abhängiger Variable"
+* Kategoriale und kontinuierliche Prädiktoren in einer Designmatrix
+* *Adjustierte Gruppenmittelwerte* als modellbasiert-korrigierte Deskriptivstatistiken
+* Adjustierte Gruppenmittelwerte aka *Estimated Marginal Means (EMMs)*
+
+Kovarianzanalyse $\approx$ Additive Berücksichtigung von Kovariaten im ALM
+
+Moderationsanalyse $\approx$ Interaktive Berücksichtigung von Kovariaten im ALM
+
+
+
+# Kovarianzanalyse
+
+\setstretch{1.2}
+Anwendungsbeispiel Klinische Psychologie
+
+\footnotesize
+Beeinflusst die Selbstoffenbarung von Therapeut:innen die Bereitschaft zur Therapieaufnahme?
+
+Randomisierte Zuweisung von $n = 40$ Proband:innen zu zwei Gruppen
+
+* Gruppe 1: Video ohne Selbstoffenbarung durch Therapeut:in
+* Gruppe 2: Video mit Selbstoffenbarung durch Therapeut:in
+
+$\Rightarrow$ Messung der Bereitschaft zur Therapieaufnahme als primäre Zielvariable
+
+$\Rightarrow$ Messung des allgemeinen interpersonellen Vertrauens als Kovariate
+
+\vspace{3mm}
+
+\normalsize
+Anwendungsbeispiel Umweltpsychologie
+\footnotesize
+
+Beeinflusst die Exposition gegenüber einer spezifischen Umgebung das unmittelbare Stresserleben?
+
+Randomisierte Zuweisung von $n = 40$ Proband:innen zu zwei Gruppen
+
+* Gruppe 1: Video mit Naturumgebung
+* Gruppe 2: Video mit urbaner Umgebung
+
+$\Rightarrow$  Messung des subjektiven Stresserlebens als primäre Zielvariable
+
+$\Rightarrow$  Messung der generellen Naturverbundenheit als Kovariate
+
+# Kovarianzanalyse
+\small
+Kovarianzanalysemodell für ein Parallelgruppendesign mit zwei Gruppen und einer Kovariate
+
+\footnotesize
+In einem Kovarianzanalysemodell für ein Parallelgruppendesign mit zwei Gruppen
+und einer Kovariate modelliert man die Erwartungswertparameter $\mu_{ij}$ der
+insgesamt $n = n_1 + n_2$ Datenvariablen
+\begin{equation}
+y_{ij} \sim N(\mu_{ij}, \sigma^2)
+\end{equation}
+basierend auf der Gruppenzugehörigkeit $i = 1,2$ und den entsprechenden Werten
+$x_{ij}$ für $i = 1,2, j = 1,...,n_i$ der Kovariate. Für jeden Erwartungswertparameter
+$\mu_{ij}$ nutzt man dabei zunächst einen Parameter $\mu_0$, der einen
+gruppenunspezifischen Datenoffset modelliert. Weiterhin nutzt man einen Parameter
+$\alpha_2$, der den zusätzlichen Beitrag von Gruppe 2 relativ zu Gruppe 1 modelliert. Schließlich
+nutzt man einen Wichtungsparameter $\beta_0$, der den Beitrag der Kovariatenwerte
+$x_{ij}$ zu $\mu_{ij}$ quantifiziert.
+
+Das Modell für den Erwartungswertparameter von $y_{ij}$ für $i = 1,2, j = 1, ...,n_i$
+nimmt dann also folgende Form an:
+\begin{equation}
+\mu_{1j} := \mu_0 + \alpha_i + \beta_0x_{ij} \mbox{  mit } \alpha_1 := 0,
+\end{equation}
+wobei $\alpha_1 := 0$ wie im Falle der einfaktoriellen Varianzanalyse eine
+Überparametrisierung des Modells verhindert.
+
+Man beachte, dass die Form des $ij$ten Erwartungswertparameters damit eine
+einfache lineare Regression für jede der beiden Gruppen definiert, bei der
+$\mu_0 + \alpha_i$ als gruppenspezifische Interzeptparameter interpretiert
+werden können und der Steigungsparameter $\beta_0$ für beide Gruppen identisch ist.
+
+# Kovarianzanalyse
+\footnotesize
+\begin{definition}[Kovarianzanalysemodell für ein Parallelgruppendesign]
+\justifying
+$y_{ij}$ mit $i = 1,2,j = 1,...,n_i$ sei die Zufallsvariable, die den
+zur $i$ten Gruppe gehörenden $j$ten Datenpunkt modelliert und $x_{ij}$ sei der
+entsprechende Wert der Kovariate. Dann hat das \textit{Kovarianzanalysemodell
+für ein Parallelgruppendesign mit einer Kovariate} die strukturelle Form
+\begin{equation}
+y_{ij} = \mu_{ij} + \varepsilon_{ij} \mbox{ mit }
+\varepsilon_{ij} \sim N(0,\sigma^2) \mbox{ u.i.v. für } i = 1,2, j = 1,...,n_i, \sigma^2 > 0
+\end{equation}
+und die Datenverteilungsform
+\begin{equation}
+y_{ij} \sim N(\mu_{ij},\sigma^2) \mbox{ u.v. für } i = 1,2, j = 1,...,n_i,
+\mbox{ mit}
+\mu_{ij} := \mu_0 + \alpha_i + \beta_0x_{ij} \mbox{ mit } \alpha_1 := 0.
+\end{equation}
+mit
+\begin{itemize}
+\item einem gruppenunspezifischen Datenoffsetparameter $\mu_0 \in \mathbb{R}$,
+\item einem Effektparameter $\alpha_2 \in \mathbb{R}$ des zusätzlichen Beitrags der Gruppe 2 relativ zu Gruppe 1 und
+\item $\beta_0 \in \mathbb{R}$ einem Wichtungsparameter, der den Beitrag der Kovariatenwerte $x_{ij}$ zu $\mu_{ij}$ quantifiziert und
+\item $\sigma^2 > 0$ einem Varianzparameter, der die Varianz der Fehlerterme $\varepsilon_{ij}$ modelliert.
+\end{itemize}
+\end{definition}
+
+Bemerkungen
+
+* Die Form des $ij$ten Erwartungswertparameters definiert eine einfache lineare
+Regression für jede der Gruppen, wobei $\mu_0 + \alpha_i$ ein gruppenspezifischer
+Interzeptparameter ist und der Steigungsparameter $\beta_0$ für beide Gruppen identisch ist.
+
+
+
+# Kovarianzanalyse
+\footnotesize
+\begin{theorem}[Kovarianzanalysemodell für ein Parallelgruppendesign]
+\justifying
+\normalfont
+Gegeben sei die strukturelle Form des Kovarianzanalysemodells für ein
+Parallelgruppendesign mit einer Kovariate es sei $n := n_1 + n_2$ die
+Gesamtanzahl an Datenvariablen. Dann hat dieses Modell die Designmatrixform
+\begin{equation}
+y \sim N(X\beta,\sigma^2I_n)
+\end{equation}
+mit
+\begin{equation}
+y
+:=
+\begin{pmatrix}
+y_{11}   \\
+\vdots          \\
+y_{1n_1} \\
+y_{21}   \\
+\vdots          \\
+y_{2n_2} \\
+\end{pmatrix}, \quad
+X :=
+\begin{pmatrix}
+1       & 0       & x_{11}    \\
+\vdots  & \vdots  & \vdots    \\
+1       & 0       & x_{1n_1}  \\
+1       & 1       & x_{21}    \\
+\vdots  & \vdots  & \vdots    \\
+1       & 1       & x_{2n_2}  \\
+\end{pmatrix}
+\in \mathbb{R}^{n \times 3}, \quad
+\beta :=
+\begin{pmatrix}
+\mu_0     \\
+\alpha_2  \\
+\beta_0   \\
+\end{pmatrix}
+\in
+\mathbb{R}^3
+\mbox{ und }
+\sigma^2 > 0.
+\end{equation}
+\end{theorem}
+
+Bemerkungen
+
+* Das Theorem ergibt sich direkt mit den Regeln der Matrixmultiplikation.
+
+# Kovarianzanalyse
+
+Datengeneration
+\vspace{2mm}
+\setstretch{1.4}
+\tiny
+```{r, echo = T}
+library(MASS)                                                                   # Multivariate Normalverteilung
+set.seed(0)                                                                     # Zufallszahlengeneratorzustand
+n_j     = 2                                                                     # Anzahl Gruppen
+n_i     = 20                                                                    # Proband:innen pro Gruppe
+n       = n_i*n_j                                                               # Gesamtzahl Datenpunkte
+x       = round(mvrnorm(1, 5*rep(1,n), 4*diag(n)), digits = 1)                  # Kovariate
+X       = cbind(1, kronecker(c(0,1), rep(1,n_i)), x)                            # Designmatrix
+beta    = matrix(c(10,5,-1), nrow = ncol(X))                                    # Betaparameter
+s_eps   = 4                                                                     # Varianzparameter
+eps     = mvrnorm(1, rep(0,n), s_eps*diag(n))                                   # Fehlervektor
+y       = X %*% beta + eps                                                      # Primäre Zielvariable
+GRP     = rep(1:n_j, each = n_i)                                                # Gruppenvariable
+D       = data.frame(GRP = GRP, x = x, Y = y)                                   # Dataframe
+write.csv(D, "2-Daten/kva-1.csv", row.names = FALSE)                            # Datenspeicherung
+```
+
+
+# Kovarianzanalyse
+\vspace{1mm}
+
+Datensatzauszug
+\vspace{1mm}
+\footnotesize
+\setstretch{1}
+
+```{r}
+fname = "2-Daten/kva-1.csv"
+D     = read.table(fname, sep = ",", header = T)
+```
+
+\vspace{2mm}
+
+```{r, echo = F}
+knitr::kable(rbind(head(D[D$GRP == 1, ], 10),
+                   head(D[D$GRP == 2, ], 10)),
+             "pipe", align = "rrr", digits = 1)
+```
+
+# Kovarianzanalyse
+\vspace{1mm}
+
+Deskriptivstatistik
+\vspace{2mm}
+
+\setstretch{1.6}
+\tiny
+```{r, echo = T}
+library(dplyr)                                                          # dplyr für einfache Datengruppierung
+D   = read.csv("2-Daten/kva-1.csv")                                     # Dateneinlesen
+DS  = D %>% group_by(GRP) %>% summarise(avY = mean(Y, na.rm = TRUE),    # Gruppenmittelwerte Y
+                                        sdY = sd(Y, na.rm = TRUE),      # Gruppenstandardabweichungen Y
+                                        avx = mean(x, na.rm = TRUE),    # Gruppenmittelwerte x
+                                        sdx = sd(x, na.rm = TRUE),      # Gruppenstandardabweichungen x
+                                        .groups = "drop")               # Gruppierungsaufhebung
+print(DS)
+```
+
+# Kovarianzanalyse
+\vspace{3mm}
+Visualisierung
+
+```{r, echo = F, eval = F}
+# Laden des Datensatzes
+
+D          = read.csv("2-Daten/kva-1.csv")
+
+# Datenaufteilung
+x_trm      = split(D$x, D$GRP)                                                  # gruppenspezifische x Werte
+y_trm      = split(D$Y, D$GRP)                                                  # gruppenspezifische Y Werte
+
+# Visualisierung
+library(latex2exp)
+graphics.off()
+pdf(
+file        = file.path("2-Abbildungen/ivf-2-kva-1.pdf"),
+width       = 9.0,
+height      = 4.5)
+par(
+family      = "sans",
+mfcol       = c(1,2),
+pty         = "s",
+bty         = "l",
+lwd         = 1,
+las         = 1,
+mgp         = c(2,1,0),
+xaxs        = "i",
+yaxs        = "i",
+font.main   = 1,
+cex         = 1,
+cex.main    = 1)
+
+# Punktwolken
+plot(
+x_trm[[1]],
+y_trm[[1]],
+pch        = 16,
+col        = "gray60",
+xlab       = "x",
+ylab       = "Y",
+xlim       = c(1,11),
+ylim       = c(-2,20))
+points(
+x_trm[[2]],
+y_trm[[2]],
+pch        = 16,
+col        = "gray90")
+legend(
+"topright",
+c("Gruppe 1", "Gruppe 2"),
+lty         = 0,
+pch         = 16,
+col         = c("gray60", "gray90"),
+bty         = "n",
+cex         = 1,
+x.intersp   = 1)
+
+# Balkendiagramm
+groupmeans = c(mean(y_trm[[1]]), mean(y_trm[[2]]))
+groupstds  = c(sd(y_trm[[1]])  , sd(y_trm[[2]]))
+names(groupmeans) = c("Gruppe 1", "Gruppe 2")
+x = barplot(
+groupmeans,
+ylim        = c(0,15),
+xlim        = c(-.4,3),
+col         = c("gray60", "gray90"),
+ylab        = "Y",
+xaxt        = "n")
+axis(
+side        = 1,
+at          = x,
+labels      = c("Gruppe 1", "Gruppe 2"),
+tick        = FALSE,
+padj        = -1,
+pos         = 0)
+axis(
+side        = 2,
+las         = 1)
+arrows(
+x0          = x,
+y0          = groupmeans - groupstds,
+x1          = x,
+y1          = groupmeans + groupstds,
+code        = 3,
+angle       = 90,
+length      = 0.05)
+abline(h    = 0)
+dev.off()
+```
+
+\vspace{4mm}
+\center
+![](2-Abbildungen/ivf-2-kva-1.pdf){width=100%}
+
+# Kovarianzanalyse
+\footnotesize
+\begin{theorem}[Parameterschätzung im Kovarianzanalysemodell]
+\justifying
+\normalfont
+Gegeben sei das Kovarianzanalysemodell für ein Parallelgruppendesign mit
+einer Kovariate in Designmatrixform
+\begin{equation}
+y= X\beta + \varepsilon
+\end{equation}
+mit
+mit
+\begin{equation}
+y
+:=
+\begin{pmatrix}
+y_{11}   \\
+\vdots          \\
+y_{1n_1} \\
+y_{21}   \\
+\vdots          \\
+y_{2n_2} \\
+\end{pmatrix}, \quad
+X :=
+\begin{pmatrix}
+1       & 0       & x_{11}    \\
+\vdots  & \vdots  & \vdots    \\
+1       & 0       & x_{1n_1}  \\
+1       & 1       & x_{21}    \\
+\vdots  & \vdots  & \vdots    \\
+1       & 1       & x_{2n_2}  \\
+\end{pmatrix}
+\in \mathbb{R}^{n \times 3}, \quad
+\beta :=
+\begin{pmatrix}
+\mu_0     \\
+\alpha_2  \\
+\beta_0   \\
+\end{pmatrix}
+\in
+\mathbb{R}^3
+\mbox{ und }
+\sigma^2 > 0.
+\end{equation}
+Dann ergibt sich mit
+\begin{equation}
+\bar{x}_1 := \frac{1}{n_1}\sum_{j=1}^{n_1}x_{1j}, \quad
+\bar{x}_2 := \frac{1}{n_2}\sum_{j=1}^{n_2}x_{2j}, \quad
+\bar{y}_1 := \frac{1}{n_1}\sum_{j=1}^{n_1}y_{1j}, \quad
+\bar{y}_2 := \frac{1}{n_2}\sum_{j=1}^{n_2}y_{2j}
+\end{equation}
+für den Betaparameterschätzer
+\begin{equation}
+\hat{\beta}
+=
+\begin{pmatrix}
+\hat{\mu}_0\\
+\hat{\alpha}_2\\
+\hat{\beta}_0
+\end{pmatrix}
+=
+\begin{pmatrix}
+\bar{y}_1-\hat{\beta}_0\bar{x}_1 \\
+(\bar{y}_2-\bar{y}_1)-\hat{\beta}_0(\bar{x}_2-\bar{x}_1)\\
+\frac{\sum_{j=1}^{n_1}(x_{1j}-\bar{x}_1)(y_{1j}-\bar{y}_1)
++\sum_{j=1}^{n_2}(x_{2j}-\bar{x}_2)(y_{2j}-\bar{y}_2)}
+{\sum_{j=1}^{n_1}(x_{1j}-\bar{x}_1)^2
++\sum_{j=1}^{n_2}(x_{2j}-\bar{x}_2)^2}.
+\end{pmatrix}
+\end{equation}
+\end{theorem}
+
+# Kovarianzanalyse
+\footnotesize
+\vspace{2mm}
+\underline{Beweis}
+
+Wir halten zunächst fest, dass
+\begin{equation}
+X^T=
+\begin{pmatrix}
+1 & \cdots & 1 & 1 & \cdots & 1\\
+0 & \cdots & 0 & 1 & \cdots & 1\\
+x_{11} & \cdots & x_{1n_1} & x_{21} & \cdots & x_{2n_2}
+\end{pmatrix}.
+\end{equation}
+Damit ergibt sich
+\begin{equation}
+X^TX=
+\begin{pmatrix}
+n_1+n_2 & n_2 & \sum_{j=1}^{n_1}x_{1j}+\sum_{j=1}^{n_2}x_{2j}\\
+n_2 & n_2 & \sum_{j=1}^{n_2}x_{2j}\\
+\sum_{j=1}^{n_1}x_{1j}+\sum_{j=1}^{n_2}x_{2j}
+&
+\sum_{j=1}^{n_2}x_{2j}
+&
+\sum_{j=1}^{n_1}x_{1j}^2+\sum_{j=1}^{n_2}x_{2j}^2
+\end{pmatrix}
+\end{equation}
+und
+\begin{equation}
+X^Ty
+=
+\begin{pmatrix}
+\sum_{j=1}^{n_1}y_{1j}+\sum_{j=1}^{n_2}y_{2j}\\
+\sum_{j=1}^{n_2}y_{2j}\\
+\sum_{j=1}^{n_1}x_{1j}y_{1j}+\sum_{j=1}^{n_2}x_{2j}y_{2j}
+\end{pmatrix}.
+\end{equation}
+
+# Kovarianzanalyse
+\footnotesize
+\underline{Beweis (fortgeführt)}
+
+Aus den ersten beiden Komponenten der Normalgleichungen
+\begin{equation}
+X^TX\hat{\beta}=X^Ty.
+\end{equation}
+folgt damit
+\begin{align}
+(n_1+n_2)\hat{\mu}_0+n_2\hat{\alpha}_2+\hat{\beta}_0\left(\sum_{j=1}^{n_1}x_{1j}+\sum_{j=1}^{n_2}x_{2j}\right)
+& = \sum_{j=1}^{n_1}y_{1j}+\sum_{j=1}^{n_2}y_{2j}, \\
+n_2\hat{\mu}_0+n_2\hat{\alpha}_2+\hat{\beta}_0\sum_{j=1}^{n_2}x_{2j}
+& = \sum_{j=1}^{n_2}y_{2j}.
+\end{align}
+Subtraktion der zweiten von der ersten Gleichung liefert
+\begin{equation}
+n_1\hat{\mu}_0+\hat{\beta}_0\sum_{j=1}^{n_1}x_{1j}
+=
+\sum_{j=1}^{n_1}y_{1j},
+\end{equation}
+also
+\begin{equation}
+\hat{\mu}_0=\bar{y}_1-\hat{\beta}_0\bar{x}_1.
+\end{equation}
+Setzt man dies in die zweite Gleichung ein, so erhält man
+\begin{align}
+n_2(\bar{y}_1-\hat{\beta}_0\bar{x}_1)+n_2\hat{\alpha}_2+\hat{\beta}_0\sum_{j=1}^{n_2}x_{2j}
+& = \sum_{j=1}^{n_2}y_{2j}.
+\end{align}
+
+
+# Kovarianzanalyse
+\footnotesize
+\underline{Beweis (fortgeführt)}
+
+Wegen $\sum_{j=1}^{n_2}x_{2j}=n_2\bar{x}_2$ und $\sum_{j=1}^{n_2}y_{2j}=n_2\bar{y}_2$ folgt
+\begin{equation}
+\bar{y}_1-\hat{\beta}_0\bar{x}_1+\hat{\alpha}_2+\hat{\beta}_0\bar{x}_2=\bar{y}_2,
+\end{equation}
+also
+\begin{equation}
+\hat{\alpha}_2=(\bar{y}_2-\bar{y}_1)-\hat{\beta}_0(\bar{x}_2-\bar{x}_1).
+\end{equation}
+
+Zur Bestimmung von $\hat{\beta}_0$ betrachten wir die dritte Normalgleichung
+\begin{equation}
+\hat{\mu}_0\left(\sum_{j=1}^{n_1}x_{1j}+\sum_{j=1}^{n_2}x_{2j}\right)
++\hat{\alpha}_2\sum_{j=1}^{n_2}x_{2j}
++\hat{\beta}_0\left(\sum_{j=1}^{n_1}x_{1j}^2+\sum_{j=1}^{n_2}x_{2j}^2\right)
+=
+\sum_{j=1}^{n_1}x_{1j}y_{1j}+\sum_{j=1}^{n_2}x_{2j}y_{2j}.
+\end{equation}
+Einsetzen von
+\begin{equation}
+\hat{\mu}_0=\bar{y}_1-\hat{\beta}_0\bar{x}_1
+\quad\text{und}\quad
+\hat{\alpha}_2=(\bar{y}_2-\bar{y}_1)-\hat{\beta}_0(\bar{x}_2-\bar{x}_1)
+\end{equation}
+liefert nach Ausmultiplizieren
+\begin{align}
+&(\bar{y}_1-\hat{\beta}_0\bar{x}_1)\left(\sum_{j=1}^{n_1}x_{1j}+\sum_{j=1}^{n_2}x_{2j}\right) +
+ \left((\bar{y}_2-\bar{y}_1)-\hat{\beta}_0(\bar{x}_2-\bar{x}_1)\right)\sum_{j=1}^{n_2}x_{2j}
+\\
+&\qquad\qquad
++\hat{\beta}_0\left(\sum_{j=1}^{n_1}x_{1j}^2+\sum_{j=1}^{n_2}x_{2j}^2\right)
+=
+\sum_{j=1}^{n_1}x_{1j}y_{1j}+\sum_{j=1}^{n_2}x_{2j}y_{2j}.
+\end{align}
+
+# Modellschätzung
+\footnotesize
+\underline{Beweis (fortgeführt)}
+
+Unter Verwendung von
+\begin{equation}
+\sum_{j=1}^{n_i}x_{ij}=n_i\bar{x}_i
+\quad\text{und}\quad
+\sum_{j=1}^{n_i}y_{ij}=n_i\bar{y}_i
+\qquad (i=1,2)
+\end{equation}
+vereinfacht sich dies zu
+\begin{equation}
+n_1\bar{x}_1\bar{y}_1+n_2\bar{x}_2\bar{y}_2
+-\hat{\beta}_0\left(n_1\bar{x}_1^2+n_2\bar{x}_2^2\right)
++\hat{\beta}_0\left(\sum_{j=1}^{n_1}x_{1j}^2+\sum_{j=1}^{n_2}x_{2j}^2\right)
+=
+\sum_{j=1}^{n_1}x_{1j}y_{1j}+\sum_{j=1}^{n_2}x_{2j}y_{2j}.
+\end{equation}
+Also gilt
+\begin{equation}
+\hat{\beta}_0
+=
+\frac{
+\sum_{j=1}^{n_1}x_{1j}y_{1j}-n_1\bar{x}_1\bar{y}_1
++\sum_{j=1}^{n_2}x_{2j}y_{2j}-n_2\bar{x}_2\bar{y}_2
+}{
+\sum_{j=1}^{n_1}x_{1j}^2-n_1\bar{x}_1^2
++\sum_{j=1}^{n_2}x_{2j}^2-n_2\bar{x}_2^2
+}.
+\end{equation}
+
+
+# Modellschätzung
+\footnotesize
+\underline{Beweis (fortgeführt)}
+
+Mit der Identität
+\begin{equation}
+\sum_{j=1}^{n_i}(x_{ij}-\bar{x}_i)(y_{ij}-\bar{y}_i)
+=
+\sum_{j=1}^{n_i}x_{ij}y_{ij}-n_i\bar{x}_i\bar{y}_i
+\end{equation}
+sowie
+\begin{equation}
+\sum_{j=1}^{n_i}(x_{ij}-\bar{x}_i)^2
+=
+\sum_{j=1}^{n_i}x_{ij}^2-n_i\bar{x}_i^2
+\end{equation}
+für $i=1,2$ folgt schließlich
+\begin{equation}
+\hat{\beta}_0
+=
+\frac{\sum_{j=1}^{n_1}(x_{1j}-\bar{x}_1)(y_{1j}-\bar{y}_1)
++\sum_{j=1}^{n_2}(x_{2j}-\bar{x}_2)(y_{2j}-\bar{y}_2)}
+{\sum_{j=1}^{n_1}(x_{1j}-\bar{x}_1)^2
++\sum_{j=1}^{n_2}(x_{2j}-\bar{x}_2)^2}.
+\qedhere
+\end{equation}
+
+# Kovarianzanalyse
+\footnotesize
+\begin{theorem}[Darstellung der Gruppenmittel im Kovarianzanalysemodell]
+\justifying
+\normalfont
+Gegeben sei das Kovarianzanalysemodell für ein Parallelgruppendesign mit einer
+Kovariate und sein Betaparameterschätzer $\hat{\beta}$. Dann gilt für die
+Gruppenmittelwerte, dass
+\begin{equation}
+\bar{y}_1 = \hat{\mu}_0 + \hat{\beta}_0 \bar{x}_1
+\mbox{ und }
+\bar{y}_2 = \hat{\mu}_0 + \hat{\alpha}_2 + \hat{\beta}_0\bar{x}_2,
+\end{equation}
+und für die Gruppenmittelwertsdifferenz ergibt sich
+\begin{equation}
+\bar{y}_2-\bar{y}_1 = \hat{\alpha}_2+\hat{\beta}_0(\bar{x}_2-\bar{x}_1).
+\end{equation}
+\end{theorem}
+
+Bemerkungen
+
+\begin{itemize}
+\item Das Theorem ist für die Idee der adjustierten Gruppenmittelwerte von zentraler Bedeutung
+\item Das Theorem zeigt, dass die Differenz der Gruppenmittelwerte $\bar{y}_2-\bar{y}_1$ als Summe
+\begin{itemize}
+\begin{footnotesize}
+\item eines gruppenspezifischen Effekts $\hat{\alpha}_2$ und
+\item eines Effekts der Kovariate $\hat{\beta}_0(\bar{x}_2-\bar{x}_1)$
+\end{footnotesize}
+\end{itemize}
+dargestellt werden kann.
+\item Der Effekt der Kovariate korrigiert dabei die Differenz der Gruppenmittelwerte um den Beitrag der Kovariate
+\end{itemize}
+
+# Kovarianzanalyse
+\footnotesize
+\underline{Beweis}
+
+Anhand des Theorems zur Parameterschätzung im Kovarianzanalysemodell gilt
+\begin{equation}
+\hat{\mu}_0 = \bar{y}_1 - \hat{\beta}_0\bar{x}_1
+\mbox{ und }
+\hat{\alpha}_2=(\bar{y}_2-\bar{y}_1)-\hat{\beta}_0(\bar{x}_2-\bar{x}_1).
+\end{equation}
+Durch Umstellen der ersten Gleichung erhält man
+\begin{equation}
+\bar{y}_1=\hat{\mu}_0+\hat{\beta}_0\bar{x}_1.
+\end{equation}
+Ferner folgt aus der zweiten Gleichung
+\begin{align}
+\bar{y}_2-\bar{y}_1
+& = \hat{\alpha}_2+\hat{\beta}_0(\bar{x}_2-\bar{x}_1),
+\end{align}
+also
+\begin{align}
+\bar{y}_2
+=\bar{y}_1+\hat{\alpha}_2+\hat{\beta}_0(\bar{x}_2-\bar{x}_1)
+=\hat{\mu}_0+\hat{\beta}_0\bar{x}_1+\hat{\alpha}_2+\hat{\beta}_0(\bar{x}_2-\bar{x}_1)
+=\hat{\mu}_0+\hat{\alpha}_2+\hat{\beta}_0\bar{x}_2.
+\end{align}
+
+
+# Kovarianzanalyse
+\vspace{2mm}
+Modellformulierung zur Analyse des Beispieldatensatzes
+
+\small
+M1 | Parallelgruppendesign ohne Berücksichtigung der Kovariate
+\begin{multline}
+y_{ij} \sim N(\mu_{ij}, \sigma^2) \mbox{ mit } \mu_{ij} := \mu_0 + \alpha_i  \mbox{ und } \alpha_1 := 0 \mbox{ und } \sigma^2 > 0
+\\
+\Leftrightarrow
+y \sim N(X\beta,\sigma^2I_n) \mbox{ mit }
+X :=
+\begin{pmatrix}
+1       & 0          \\
+\vdots  & \vdots     \\
+1       & 0          \\
+1       & 1          \\
+\vdots  & \vdots     \\
+1       & 1          \\
+\end{pmatrix},\,
+\beta :=
+\begin{pmatrix}
+\mu_0     \\
+\alpha_2  \\
+\end{pmatrix}
+\mbox{ und } \sigma^2 > 0
+\end{multline}
+
+M2 | Kovarianzanalysedesign mit Berücksichtigung der Kovariate
+\begin{multline}
+y_{ij} \sim N(\mu_{ij}, \sigma^2) \mbox{ mit } \mu_{ij} := \mu_0 + \alpha_i + \beta_0 x_{ij}  \mbox{ und } \alpha_1 := 0 \mbox{ und } \sigma^2 > 0
+\\
+\Leftrightarrow
+y \sim N(X\beta,\sigma^2I_n) \mbox{ mit }
+X :=
+\begin{pmatrix}
+1       & 0       & x_{11}    \\
+\vdots  & \vdots  & \vdots    \\
+1       & 0       & x_{1n_1}  \\
+1       & 1       & x_{21}    \\
+\vdots  & \vdots  & \vdots    \\
+1       & 1       & x_{2n_2}  \\
+\end{pmatrix},\,
+\beta :=
+\begin{pmatrix}
+\mu_0     \\
+\alpha_2  \\
+\beta_0   \\
+\end{pmatrix}
+\mbox{ und } \sigma^2 > 0
+\end{multline}
+
+# Kovarianzanalyse
+Modellschätzung und Modellevaluation
+\vspace{2mm}
+\tiny
+\setstretch{1}
+```{r, echo = T}
+D         = read.csv("2-Daten/kva-1.csv")                               # Datensatz
+n_i       = c(sum(D$GRP == 1), sum(D$GRP == 2))                         # Anzahl Datenpunkte pro Gruppe
+y         = D$Y                                                         # Primäre Zielvariable
+n         = length(y)                                                   # Gesamtanzahldatenpunkte
+XS        = list()                                                      # Modell 1 und 2 Liste
+CS        = list()                                                      # Kontrastgewichtsvektorenliste
+XS[[1]]   = matrix(c(rep(1,n_i[1]),rep(1,n_i[2]),                       # \mu_0    Regressor
+                     rep(0,n_i[1]),rep(1,n_i[2])), nrow = n)            # \alpha_2 Regressor
+XS[[2]]   = matrix(c(rep(1,n_i[1]),rep(1,n_i[2]),                       # \mu_0    Regressor
+                     rep(0,n_i[1]),rep(1,n_i[2]),                       # \alpha_2 Regressor
+                     D$x),nrow = n)                                     # x        Regressor
+CS[[1]]   = matrix(c(0,1)  , nrow = 2)                                  # Kontrastgewichtsvektor \alpha_2
+CS[[2]]   = matrix(c(0,1,0), nrow = 3)                                  # Kontrastgewichtsvektor \alpha_2
+B         = list()                                                      # Betaparameterschätzerliste
+S         = rep(NaN,2)                                                  # Varianzparameterschätzervektor
+T         = rep(NaN,2)                                                  # T-Statistikvektor
+for(i in 1:2){                                                          # Modell 1 und 2 Iterationen
+  X           = XS[[i]]                                                 # Designmatrix
+  p           = ncol(X)                                                 # Anzahl Betaparameter
+  beta_hat    = solve(t(X) %*% X) %*% t(X) %*% y                        # Betaparameterschätzer vollständiges Modell
+  eps_hat     = y - X %*% beta_hat                                      # Residuenvektor
+  sigsqr_hat  = (t(eps_hat) %*% eps_hat)/(n-p)                          # Varianzparameterschätzer
+  c           = CS[[i]]                                                 # Kontrastgewichtsvektor
+  t_num       = t(c) %*% beta_hat                                       # Zähler der T-Teststatistik
+  t_den       = sqrt(sigsqr_hat %*% t(c) %*% solve(t(X) %*% X) %*% c)   # Nenner der T-Teststatistik
+  t           = t_num/t_den                                             # Wert der T-Teststatistik
+  B[[i]]      = beta_hat                                                # Betaparameterschätzer
+  S[i]        = sigsqr_hat                                              # Varianzparameterschätzer
+  T[i]        = t                                                       # T-Statistik
+}
+```
+
+# Kovarianzanalyse
+Ergebnisse
+\setstretch{1.6}
+
+\small
+Wahre, aber unbekannte Werte: $\beta = (10, 5, -1)^T$ und $\sigma^2 = 4$.
+
+```{r, echo = F}
+cat("M1 | Betaparameterschätzer    : ", round(B[[1]],2),
+    "\nM2 | Betaparameterschätzer    : ", round(B[[2]],2),
+    "\nM1 | Varianzparameterschätzer : ", round(S[[1]],2),
+    "\nM2 | Varianzparameterschätzer : ", round(S[[2]],2),
+    "\nM1 | T-Statistik GRP 2        : ", round(T[[1]],2),
+    "\nM2 | T-Statistik GRP 2        : ", round(T[[2]],2))
+```
+
+\footnotesize
+Im Kovarianzanalysemodell M2 ist der Varianzparameterschätzer kleiner als in M1.
+
+$\Rightarrow$ Der Kovariatenregressor erklärt Datenvarianz.
+
+Die Betaparameterschätzer für den Effekt von GRP = 2 sind in M1 und M2 ähnlich.
+
+$\Rightarrow$ Das Signal-zu-Rauschen Verhältnis für den Gruppeneffekt ist im Kovarianzanalysemodell M2 höher.
+
+# Kovarianzanalyse
+Modellschätzung und Modellevaluation mit `lm()`
+\vspace{2mm}
+\tiny
+\setstretch{2}
+
+```{r, echo = TRUE}
+D           = read.csv("2-Daten/kva-1.csv")                        # Dataframe
+D$GRP       = as.factor(D$GRP)                                     # R Faktor Kodierung
+M1          = lm(Y ~ GRP, data = D)                                # ALM Schätzung Modell 1
+M2          = lm(Y ~ GRP + x, data = D)                            # ALM Schätzung Modell 2
+coefs1      = summary(M1)$coefficients                             # Betaparameterschätzer Modell 1
+coefs2      = summary(M2)$coefficients                             # Betaparameterschätzer Modell 2
+ci1         = confint(M1, level  = 0.95)                           # Konfidenzintervalle Modell 1
+ci2         = confint(M2, level  = 0.95)                           # Konfidenzintervalle Modell 2
+```
+
+
+# Kovarianzanalyse
+Modellschätzung und Modellevaluation mit `lm()`
+\vspace{2mm}
+
+
+\footnotesize
+Ergebnisse M1
+\vspace{2mm}
+
+```{r, echo = F}
+print(cbind(coefs1, KI.u = ci1[, 1], KI.o = ci1[, 2]), digits = 4) # Ausgabe Modell 1
+```
+
+Ergebnisse M2
+\vspace{2mm}
+
+```{r, echo = F}
+print(cbind(coefs2, KI.u = ci2[, 1], KI.o = ci2[, 2]), digits = 4) # Ausgabe Modell 2
+```
+
+
+# Kovarianzanalyse
+Adjustierte Gruppenmittelwerte
+
+\setstretch{1.2}
+\footnotesize
+Mit dem Theorem zur Darstellung der Gruppenmittel im Kovarianzanalysemodell gelten
+\begin{equation}
+\bar y_1 = \hat\mu_0 + \hat{\beta}_0\bar x_1  \mbox{ und }
+\bar y_2 = \hat\mu_0 +  \hat\alpha_2+\hat{\beta}_0\bar x_2 \mbox{ sowie }
+\bar y_2 - \bar y_1 = \hat\alpha_2+\hat{\beta}_0(\bar x_2-\bar x_1).
+\end{equation}
+Die Gruppenmittel werden also bei unterschiedlichen Kovariatenwerten ausgewertet,
+$\bar y_1$ bei $\bar x_1$ und $\bar y_2$ bei $\bar x_2$. Weiterhin hängt die
+Gruppenmittelwertdifferenz $\bar y_2-\bar y_1$ explizit von der Kovariatenmittelwertdifferenz $\bar x_2-\bar x_1$ ab.
+
+* Sind sowohl $\bar x_2-\bar x_1$ als auch $\hat{\beta}_0$ groß, so kann $\bar y_2-\bar y_1$ auch dann groß sein, wenn $\hat\alpha_2$ klein ist.
+* Gruppenmittelwertsdifferenzen können also durch Kovariatenmittelwertsdifferenzen induziert sein.
+* Ist entweder $\bar x_2-\bar x_1$ oder $\hat{\beta}_0$ gleich Null, so gilt $\bar y_2-\bar y_1 = \hat\alpha_2$.
+
+Um diese Überlagerung von Gruppen- und Kovariateneffekten zu vermeiden, werden die
+Gruppenmittelwerte im Kovarianzanalysemodell üblicherweise bei einem gemeinsamen
+Referenzwert $x^*$ der Kovariate, zum Beispiel ihrem Gesamtmittelwert $\bar{x}$,
+ausgewertet. Die so *adjustierten Gruppenmittelwerte* ergeben sich damit zu
+\begin{equation}
+\bar{y}_1^* = \hat\mu_0+\hat{\beta}_0 x^*,
+\mbox{ und }
+\bar{y}_2^*=\hat\mu_0+\hat\alpha_2+\hat{\beta}_0 x^*.
+\end{equation}
+Für die adjustierte Gruppenmittelwertsdifferenz gilt damit
+\begin{equation}
+\bar{y}_2^*-\bar{y}_1^*
+= \hat\mu_0+\hat\alpha_2+\hat{\beta}_0 x^* - \hat\mu_0 - \hat{\beta}_0 x^*
+= \hat\alpha_2.
+\end{equation}
+
+Man beachte allerdings, dass die Schätzung von $\hat\alpha_2$ im Kovarianzanalysemodell
+unabhängig von $\bar x_2-\bar x_1$ ist, da $\hat\alpha_2$ die Kovariatenmittelwertdifferenz
+$\bar x_2-\bar x_1$ bereits berücksichtigt. Das Bestimmen adjustierter Gruppenmittelwerte
+ist also nicht notwendig, um den Gruppeneffekt $\hat\alpha_2$ zu schätzen, sondern
+dient lediglich der Vermeidung von Darstellungswidersprüchen, wenn gleichzeitig
+Gruppenmittelwerte und Gruppeneffekte berichtet werden.
+
+# Kovarianzanalyse
+Adjustierte Gruppenmittelwerte
+
+\footnotesize
+Das Theorem zu Konfidenzintervallen für Betaparameterkontraste lässt sich direkt
+auf adjustierte Gruppenmittelwerte anwenden, weil ein adjustierter Gruppenmittelwert
+im Kovarianzanalysemodell ebenfalls ein linearer Kontrast der Betaparameter ist.
+Speziell gilt für einen gemeinsamen Referenzwert $x^*$, dass
+\begin{equation}
+\bar y_1^* = \hat\mu_0 + \hat\beta_0 x^*
+\mbox{ und }
+\bar y_2^* = \hat\mu_0 + \hat\alpha_2 + \hat\beta_0 x^*.
+\end{equation}
+Schreibt man dies in ALM-Notation, so ergeben sich die Kontrastvektoren
+\begin{equation}
+c_1^T := (1,0,x^*)
+\mbox{ und }
+c_2^T := (1,1,x^*),
+\end{equation}
+Das Theorem zu Konfidenzintervallen für Betaparameterkontraste liefert damit
+mit
+\begin{equation}
+t_\delta := \Psi^{-1}\left(\frac{1+\delta}{2}; n-p\right)
+\mbox{ und}
+\lambda_{c_i} = c_i^T(X^TX)^{-1}c_i
+\end{equation}
+das $\delta$-Konfidenzintervall
+\begin{equation}
+\left[
+c_i^T\hat\beta - t_\delta \hat\sigma\sqrt{\lambda_{c_i}},
+c_i^T\hat\beta + t_\delta \hat\sigma\sqrt{\lambda_{c_i}}
+\right].
+\end{equation}
+Eine Diskussion von adjustierten Gruppenmittelwerten findet sich beispielsweise
+in @searle1980 und @senn2006. In **R** werden adjustierte Gruppenmittelwerte
+üblicherweise mit der Funktion `emmeans()` aus dem gleichnamigen Paket berechnet.
+
+# Kovarianzanalyse
+Adjustierte Gruppenmittelwerte
+\vspace{2mm}
+\tiny
+
+```{r, echo = TRUE}
+D           = read.csv("2-Daten/kva-1.csv")             # Datensatz
+beta_hat    = B[[2]]                                    # Betaparameterschätzer Modell 2
+x_star      = mean(D$x)                                 # Gesamtmittelwert der Kovariate
+X           = XS[[2]]                                   # Designmatrix Modell 2
+n           = nrow(X)                                   # Gesamtanzahl Datenpunkte
+p           = ncol(X)                                   # Anzahl Betaparameter
+df          = n - p                                     # Freiheitsgrade
+V_beta_hat  = S[2] * solve(t(X) %*% X)                  # Kovarianzmatrix der Schätzer
+L           = rbind(c(1, 0, x_star), c(1, 1, x_star))   # Kontraste für adjustierte Gruppenmittelwerte
+emm         = L %*% beta_hat                            # adjustierte Gruppenmittelwerte
+emm_se      = sqrt(diag(L %*% V_beta_hat %*% t(L)))     # Standardfehler der EMMs
+t_crit      = qt(.975, df = df)                         # t Kritischer Wert
+emm_ci_u    = emm - t_crit * emm_se                     # untere KI Grenze
+emm_ci_o    = emm + t_crit * emm_se                     # obere KI Grenze
+out         = cbind(emmean   = emm,                     # Ausgabe EMMs
+                    SE       = emm_se,                  # Standardfehler der EMMs
+                    df       = df,                      # Freiheitsgradparameter
+                    lower.CL = emm_ci_u,                # untere KI Grenze
+                    upper.CL = emm_ci_o)                # obere  KI Grenze
+rownames(out) = c("Gruppe 1", "Gruppe 2")               # Zeilennamen
+print(round(out, digits = 3))                           # Ausgabe
+```
+
+# Kovarianzanalyse
+Adjustierte Gruppenmittelwerte
+\vspace{2mm}
+\setstretch{1.8}
+\tiny
+
+```{r, echo = TRUE}
+library(emmeans)
+D           = read.csv("2-Daten/kva-1.csv")         # Datensatz
+D$GRP       = as.factor(D$GRP)                      # R Faktor Kodierung
+M2          = lm(Y ~ GRP + x, data = D)             # ALM Schätzung Modell 2
+x_star      = mean(D$x)                             # Gesamtmittelwert der Kovariate
+emmeans(M2, ~ GRP, at = list(x = x_star))           # EMMs an x*
+```
+
+# Kovarianzanalyse
+Adjustierte Gruppenmittelwerte
+
+```{r, eval = F}
+# Laden des Datensatzes
+D          = read.csv("2-Daten/kva-1.csv")
+D$GRP      = as.factor(D$GRP)
+M2         = lm(Y ~ GRP + x, data = D)                                          # Kovarianzanalysemodell 2
+beta_hat   = coef(M2)                                                           # Regressionskoeffizienten Modell 2
+x_range    = range(D$x)                                                         # Darstellungsbereich Regressionsgeraden
+sigma_hat  = sqrt(S[2])                                                         # Residualstandardabweichung Modell 2
+x_star     = mean(D$x)                                                          # Gesamtmittelwert der Kovariate
+
+# Datenaufteilung
+x_trm      = split(D$x, D$GRP)                                                  # Gruppenspezifische x Werte
+y_trm      = split(D$Y, D$GRP)                                                  # Gruppenspezifische Y Werte
+xbar_trm   = c(mean(x_trm[[1]]), mean(x_trm[[2]]))                              # Gruppenspezifische x Mittelwerte
+yhat_trm   = c(beta_hat[1] + beta_hat[3] * xbar_trm[1],                         # Vorhersagen an den x Mittelwerten
+               beta_hat[1] + beta_hat[2] + beta_hat[3] * xbar_trm[2])
+emm        = c(beta_hat[1] + beta_hat[3] * x_star,                              # marginal group means an x*
+               beta_hat[1] + beta_hat[2] + beta_hat[3] * x_star)
+
+# Visualisierung
+library(latex2exp)
+graphics.off()
+pdf(
+file        = file.path("2-Abbildungen/ivf-2-kva-2.pdf"),
+width       = 9.0,
+height      = 4.5)
+par(
+family      = "sans",
+mfcol       = c(1,2),
+pty         = "s",
+bty         = "l",
+lwd         = 1,
+las         = 1,
+mgp         = c(2,1,0),
+xaxs        = "i",
+yaxs        = "i",
+font.main   = 1,
+cex         = 1,
+cex.main    = 1)
+
+# Punktwolken
+plot(
+x_trm[[1]],
+y_trm[[1]],
+pch        = 21,
+col        = "white",
+bg         = "gray60",
+xlab       = "x",
+ylab       = "Y",
+xlim       = c(1,11),
+ylim       = c(-2,20))
+points(
+x_trm[[2]],
+y_trm[[2]],
+pch        = 21,
+col        = "white",
+bg         = "gray90")
+lines(
+x          = x_range,
+y          = beta_hat[1] + beta_hat[3] * x_range,
+lwd        = 2,
+col        = "gray60")
+lines(
+x          = x_range,
+y          = beta_hat[1] + beta_hat[2] + beta_hat[3] * x_range,
+lwd        = 2,
+col        = "gray90")
+arrows(
+x0         = xbar_trm[1],
+y0         = par("usr")[3],
+x1         = xbar_trm[1],
+y1         = yhat_trm[1],
+code       = 0,
+lty        = 2,
+lwd        = 2,
+col        = "gray60")
+arrows(
+x0         = xbar_trm[2],
+y0         = par("usr")[3],
+x1         = xbar_trm[2],
+y1         = yhat_trm[2],
+code       = 0,
+lty        = 2,
+lwd        = 2,
+col        = "gray90")
+legend(
+"topright",
+legend      = c("Gruppe 1",
+                "Gruppe 2",
+                TeX("$\\hat{y}_{1j} = \\hat{\\mu}_0 + \\hat{\\beta}_0x_{1j}$"),
+                TeX("$\\hat{y}_{2j} = \\hat{\\mu}_0 + \\hat{\\alpha}_2 + \\hat{\\beta}_0x_{2j}$")),
+lty         = c(0, 0, 1, 1),
+pch         = c(21, 21, NA, NA),
+col         = c("gray60", "gray90", "gray60", "gray90"),
+pt.bg       = c("gray60", "gray90", NA, NA),
+bty         = "n",
+cex         = .7,
+x.intersp   = 1)
+
+# Balkendiagramm
+groupmeans = emm
+groupstds  = rep(sigma_hat, 2)
+names(groupmeans) = c("Gruppe 1", "Gruppe 2")
+x = barplot(
+groupmeans,
+ylim        = c(0,15),
+xlim        = c(-.4,3),
+col         = c("gray60", "gray90"),
+ylab        = "Y",
+xaxt        = "n",
+main        = "Adjustierte Gruppenmittelwerte",)
+axis(
+side        = 1,
+at          = x,
+labels      = c("Gruppe 1", "Gruppe 2"),
+tick        = FALSE,
+padj        = -1,
+pos         = 0)
+arrows(
+x0          = x,
+y0          = groupmeans - groupstds,
+x1          = x,
+y1          = groupmeans + groupstds,
+code        = 3,
+angle       = 90,
+length      = 0.05)
+abline(h    = 0)
+dev.off()
+```
+
+\vspace{4mm}
+\center
+![](2-Abbildungen/ivf-2-kva-2.pdf){width=100%}
+
+# Kovarianzanalyse
+
+Dokumentation
+
+\small
+Anwendungsbeispiel Klinische Psychologie
+
+\footnotesize
+*Deskriptiv war die Bereitschaft zur Therapieaufnahme in der Gruppe mit
+Selbstoffenbarung durch die Therapeut:in höher (M = 9.78, SD = 3.01) als in der
+Gruppe ohne Selbstoffenbarung (M = 4.47, SD = 2.03). Unter Adjustierung für das
+allgemeine interpersonelle Vertrauen als Kovariate ergaben sich am
+Gesamtmittelwert der Kovariate ($\bar{x} = 5.11$) geschätzte marginale
+Mittelwerte von 9.67 (SE = 0.43, 95%-KI [8.80, 10.53]) beziehungsweise 4.59
+(SE = 0.43, 95%-KI [3.72, 5.45]); die Kovarianzanalyse zeigte einen signifikanten
+positiven Gruppeneffekt der Selbstoffenbarung, b = 5.08, SE = 0.60, 95%-KI
+[3.86, 6.30], t(37) = 8.42, p < .001.*
+
+\small
+Anwendungsbeispiel Umweltpsychologie
+
+\footnotesize
+*Deskriptiv war das subjektive Stresserleben in der Gruppe mit Exposition
+gegenüber einer urbanen Umgebung höher (M = 9.78, SD = 3.01) als in der Gruppe
+mit Exposition gegenüber einer Naturumgebung (M = 4.47, SD = 2.03). Unter
+Adjustierung für die generelle Naturverbundenheit als Kovariate ergaben sich am
+Gesamtmittelwert der Kovariate ($\bar{x} = 5.11$) geschätzte marginale
+Mittelwerte von 9.67 (SE = 0.43, 95%-KI [8.80, 10.53]) beziehungsweise 4.59
+(SE = 0.43, 95%-KI [3.72, 5.45]); die Kovarianzanalyse ergab einen signifikanten
+Unterschied zwischen den Bedingungen, b = 5.08, SE = 0.60, 95%-KI [3.86, 6.30],
+t(37) = 8.42, p < .001.*
+
+# Kovarianzanalyse
+
+```{r, echo = F, include = F}
+library(MASS)
+library(emmeans)
+library(latex2exp)
+set.seed(0)
+n_j         = 2
+n_i         = 20
+n           = n_i * n_j
+GRP         = rep(1:n_j, each = n_i)
+x           = round(c(mvrnorm(1, 3 * rep(1, n_i), 4 * diag(n_i)),
+                      mvrnorm(1, 7 * rep(1, n_i), 4 * diag(n_i))), digits = 1)
+X           = cbind(1, kronecker(c(0,1), rep(1,n_i)), x)
+beta        = matrix(c(10,5,-1), nrow = ncol(X))
+s_eps       = 4
+eps         = mvrnorm(1, rep(0,n), s_eps * diag(n))
+y           = X %*% beta + eps
+D2          = data.frame(GRP = GRP, x = x, Y = y)
+write.csv(D2, "2-Daten/kva-2.csv", row.names = FALSE)
+
+D2$GRP      = as.factor(D2$GRP)
+M1_2        = lm(Y ~ GRP, data = D2)
+M2_2        = lm(Y ~ GRP + x, data = D2)
+coefs1_2    = summary(M1_2)$coefficients
+coefs2_2    = summary(M2_2)$coefficients
+ci1_2       = confint(M1_2, level = 0.95)
+ci2_2       = confint(M2_2, level = 0.95)
+emm2        = as.data.frame(summary(emmeans(M2_2, ~ GRP,
+                                           at = list(x = mean(D2$x)),
+                                           infer = c(TRUE, TRUE))))
+DS2         = aggregate(cbind(Y, x) ~ GRP, data = transform(D2, GRP = as.integer(as.character(GRP))), mean)
+SDY2        = aggregate(Y ~ GRP, data = transform(D2, GRP = as.integer(as.character(GRP))), sd)
+x_star_2    = mean(D2$x)
+beta_hat_2  = coef(M2_2)
+x_range_2   = range(D2$x)
+sigma_hat_2 = sigma(M2_2)
+x_trm_2     = split(D2$x, D2$GRP)
+y_trm_2     = split(D2$Y, D2$GRP)
+xbar_trm_2  = c(mean(x_trm_2[[1]]), mean(x_trm_2[[2]]))
+yhat_trm_2  = c(beta_hat_2[1] + beta_hat_2[3] * xbar_trm_2[1],
+                beta_hat_2[1] + beta_hat_2[2] + beta_hat_2[3] * xbar_trm_2[2])
+emm_vals_2  = c(beta_hat_2[1] + beta_hat_2[3] * x_star_2,
+                beta_hat_2[1] + beta_hat_2[2] + beta_hat_2[3] * x_star_2)
+
+graphics.off()
+pdf(
+file        = file.path("2-Abbildungen/ivf-2-kva-3.pdf"),
+width       = 13.5,
+height      = 4.5)
+par(
+family      = "sans",
+mfcol       = c(1,3),
+pty         = "s",
+bty         = "l",
+lwd         = 1,
+las         = 1,
+mgp         = c(2,1,0),
+xaxs        = "i",
+yaxs        = "i",
+font.main   = 1,
+cex         = 1,
+cex.main    = 1)
+plot(
+x_trm_2[[1]],
+y_trm_2[[1]],
+pch        = 21,
+col        = "white",
+bg         = "gray60",
+xlab       = "x",
+ylab       = "Y",
+xlim       = c(-1,12),
+ylim       = c(-2,20))
+points(
+x_trm_2[[2]],
+y_trm_2[[2]],
+pch        = 21,
+col        = "white",
+bg         = "gray90")
+lines(
+x          = x_range_2,
+y          = beta_hat_2[1] + beta_hat_2[3] * x_range_2,
+lwd        = 2,
+col        = "gray60")
+lines(
+x          = x_range_2,
+y          = beta_hat_2[1] + beta_hat_2[2] + beta_hat_2[3] * x_range_2,
+lwd        = 2,
+col        = "gray90")
+arrows(
+x0         = xbar_trm_2[1],
+y0         = par("usr")[3],
+x1         = xbar_trm_2[1],
+y1         = yhat_trm_2[1],
+code       = 0,
+lty        = 2,
+lwd        = 2,
+col        = "gray60")
+arrows(
+x0         = xbar_trm_2[2],
+y0         = par("usr")[3],
+x1         = xbar_trm_2[2],
+y1         = yhat_trm_2[2],
+code       = 0,
+lty        = 2,
+lwd        = 2,
+col        = "gray90")
+legend(
+"topright",
+legend      = c("Gruppe 1",
+                "Gruppe 2",
+                TeX("$\\hat{y}_{1j} = \\hat{\\mu}_0 + \\hat{\\beta}_0x_{1j}$"),
+                TeX("$\\hat{y}_{2j} = \\hat{\\mu}_0 + \\hat{\\alpha}_2 + \\hat{\\beta}_0x_{2j}$")),
+lty         = c(0, 0, 1, 1),
+pch         = c(21, 21, NA, NA),
+col         = c("gray60", "gray90", "gray60", "gray90"),
+pt.bg       = c("gray60", "gray90", NA, NA),
+bty         = "n",
+cex         = .7,
+x.intersp   = 1)
+
+# Balkendiagramm mit nicht adjustierten Gruppenmittelwerten
+groupmeans  = DS2$Y
+groupstds   = SDY2$Y
+names(groupmeans) = c("Gruppe 1", "Gruppe 2")
+x = barplot(
+groupmeans,
+ylim        = c(0,15),
+xlim        = c(-.4,3),
+col         = c("gray60", "gray90"),
+ylab        = "Y",
+xaxt        = "n",
+main        = "Gruppenmittelwerte")
+axis(
+side        = 1,
+at          = x,
+labels      = c("Gruppe 1", "Gruppe 2"),
+tick        = FALSE,
+padj        = -1,
+pos         = 0)
+arrows(
+x0          = x,
+y0          = groupmeans - groupstds,
+x1          = x,
+y1          = groupmeans + groupstds,
+code        = 3,
+angle       = 90,
+length      = 0.05)
+abline(h    = 0)
+
+# Balkendiagramm mit adjustierten Gruppenmittelwerten
+groupmeans = emm_vals_2
+groupstds  = rep(sigma_hat_2, 2)
+names(groupmeans) = c("Gruppe 1", "Gruppe 2")
+x = barplot(
+groupmeans,
+ylim        = c(0,15),
+xlim        = c(-.4,3),
+col         = c("gray60", "gray90"),
+ylab        = "Y",
+xaxt        = "n",
+main        = "Adjustierte Gruppenmittelwerte")
+axis(
+side        = 1,
+at          = x,
+labels      = c("Gruppe 1", "Gruppe 2"),
+tick        = FALSE,
+padj        = -1,
+pos         = 0)
+arrows(
+x0          = x,
+y0          = groupmeans - groupstds,
+x1          = x,
+y1          = groupmeans + groupstds,
+code        = 3,
+angle       = 90,
+length      = 0.05)
+abline(h    = 0)
+dev.off()
+```
+
+Datenszenario mit maskierten Gruppeneffekten
+
+\vspace{4mm}
+\center
+![](2-Abbildungen/ivf-2-kva-3.pdf){width=100%}
+
+# Kovarianzanalyse
+Datenszenario mit maskierten Gruppeneffekten
+
+\small
+Wahre, aber unbekannte Werte: $\beta = (10, 5, -1)^T$ und $\sigma^2 = 4$.
+
+```{r, echo = F}
+cat("M1 | Betaparameterschätzer    : ", round(c(coef(M1_2)),2),
+    "\nM2 | Betaparameterschätzer    : ", round(c(coef(M2_2)),2),
+    "\nM1 | Varianzparameterschätzer : ", round(sigma(M1_2)^2,2),
+    "\nM2 | Varianzparameterschätzer : ", round(sigma(M2_2)^2,2),
+    "\nM1 | T-Statistik GRP 2        : ", round(coefs1_2["GRP2","t value"],2),
+    "\nM2 | T-Statistik GRP 2        : ", round(coefs2_2["GRP2","t value"],2))
+```
+
+\footnotesize
+Im Kovarianzanalysemodell ist der Varianzparameterschätzer kleiner als in Modell 1.
+
+$\Rightarrow$ Der Kovariatenregressor erklärt Datenvarianz.
+
+Die Betaparameterschätzer für den Gruppeneffekt unterscheiden sich in M1 und M2 deutlich.
+
+$\Rightarrow$ M1 unterschätzt den Gruppeneffekt, weil Kovariateneffekte und Gruppeneffekte überlagert werden.
+
+# Kovarianzanalyse
+
+Datenszenario mit maskierten Gruppeneffekten
+
+\small
+Anwendungsbeispiel Klinische Psychologie
+
+\footnotesize
+*Deskriptiv war die Bereitschaft zur Therapieaufnahme in der Gruppe mit
+Selbstoffenbarung durch die Therapeut:in höher (M = 7.54, SD = 3.18) als in der
+Gruppe ohne Selbstoffenbarung (M = 6.71, SD = 2.34). Unter Adjustierung für das
+allgemeine interpersonelle Vertrauen als Kovariate ergaben sich am
+Gesamtmittelwert der Kovariate ($\bar{x} = 5.11$) geschätzte marginale
+Mittelwerte von 10.05 (SE = 0.55, 95%-KI [8.92, 11.17]) beziehungsweise 4.20
+(SE = 0.55, 95%-KI [3.08, 5.33]); die Kovarianzanalyse zeigte einen signifikanten
+positiven Gruppeneffekt der Selbstoffenbarung, b = 5.84, SE = 0.94, 95%-KI
+[3.94, 7.74], t(37) = 6.23, p < .001.*
+
+\small
+Anwendungsbeispiel Umweltpsychologie
+
+\footnotesize
+*Deskriptiv war das subjektive Stresserleben in der Gruppe mit Exposition
+gegenüber einer urbanen Umgebung höher (M = 7.54, SD = 3.18) als in der Gruppe
+mit Exposition gegenüber einer Naturumgebung (M = 6.71, SD = 2.34). Unter
+Adjustierung für die generelle Naturverbundenheit als Kovariate ergaben sich am
+Gesamtmittelwert der Kovariate ($\bar{x} = 5.11$) geschätzte marginale
+Mittelwerte von 10.05 (SE = 0.55, 95%-KI [8.92, 11.17]) beziehungsweise 4.20
+(SE = 0.55, 95%-KI [3.08, 5.33]); die Kovarianzanalyse ergab einen signifikanten
+Unterschied zwischen den Bedingungen, b = 5.84, SE = 0.94, 95%-KI [3.94, 7.74],
+t(37) = 6.23, p < .001.*
+
+# Kovarianzanalyse
+
+```{r, echo = F, include = F}
+library(MASS)
+library(emmeans)
+library(latex2exp)
+set.seed(1)
+n_j         = 2
+n_i         = 20
+n           = n_i * n_j
+GRP         = rep(1:n_j, each = n_i)
+x           = round(c(mvrnorm(1, 3 * rep(1, n_i), 4 * diag(n_i)),
+                      mvrnorm(1, 7 * rep(1, n_i), 4 * diag(n_i))), digits = 1)
+X           = cbind(1, kronecker(c(0,1), rep(1,n_i)), x)
+beta        = matrix(c(10,0,-1), nrow = ncol(X))
+s_eps       = 4
+eps         = mvrnorm(1, rep(0,n), s_eps * diag(n))
+y           = X %*% beta + eps
+D3          = data.frame(GRP = GRP, x = x, Y = y)
+write.csv(D3, "2-Daten/kva-3.csv", row.names = FALSE)
+
+D3$GRP      = as.factor(D3$GRP)
+M1_3        = lm(Y ~ GRP, data = D3)
+M2_3        = lm(Y ~ GRP + x, data = D3)
+coefs1_3    = summary(M1_3)$coefficients
+coefs2_3    = summary(M2_3)$coefficients
+ci1_3       = confint(M1_3, level = 0.95)
+ci2_3       = confint(M2_3, level = 0.95)
+emm3        = as.data.frame(summary(emmeans(M2_3, ~ GRP,
+                                           at = list(x = mean(D3$x)),
+                                           infer = c(TRUE, TRUE))))
+DS3         = aggregate(cbind(Y, x) ~ GRP, data = transform(D3, GRP = as.integer(as.character(GRP))), mean)
+SDY3        = aggregate(Y ~ GRP, data = transform(D3, GRP = as.integer(as.character(GRP))), sd)
+x_star_3    = mean(D3$x)
+beta_hat_3  = coef(M2_3)
+x_range_3   = range(D3$x)
+sigma_hat_3 = sigma(M2_3)
+x_trm_3     = split(D3$x, D3$GRP)
+y_trm_3     = split(D3$Y, D3$GRP)
+xbar_trm_3  = c(mean(x_trm_3[[1]]), mean(x_trm_3[[2]]))
+yhat_trm_3  = c(beta_hat_3[1] + beta_hat_3[3] * xbar_trm_3[1],
+                beta_hat_3[1] + beta_hat_3[2] + beta_hat_3[3] * xbar_trm_3[2])
+emm_vals_3  = c(beta_hat_3[1] + beta_hat_3[3] * x_star_3,
+                beta_hat_3[1] + beta_hat_3[2] + beta_hat_3[3] * x_star_3)
+
+graphics.off()
+pdf(
+file        = file.path("2-Abbildungen/ivf-2-kva-4.pdf"),
+width       = 13.5,
+height      = 4.5)
+par(
+family      = "sans",
+mfcol       = c(1,3),
+pty         = "s",
+bty         = "l",
+lwd         = 1,
+las         = 1,
+mgp         = c(2,1,0),
+xaxs        = "i",
+yaxs        = "i",
+font.main   = 1,
+cex         = 1,
+cex.main    = 1)
+plot(
+x_trm_3[[1]],
+y_trm_3[[1]],
+pch        = 21,
+col        = "white",
+bg         = "gray60",
+xlab       = "x",
+ylab       = "Y",
+xlim       = c(-1,12),
+ylim       = c(-2,20))
+points(
+x_trm_3[[2]],
+y_trm_3[[2]],
+pch        = 21,
+col        = "white",
+bg         = "gray90")
+lines(
+x          = x_range_3,
+y          = beta_hat_3[1] + beta_hat_3[3] * x_range_3,
+lwd        = 2,
+col        = "gray60")
+lines(
+x          = x_range_3,
+y          = beta_hat_3[1] + beta_hat_3[2] + beta_hat_3[3] * x_range_3,
+lwd        = 2,
+col        = "gray90")
+arrows(
+x0         = xbar_trm_3[1],
+y0         = par("usr")[3],
+x1         = xbar_trm_3[1],
+y1         = yhat_trm_3[1],
+code       = 0,
+lty        = 2,
+lwd        = 2,
+col        = "gray60")
+arrows(
+x0         = xbar_trm_3[2],
+y0         = par("usr")[3],
+x1         = xbar_trm_3[2],
+y1         = yhat_trm_3[2],
+code       = 0,
+lty        = 2,
+lwd        = 2,
+col        = "gray90")
+legend(
+"topright",
+legend      = c("Gruppe 1",
+                "Gruppe 2",
+                TeX("$\\hat{y}_{1j} = \\hat{\\mu}_0 + \\hat{\\beta}_0x_{1j}$"),
+                TeX("$\\hat{y}_{2j} = \\hat{\\mu}_0 + \\hat{\\alpha}_2 + \\hat{\\beta}_0x_{2j}$")),
+lty         = c(0, 0, 1, 1),
+pch         = c(21, 21, NA, NA),
+col         = c("gray60", "gray90", "gray60", "gray90"),
+pt.bg       = c("gray60", "gray90", NA, NA),
+bty         = "n",
+cex         = .7,
+x.intersp   = 1)
+
+groupmeans  = DS3$Y
+groupstds   = SDY3$Y
+names(groupmeans) = c("Gruppe 1", "Gruppe 2")
+x = barplot(
+groupmeans,
+ylim        = c(0,15),
+xlim        = c(-.4,3),
+col         = c("gray60", "gray90"),
+ylab        = "Y",
+xaxt        = "n",
+main        = "Gruppenmittelwerte")
+axis(
+side        = 1,
+at          = x,
+labels      = c("Gruppe 1", "Gruppe 2"),
+tick        = FALSE,
+padj        = -1,
+pos         = 0)
+arrows(
+x0          = x,
+y0          = groupmeans - groupstds,
+x1          = x,
+y1          = groupmeans + groupstds,
+code        = 3,
+angle       = 90,
+length      = 0.05)
+abline(h    = 0)
+
+groupmeans = emm_vals_3
+groupstds  = rep(sigma_hat_3, 2)
+names(groupmeans) = c("Gruppe 1", "Gruppe 2")
+x = barplot(
+groupmeans,
+ylim        = c(0,15),
+xlim        = c(-.4,3),
+col         = c("gray60", "gray90"),
+ylab        = "Y",
+xaxt        = "n",
+main        = "Adjustierte Gruppenmittelwerte")
+axis(
+side        = 1,
+at          = x,
+labels      = c("Gruppe 1", "Gruppe 2"),
+tick        = FALSE,
+padj        = -1,
+pos         = 0)
+arrows(
+x0          = x,
+y0          = groupmeans - groupstds,
+x1          = x,
+y1          = groupmeans + groupstds,
+code        = 3,
+angle       = 90,
+length      = 0.05)
+abline(h    = 0)
+dev.off()
+```
+
+Datenszenario mit scheinbarem Gruppeneffekt
+
+\vspace{4mm}
+\center
+![](2-Abbildungen/ivf-2-kva-4.pdf){width=100%}
+
+# Kovarianzanalyse
+Datenszenario mit scheinbarem Gruppeneffekt
+
+\small
+Wahre, aber unbekannte Werte: $\beta = (10, 0, -1)^T$ und $\sigma^2 = 4$.
+
+```{r, echo = F}
+cat("M1 | Betaparameterschätzer    : ", round(c(coef(M1_3)),2),
+    "\nM2 | Betaparameterschätzer    : ", round(c(coef(M2_3)),2),
+    "\nM1 | Varianzparameterschätzer : ", round(sigma(M1_3)^2,2),
+    "\nM2 | Varianzparameterschätzer : ", round(sigma(M2_3)^2,2),
+    "\nM1 | T-Statistik GRP 2        : ", round(coefs1_3["GRP2","t value"],2),
+    "\nM2 | T-Statistik GRP 2        : ", round(coefs2_3["GRP2","t value"],2))
+```
+
+\footnotesize
+Im Kovarianzanalysemodell ist der Varianzparameterschätzer kleiner als in M1.
+
+$\Rightarrow$ Der Kovariatenregressor erklärt Datenvarianz.
+
+Der in M1 sichtbare Gruppenunterschied verschwindet in M2 weitgehend.
+
+$\Rightarrow$ Der unadjustierte Gruppenunterschied wird durch die Kovariate erklärt, nicht durch einen echten Gruppeneffekt.
+
+# Kovarianzanalyse
+
+Datenszenario mit scheinbarem Gruppeneffekt
+
+\small
+Anwendungsbeispiel Klinische Psychologie
+
+\footnotesize
+*Deskriptiv war die Bereitschaft zur Therapieaufnahme in der Gruppe ohne
+Selbstoffenbarung durch die Therapeut:in höher (M = 6.81, SD = 2.99) als in der
+Gruppe mit Selbstoffenbarung (M = 3.30, SD = 2.70). Unter Adjustierung für das
+allgemeine interpersonelle Vertrauen als Kovariate ergaben sich am
+Gesamtmittelwert der Kovariate ($\bar{x} = 5.18$) geschätzte marginale
+Mittelwerte von 4.62 (SE = 0.51, 95%-KI [3.58, 5.66]) beziehungsweise 5.49
+(SE = 0.51, 95%-KI [4.45, 6.53]); die Kovarianzanalyse ergab keinen signifikanten
+Gruppeneffekt der Selbstoffenbarung, b = 0.87, SE = 0.85, 95%-KI [-0.84, 2.58],
+t(37) = 1.03, p = .311.*
+
+\small
+Anwendungsbeispiel Umweltpsychologie
+
+\footnotesize
+*Deskriptiv war das subjektive Stresserleben in der Gruppe mit Exposition
+gegenüber einer Naturumgebung höher (M = 6.81, SD = 2.99) als in der Gruppe mit
+Exposition gegenüber einer urbanen Umgebung (M = 3.30, SD = 2.70). Unter
+Adjustierung für die generelle Naturverbundenheit als Kovariate ergaben sich am
+Gesamtmittelwert der Kovariate ($\bar{x} = 5.18$) geschätzte marginale
+Mittelwerte von 4.62 (SE = 0.51, 95%-KI [3.58, 5.66]) beziehungsweise 5.49
+(SE = 0.51, 95%-KI [4.45, 6.53]); die Kovarianzanalyse ergab keinen signifikanten
+Unterschied zwischen den Bedingungen, b = 0.87, SE = 0.85, 95%-KI [-0.84, 2.58],
+t(37) = 1.03, p = .311.*
+
+#
+\large
+\vfill
+\setstretch{2.7}
+Allgemeines lineares Modell
+
+`lm()` und `formulas`
+
+Parallelgruppendesigns und Regression
+
+Kovarianzanalyse
+
+**Selbstkontrollfragen**
+\vfill
+
+# Selbstkontrollfragen
+\footnotesize
+\setstretch{1.3}
+
+1. Geben Sie die Definition des Allgemeinen Linearen Modells wieder und erläutern Sie sie.
+1. Geben Sie das Theorem zur Datenverteilung des Allgemeinen Linearen Modells wieder.
+1. Geben Sie das Theorem zum Betaparameterschätzer wieder und erläutern Sie es.
+1. Geben Sie das Theorem zur Frequentistischen Verteilung des Betaparameterschätzers wieder.
+1. Geben Sie das Theorem zum Varianzparameterschätzer wieder und erläutern Sie es.
+1. Geben Sie das Theorem zur Frequentistischen Verteilung des Varianzparameterschätzers wieder.
+1. Geben Sie die Definition der T-Statistik wieder und erläutern Sie sie in Abhängigkeit von $\beta_0$.
+1. Geben Sie das Theorem zur Frequentistischen Verteilung der T-Statistik wieder.
+1. Geben Sie das Theorem zu den Konfidenzintervallen für Betaparameterkomponenten wieder.
+1. Geben Sie das Theorem zu den Konfidenzintervallen für Betaparameterkontraste wieder.
+1. Erläutern Sie die Syntax und Semantik der R `lm()` Funktion.
+1. Erläutern Sie die Syntax und Semantik von R `formulas`.
+1. Erläutern Sie das Anwendungsszenario eines Parallelgruppendesigns mit Post-Messung.
+1. Geben Sie die strukturelle und Datenverteilungsform des Parallelgruppen-Modells in Effektdarstellung wieder.
+1. Geben Sie die Designmatrixform des Parallelgruppen-Modells in Effektdarstellung wieder.
+1. Erläutern Sie das Anwendungsszenario einer einfachen linearen Regression.
+1. Geben Sie die strukturelle und Datenverteilungsform des Modells der einfachen linearen Regression wieder.
+1. Geben Sie die Designmatrixform des Modells der einfachen linearen Regression wieder.
+1. Erläutern Sie die Grundidee der Kovarianzanalyse.
+1. Geben Sie die strukturelle Form, die Datenverteilungsform und die Designmatrixform eines Kovarianzanalysemodells für ein Parallelgruppendesign mit einer Kovariate wieder.
+1. Geben Sie das Theorem zur Darstellung der Gruppenmittelwerte im Kovarianzanalysemodell wieder.
+1. Erläutern Sie die Bedeutung von adjustierten Gruppenmittelwerten im Kovarianzanalysemodell.
+
+# {.plain}
+
+\vfill
+\Huge
+\center
+Anhang
+\vfill
+
+
+# Kronecker-Produkt
+\footnotesize
+\begin{definition}[Kronecker-Produkt]
+Es seien $A \in \mathbb{R}^{m \times n}$ und  $B \in \mathbb{R}^{p \times q}$.
+Dann ist das \textit{Kronecker-Produkt} von $A$ und $B$ definiert als die Abbildung
+\begin{equation}
+\otimes : \mathbb{R}^{m \times n} \times \mathbb{R}^{p \times q} \to \mathbb{R}^{mp \times nq}, \,
+(A,B) \mapsto \otimes(A,B) := A \otimes B
+\end{equation}
+mit
+\begin{equation}
+A \otimes B =
+\begin{pmatrix}
+a_{11} B & \cdots & a_{1n}B \\
+\vdots   & \ddots & \vdots  \\
+a_{m1} B & \cdots & a_{mn}B \\
+\end{pmatrix}.
+\end{equation}
+\end{definition}
+
+Bemerkungen
+
+* Das Kronecker-Produkt kann zur Konstruktion von Matrizen mit repetitiver Struktur genutzt werden.
+* In der Form $1_n \otimes M$ setzt das Kronecker-Produkt die Matrix $M$ $n$-mal übereinander.
+* In der Form $M \otimes 1_n$ repliziert das Kronecker-Produkt jede Zeile von $M$ $n$-mal.
+* In der Form $I_n \otimes M$ erzeugt das Kronecker-Produkt eine Blockdiagonalmatrix $M$ auf der Diagonale.
+
+# Kronecker-Produkt
+\small
+Beispiel (1)
+
+\footnotesize
+\begin{equation}
+\begin{pmatrix}
+1 \\
+1
+\end{pmatrix}
+\otimes
+\begin{pmatrix}
+1 & 1 \\
+1 & 2 \\
+1 & 3
+\end{pmatrix}
+=
+\begin{pmatrix}
+1 & 1 \\
+1 & 2 \\
+1 & 3 \\
+1 & 1 \\
+1 & 2 \\
+1 & 3
+\end{pmatrix}
+\end{equation}
+
+\setstretch{1.2}
+\tiny
+```{r, echo = TRUE}
+M       = matrix(c(1,1,                             # Matrix
+                   1,2,
+                   1,3),
+                   byrow = TRUE, nrow = 3)
+j_2     = matrix(rep(1,2)      , nrow = 2)          # 1_2 Vektor
+X       = kronecker(j_2,M)                          # Kronecker-Produkt
+```
+
+```{r}
+print(X)
+```
+
+# Kronecker-Produkt
+\small
+Beispiel (2)
+\footnotesize
+\begin{equation}
+\begin{pmatrix}
+1 & 0 & 0 & 0 \\
+1 & 1 & 0 & 0 \\
+1 & 0 & 1 & 0 \\
+1 & 0 & 0 & 1
+\end{pmatrix}
+\otimes
+\begin{pmatrix}
+1 \\
+1
+\end{pmatrix}
+=
+\begin{pmatrix}
+1 & 0 & 0 & 0 \\
+1 & 0 & 0 & 0 \\
+1 & 1 & 0 & 0 \\
+1 & 1 & 0 & 0 \\
+1 & 0 & 1 & 0 \\
+1 & 0 & 1 & 0 \\
+1 & 0 & 0 & 1 \\
+1 & 0 & 0 & 1 \\
+\end{pmatrix}
+\end{equation}
+
+\setstretch{1.2}
+\tiny
+```{r, echo = TRUE}
+M       = matrix(c(1,0,0,0,                         # Matrix
+                   1,1,0,0,
+                   1,0,1,0,
+                   1,0,0,1),
+                   byrow = TRUE, nrow = 4)
+j_2     = matrix(rep(1,2)      , nrow = 2)          # 1_2 Vektor
+X       = kronecker(M,j_2)                          # Kronecker-Produkt
+```
+
+```{r}
+print(X)
+```
+
+# Kronecker-Produkt
+\small
+Beispiel (3)
+\footnotesize
+\begin{equation}
+\begin{pmatrix}
+1 & 0 \\
+0 & 1 \\
+\end{pmatrix}
+\otimes
+\begin{pmatrix}
+2 & 1 \\
+1 & 2
+\end{pmatrix}
+=
+\begin{pmatrix}
+2 & 1 & 0 & 0 \\
+1 & 2 & 0 & 0 \\
+0 & 0 & 2 & 1 \\
+0 & 0 & 1 & 2 \\
+\end{pmatrix}
+\end{equation}
+
+\setstretch{1.2}
+\tiny
+```{r, echo = TRUE}
+M       = matrix(c(2,1,                             # Matrix
+                   1,2),
+                   byrow = TRUE, nrow = 2)
+I_2     = diag(2)                                   # I_2
+X       = kronecker(I_2,M)                          # Kronecker-Produkt
+```
+
+```{r}
+print(X)
+```
+
+
+
+# Referenzen
+\footnotesize
