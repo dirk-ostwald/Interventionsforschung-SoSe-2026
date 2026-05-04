@@ -1,0 +1,2954 @@
+---
+fontsize: 8pt
+format:
+    beamer:
+        include-in-header: "3-Header.tex"
+bibliography: 3-Referenzen.bib
+---
+
+#  {.plain}
+\center
+```{r, echo = FALSE, out.width = "20%", fig.align = "center"}
+knitr::include_graphics("3-Abbildungen/ivf-3-otto.png")
+```
+\vspace{2mm}
+
+\huge
+Interventionsforschung
+\vspace{4mm}
+
+\large
+MSc Klinische Psychologie und Psychotherapie
+
+MSc Umweltpsychologie / Mensch-Technik-Interaktion
+
+\vspace{2mm}
+SoSe 2026
+
+\vspace{2mm}
+\normalsize
+Prof. Dr. Dirk Ostwald
+
+#  {.plain}
+\vfill
+\center
+\huge
+\textcolor{black}{(3) Pretest-Posttest-Designs}
+\vfill
+
+
+#
+\vfill
+\setstretch{2.3}
+\large
+
+Einführung
+
+Posttest-Varianzanalyse
+
+Posttest-Kovarianzanalyse mit Pretest-Kovariate
+
+Change-Score-Varianzanalyse
+
+Linear-Mixed-Model-Analyse
+
+Selbstkontrollfragen
+\vfill
+
+#
+\vfill
+\setstretch{2.3}
+\large
+
+**Einführung**
+
+Posttest-Varianzanalyse
+
+Posttest-Kovarianzanalyse mit Pretest-Kovariate
+
+Change-Score-Varianzanalyse
+
+Linear-Mixed-Model-Analyse
+
+Selbstkontrollfragen
+\vfill
+
+
+# Einführung
+
+\large
+Parallelgruppen-Pretest-Posttest-Designs
+
+
+\vfill
+```{r, echo = FALSE, out.width = "100%"}
+knitr::include_graphics("3-Abbildungen/ivf-3-pre-post-design.pdf")
+```
+\vfill
+
+# Einführung
+
+\small
+Anwendungsbeispiel Klinische Psychologie
+
+\footnotesize
+Hat Kognitive Verhaltenstherapie bei Patient:innen mit Depression einen Effekt?
+
+Randomisierte Zuweisung von n = 16 Patient:innen zu zwei Gruppen
+
+* Treatmentgruppe: Kognitive Verhaltenstherapie (12 Sitzungen)
+* Kontrollgruppe: Warteliste
+
+$\Rightarrow$ Messung des BDI-II vor Therapiebeginn (Pre) und nach Therapieende (Post)
+
+\vspace{2mm}
+\small
+Anwendungsbeispiel Umweltpsychologie
+
+\footnotesize
+Hat ein Energiespar-Feedback bei Studierenden einen Effekt auf den Stromverbrauch?
+
+Randomisierte Zuweisung von n = 16 Studierendenwohnheim-Zimmern zu zwei Gruppen
+
+* Treatmentgruppe: Wöchentliches Feedback zum eigenen Stromverbrauch plus Energiespartipps
+* Kontrollgruppe: Kein Feedback
+
+$\Rightarrow$ Messung des Stromverbrauchs vor Beginn der Intervention (Pre) und nach vier Wochen (Post)
+
+# Einführung
+\setstretch{1.6}
+Parallelgruppen-Pretest-Posttest-Design
+
+\small
+Charakteristika
+
+* Randomisierte Aufteilung von Proband:innen auf eine Kontroll- und eine Treatmentgruppe
+* Typischerweise univariate primäre Zielvariable
+* Messung der Zielvariablen *vor* (Pretest, T0, Baseline) und *nach* (Posttest, T1) Intervention
+
+Nomenklatur im Kontext faktorieller Designs
+
+* Zweifaktorielles Design mit Messwiederholung
+* Between-Group Faktor *Gruppe* mit den Leveln *Kontrolle* und *Treatment*
+* Within-Group-Faktor *Zeit* mit den Leveln *Pretest* und *Posttest*
+
+Motivation
+
+* Parallelgruppen-Pretest-Postdesigns als die einfachsten RCT-Longitudinaldesigns
+* RCT-Longitudinaldesigns oft primär an T0 und T1 interessiert
+
+
+# Einführung
+\vspace{2mm}
+Anwendungsbeispiel
+
+\footnotesize
+* $n = 16$ Proband:innen randomisiert auf Kontrollgruppe ($n_1 = 8$) und Treatmentgruppe ($n_2 = 8$) aufgeteilt
+* Proband:innen $i = 1,...,8$ in Kontrollgruppe, Proband:innen $i = 9,...16$ in Treatmentgruppe
+* Messung der primären Zielvariablen Pre und Post Intervention in beiden Gruppen
+* $y_{i0}$ und $y_{i1}$ für Pre- bzw. Postwerte von Proband:in $i = 1,...,n$
+
+```{r}
+set.seed(0)                                                                     # Zufallszahlengeneratorzustand
+library(MASS)
+n_1     = 8                                                                     # Anzahl Proband:innen Kontrollgruppe
+n_2     = 8                                                                     # Anzahl Proband:innen Treatmentgruppe
+n       = n_1 + n_2                                                             # Gesamtanzahl Proband:innen
+P       = 1:n                                                                   # Proband:innen ID
+group   = c(rep("Control", n_1), rep("Treatment", n_2))                         # Gruppenfaktor
+mu_1    = matrix(c(35,30), nrow = 2)                                            # Kontrollgruppen-Pre-Post-Erwartungswert
+Sigma_1 = matrix(c(5,2,2,5), nrow = 2)                                          # Kontrollgruppen-Pre-Post-Kovarianmatrix
+mu_2    = matrix(c(33,24), nrow = 2)                                            # Treatmentgruppen-Pre-Post-Erwartungswert
+Sigma_2 = matrix(c(5,2,2,5), nrow = 2)                                          # Treatmentgruppen-Pre-Post-Kovarianzmatrix
+Y       = rbind(mvrnorm(n_1, mu_1, Sigma_1), mvrnorm(n_2, mu_2, Sigma_2))       # Datensatz
+D       = data.frame(P = P, Group = group, Pre = Y[,1], Post = Y[,2])           # Dataframe
+write.csv(D, "./3-Daten/pre-post.csv")                                          # Speichern
+```
+
+\setstretch{1.2}
+```{r}
+D           = read.csv(paste0("./3-Daten/pre-post.csv"), row.names = 1)
+knitr::kable(D, digits = 0)
+```
+
+# Einführung
+\vspace{2mm}
+Anwendungsbeispiel
+
+\footnotesize
+* $n = 16$ Proband:innen randomisiert auf Kontrollgruppe ($n_1 = 8$) und Treatmentgruppe ($n_2 = 8$) aufgeteilt
+* Proband:innen $i = 1,...,8$ in Kontrollgruppe, Proband:innen $i = 9,...16$ in Treatmentgruppe
+* Messung der primären Zielvariablen Pre und Post Intervention in beiden Gruppen
+* $y_{i0}$ und $y_{i1}$ für Pre- bzw. Postwerte von Proband:in $i = 1,...,n$
+
+\vspace{-3mm}
+```{r, echo = F, eval = F}
+D           = read.csv("./3-Daten/pre-post.csv", row.names = 1)             	# Dataframe
+C           = D[D$Group == "Control", ]                                         # Kontrolldaten
+T           = D[D$Group == "Treatment", ]                                       # Treatment data
+means       = rbind(Kontrolle   = colMeans(C[, c("Pre", "Post")]),              # Kontrollgruppenmittelwerte
+                    Treatment   = colMeans(T[, c("Pre", "Post")]))              # Treatment means
+sds         = rbind(Kontrolle   = apply(C[, c("Pre", "Post")], 2, sd),          # Kontrollgruppenstandardabweichungen
+                    Treatment   = apply(T[, c("Pre", "Post")], 2, sd))          # Treatment standard deviation
+library(latex2exp)
+pdf(
+file        = "./3-Abbildungen/ivf-3-pre-post-means.pdf",
+width       = 4,
+height      = 4)
+par(
+family      = "sans",
+mfcol       = c(1,1),
+pty         = "s",
+bty         = "l",
+lwd         = 1,
+las         = 1,
+mgp         = c(2,1,0),
+xaxs        = "i",
+yaxs        = "i",
+font.main   = 1,
+cex         = 1,
+cex.main    = 1)
+x           = 1:2
+cols        = c("grey80", "black")
+matplot(
+x,
+t(means),
+type    = "l",
+lty     = 1,
+col     = cols,
+xaxt    = "n",
+xlab    = "",
+ylab    = "Zielvariable",
+xlim    = c(.8,2.2),
+ylim    = c(20, 40),
+main    = TeX("Means $\\pm$ SD"))
+for (i in 1:2) {
+    points(
+    x,
+    means[i, ],
+    pch     = 21,
+    col     = "white",
+    bg      = cols[i])
+}
+axis(1, at = x, labels = c("Pre", "Post"))
+for (i in 1:2) {
+    arrows(
+    x,
+    means[i, ] - sds[i, ],
+    x,
+    means[i, ] + sds[i, ],
+    angle   = 90,
+    code    = 3,
+    length  = 0.03,
+    col     = cols[i])
+}
+legend(
+"topright",
+legend  = rownames(means),
+col     = "white",
+pt.bg   = cols,
+pch     = 21,
+lty     = 1,
+bty     = "n",
+cex     = .8)
+dev.off()
+```
+```{r, echo = FALSE, out.width = "60%", fig.align = "center"}
+knitr::include_graphics("3-Abbildungen/ivf-3-pre-post-means.pdf")
+```
+
+
+# Einführung
+\vspace{2mm}
+Anwendungsbeispiel
+
+\footnotesize
+* $n = 16$ Proband:innen randomisiert auf Kontrollgruppe ($n_1 = 8$) und Treatmentgruppe ($n_2 = 8$) aufgeteilt
+* Proband:innen $i = 1,...,8$ in Kontrollgruppe, Proband:innen $i = 9,...16$ in Treatmentgruppe
+* Messung der primären Zielvariablen Pre und Post Intervention in beiden Gruppen
+* $y_{i0}$ und $y_{i1}$ für Pre- bzw. Postwerte von Proband:in $i = 1,...,n$
+
+```{r, echo = F, eval = F}
+library(tidyr)
+trt         = c("Control", "Treatment")
+trt_lab     = c("Kontrolle", "Treatment")
+D           = read.csv("./3-Daten/pre-post.csv", row.names = 1)
+pdf(
+file        = "./3-Abbildungen/ivf-3-pre-post-subjects.pdf",
+width       = 8,
+height      = 4)
+par(
+family      = "sans",
+mfcol       = c(1,2),
+pty         = "s",
+bty         = "l",
+lwd         = 1,
+las         = 1,
+mgp         = c(2,1,0),
+xaxs        = "i",
+yaxs        = "i",
+font.main   = 1,
+cex         = 1,
+cex.main    = 1)
+cols        = c("grey80", "black")
+for(t in 1:2){
+    matplot(
+    rbind(
+    matrix(D$Pre[D$Group  == trt[t]], ncol = nrow(D)),
+    matrix(D$Post[D$Group == trt[t]], ncol = nrow(D))),
+    type        = "l",
+    lty         = 1,
+    col         = cols[t],
+    xaxt        = "n",
+    xlab        = "",
+    ylab        = "Zielvariable",
+    main        = trt_lab[t],
+    xlim        = c(0.8,2.2),
+    ylim        = c(20,40))
+    matpoints(
+    rbind(
+    matrix(D$Pre[D$Group  == trt[t]], ncol = nrow(D)),
+    matrix(D$Post[D$Group == trt[t]], ncol = nrow(D))),
+    pch         = 21,
+    col         = "white",
+    bg          = cols[t])
+    axis(
+    1,
+    at          = c(1, 2),
+    labels      = c("Pre", "Post"))}
+dev.off()
+```
+
+```{r, echo = FALSE, out.width = "100%", fig.align = "center"}
+knitr::include_graphics("3-Abbildungen/ivf-3-pre-post-subjects.pdf")
+```
+
+# Einführung
+\vspace{1mm}
+\small
+Deskriptivstatistik
+
+\center
+\footnotesize
+\begin{tabular}{lcc}
+\toprule
+Gruppe & Pretest $M(SD)$ & Posttest $M(SD)$ \\
+\midrule
+Treatment & 33.10 (1.44) & 23.74 (1.71) \\
+Kontrolle & 35.25 (2.52) & 30.31 (2.40) \\
+\bottomrule
+\end{tabular}
+
+\flushleft
+\vspace{2mm}
+\small
+Anwendungsbeispiel Klinische Psychologie
+
+\footnotesize
+*Die depressive Symptomatik nahm in der Gruppe mit Kognitiver Verhaltenstherapie
+deskriptiv stärker ab (Pretest: M = 33.10, SD = 1.44; Posttest: M = 23.74,
+SD = 1.71) als in der Wartelistenkontrolle (Pretest: M = 35.25, SD = 2.52;
+Posttest: M = 30.31, SD = 2.40). Bereits im Pretest lagen die Werte in der
+KVT-Gruppe dabei niedriger als in der Kontrollgruppe.*
+
+\vspace{2mm}
+\small
+Anwendungsbeispiel Umweltpsychologie
+
+\footnotesize
+*Der Stromverbrauch nahm in der Gruppe mit wöchentlichem Energiespar-Feedback
+deskriptiv stärker ab (Pretest: M = 33.10, SD = 1.44; Posttest: M = 23.74,
+SD = 1.71) als in der Kontrollgruppe ohne Feedback (Pretest: M = 35.25,
+SD = 2.52; Posttest: M = 30.31, SD = 2.40). Bereits im Pretest lag der
+Stromverbrauch in der Feedbackgruppe dabei niedriger als in der
+Kontrollgruppe.*
+
+
+# Einführung
+Datenanalysen für Parallelgruppen-Pretest-Posttest-Designs
+
+\small
+Posttest-Varianzanalyse
+
+* Analyse allein der Posttest-Daten
+
+Posttest-Kovarianzanalyse mit Pretest-Kovariate
+
+* Korrektur der Posttest-Gruppenunterschiede durch Pretest-Messungen
+
+Change-Score-Varianzanalyse
+
+* Analyse der Gruppenunterschiede basierend auf Posttest-Pretest-Differenzen
+
+Linear-Mixed-Model-Analyse
+
+* Einfachster Fall von Longitudinal-Datenanalyse mit Linear-Mixed-Models
+
+# Einführung
+
+Literaturhinweise
+
+\small
+Vergleichsarbeiten zu den hier betrachteten Analyseverfahren
+
+* @crager1987, @frison1992, @fitzmaurice2001, @oakes2001
+* @yang2001, @senn2006,  @winkens2007, @oconnell2017
+* @tango2017 für einen exzellenten Überblick insbesondere bezüglich Linear-Mixed-Models
+
+Arbeiten mit einem Fokus auf bivariater Modellierung des Pretest-Posttest-Szenarios
+
+* @chen2006, @funatogawa2011
+* @funatogawa2011a, @funatogawa2020
+
+Zur Repeated-Measures ANOVA (Split-Plot ANOVA) Frage
+
+* Generell für Parallelgruppen-Pretest-Posttest-Designs nicht empfohlen
+* @winer1971 gibt einen ausführlichen Überblick und zu Repeated-Measures ANOVA
+* @huck1975, @brogan1980, @jennings1988, @mcculloch2005
+
+#
+\vfill
+\setstretch{2.3}
+\large
+Einführung
+
+**Posttest-Varianzanalyse**
+
+Posttest-Kovarianzanalyse mit Pretest-Kovariate
+
+Change-Score-Varianzanalyse
+
+Linear-Mixed-Model-Analyse
+
+Selbstkontrollfragen
+\vfill
+
+# Posttest-Varianzanalyse
+Posttest-Varianzanalyse
+\setstretch{1.9}
+
+\small
+
+* Nichtberücksichtigung der Pretest-Daten
+* Einfaktorielle Varianzanalyse/Zweistichproben-T-Test-Analyse im Rahmen des ALM
+* Posttest-Daten können Mittelwerte über mehrere Posttestmessungen sein
+* Generell nicht empfohlen, Betrachtung hier nur zu Vergleichszwecken
+* Vgl. @frison1992, @oconnell2017, @tango2017 Kapitel 2.1
+
+Gründe für die datenanalytische Inklusion von Pretest-Daten (vgl. @huck1975)
+
+* Anpassen der Posttest-Daten für im Pretest bestehende Gruppenunterschiede
+* Sensitivitätserhöhung für Gruppeneffekt durch Reduktion der Within-Group Variabilität
+
+# Posttest-Varianzanalyse
+\setstretch{1.6}
+\small
+Strukturelle Modellform
+
+\footnotesize
+Für $i = 1,...,n$ Proband:innen seien  $y_{i1}$ die Posttest-Daten.
+
+Dann hat das Posttest-Varianzanalysemodell die strukturelle Modellform
+\begin{equation}
+y_{i1} = \beta_0 + \beta_1x_i + \eps_{i}
+\end{equation}
+mit
+
+* $x_i := 0$ für Proband:in $i$ in Kontrollgruppe
+* $x_i := 1$ für Proband:in $i$ in Treatmentgruppe
+* $\eps_i \sim N(0,\sigma^2)$ u.i.v.
+
+\small
+Parameterbedeutungen
+
+\footnotesize
+\begin{tabular}{ll}
+$\beta_0$   & Erwartungswert der Kontrollgruppen-Posttest-Daten                                      \\
+$\beta_1$   & Erwartungswertunterschied zwischen Kontrollgruppen- und Treatmentgruppen-Posttest-Daten  \\
+$\sigma^2$  & Posttest-Datenvariabilität                                                             \\
+\end{tabular}
+
+# Posttest-Varianzanalyse
+\small
+\vspace{2mm}
+Designmatrixform für das Anwendungsbeispiel
+\footnotesize
+\begin{equation}
+y = X\beta + \eps
+\Leftrightarrow
+\begin{pmatrix}
+y_{11}  \\
+y_{21}  \\
+y_{31}  \\
+y_{41}  \\
+y_{51}  \\
+y_{61} \\
+y_{71} \\
+y_{81} \\
+y_{91} \\
+y_{101} \\
+y_{111} \\
+y_{121} \\
+y_{131} \\
+y_{141} \\
+y_{151} \\
+y_{161} \\
+\end{pmatrix}
+=
+\begin{pmatrix}
+1   &   0  \\
+1   &   0  \\
+1   &   0  \\
+1   &   0  \\
+1   &   0  \\
+1   &   0  \\
+1   &   0  \\
+1   &   0  \\
+1   &   1  \\
+1   &   1  \\
+1   &   1  \\
+1   &   1  \\
+1   &   1  \\
+1   &   1  \\
+1   &   1  \\
+1   &   1  \\
+\end{pmatrix}
+\begin{pmatrix}
+\beta_0     \\
+\beta_1     \\
+\end{pmatrix}
++
+\begin{pmatrix}
+\eps_1      \\
+\eps_2      \\
+\eps_3      \\
+\eps_4      \\
+\eps_5      \\
+\eps_6      \\
+\eps_7      \\
+\eps_8      \\
+\eps_9      \\
+\eps_{10}   \\
+\eps_{11}   \\
+\eps_{12}   \\
+\eps_{13}   \\
+\eps_{14}   \\
+\eps_{15}   \\
+\eps_{16}   \\
+\end{pmatrix}
+\end{equation}
+mit
+\begin{equation}
+\eps_i \sim N(0,\sigma^2) \mbox{ u.i.v. für } i = 1,...,n \Leftrightarrow
+\eps \sim N(0_{16},\sigma^2I_{16})
+\end{equation}
+
+# Posttest-Varianzanalyse
+\setstretch{1.6}
+\small
+Modellevaluation für das Anwendungsbeispiel
+
+\footnotesize
+\vspace{2mm}
+```{r, echo = T}
+D   = read.csv("./3-Daten/pre-post.csv", row.names = 1)     # Dateneinlesen
+M   = lm(Post ~ Group, data = D)                            # Modellformulierung und -schätzung
+coefs       = summary(M)$coefficients                         # Parameterschätzer
+ci          = confint(M, level = 0.95)                         # Konfidenzintervalle
+```
+```{r, echo = F}
+print(cbind(coefs, KI.u = ci[, 1], KI.o = ci[, 2]), digits = 4)
+```
+
+\small
+$\Rightarrow$ Geschätzter Erwartungswertunterschied zwischen Treatment- und Kontrollgruppe: -6.57 ($\pm$ 1.04)
+
+# Posttest-Varianzanalyse
+\small
+Visualisierung für das Anwendungsbeispiel
+\vspace{-2mm}
+```{r, eval = F}
+library(latex2exp)
+trt         = c("Control", "Treatment")
+trc         = c("gray80", "black")
+D           = read.csv("./3-Daten/pre-post.csv", row.names = 1)
+pdf(
+file        = "./3-Abbildungen/ivf-3-pre-post-posttest-anova.pdf",
+width       = 4.5,
+height      = 4.5)
+par(
+family      = "sans",
+mfcol       = c(1,1),
+pty         = "s",
+bty         = "l",
+lwd         = 1,
+las         = 1,
+mgp         = c(2,1,0),
+xaxs        = "i",
+yaxs        = "i",
+font.main   = 1,
+cex         = 1,
+cex.main    = 1)
+plot(
+NA,
+type        = "n",
+xlim        = c(28,40),
+ylim        = c(20,35),
+xlab         = "Pretest",
+ylab        = "Posttest",
+main        = "")
+for(t in 1:2){
+    points(
+    D$Pre[D$Group  == trt[t]],
+    D$Post[D$Group == trt[t]],
+    pch         = 21,
+    col         = "white",
+    bg          = trc[t])
+    lines(
+    D$Pre[D$Group == trt[t]],
+    predict(M)[D$Group == trt[t]],
+    col         = trc[t])
+}
+dev.off()
+```
+
+```{r, echo = FALSE, out.width = "60%", fig.align = "center"}
+knitr::include_graphics("3-Abbildungen/ivf-3-pre-post-posttest-anova.pdf")
+```
+\vspace{-3mm}
+\small
+\center
+\textcolor{lightgray}{$\bullet$} Kontrollgruppe $\,$
+\textcolor{black}{$\bullet$} Treatmentgruppe, $\,$
+\textcolor{lightgray}{$-$}, \textcolor{black}{$-$} $\hat{y} = X\hat{\beta}$
+
+
+# Posttest-Varianzanalyse
+
+Dokumentation
+
+\small
+Anwendungsbeispiel Klinische Psychologie
+
+\footnotesize
+*Eine Posttest-Varianzanalyse zeigte nach Abschluss der Intervention eine geringere
+depressive Symptomatik in der KVT-Gruppe als in der Wartelistenkontrollgruppe,
+b = -6.57, SE = 1.04, 95%-KI [-8.81, -4.34], t(14) = -6.30, p < .001. Die mittlere
+Posttest-Symptomatik lag damit in der KVT-Gruppe um geschätzt 6.57 Skalenpunkte
+niedriger als in der Kontrollgruppe.*
+
+\vspace{3mm}
+\small
+Anwendungsbeispiel Umweltpsychologie
+
+\footnotesize
+*Eine Posttest-Varianzanalyse ergab nach Abschluss der Intervention einen
+geringeren Stromverbrauch in der Feedbackgruppe als in der Kontrollgruppe ohne
+Feedback, b = -6.57, SE = 1.04, 95%-KI [-8.81, -4.34], t(14) = -6.30, p < .001.
+Der mittlere Posttest-Stromverbrauch lag in der Feedbackgruppe somit um geschätzt
+6.57 Einheiten niedriger als in der Kontrollgruppe.*
+
+#
+\vfill
+\setstretch{2.3}
+\large
+Einführung
+
+Posttest-Varianzanalyse
+
+**Posttest-Kovarianzanalyse mit Pretest-Kovariate**
+
+Change-Score-Varianzanalyse
+
+Linear-Mixed-Model-Analyse
+
+Selbstkontrollfragen
+\vfill
+
+
+# Posttest-Kovarianzanalyse mit Pretest-Kovariate
+Posttest-Kovarianzanalyse mit Pretest-Kovariate
+\setstretch{3}
+\small
+
+* Kovarianzanalyse der Posttest-Daten mit Pretest-Daten als Kovariate im Rahmen des ALM
+* Verringerung residueller Variabilität im Vergleich zur Posttest-Varianzanalyse $\Rightarrow$ Sensitivität $\uparrow$
+* Korrektur für Pretest-Gruppenunterschiede im Sinne adjustierter Posttest-Gruppenmittelwerte
+
+\flushright
+\footnotesize
+vgl. @crager1987, @frison1992, @chen2006
+
+
+# Posttest-Kovarianzanalyse mit Pretest-Kovariate
+\small
+Strukturelle Modellform
+
+\footnotesize
+Für $i = 1,...,n$ Proband:innen seien $y_{i0}$ und $y_{i1}$ die Pretest- bzw. Posttest-Daten.
+
+Der Pretestwert $y_{i0}$ übernimmt in diesem Modell die Rolle der Kovariate
+$x_{i2}$ aus dem allgemeinen Kovarianzanalysemodell.
+
+Dann hat das Posttest-Kovarianzanalysemodell mit Pretest-Kovariate die strukturelle Modellform
+\begin{equation}
+y_{i1} = \beta_0 + \beta_1x_i + \beta_2y_{i0}  + \eps_{i}
+\end{equation}
+mit
+
+* $x_i := 0$ für Proband:in $i$ in Kontrollgruppe
+* $x_i := 1$ für Proband:in $i$ in Treatmentgruppe
+* $\eps_i \sim N\left(0,\sigma^2\right)$ u.i.v.
+
+\small
+Parameterbedeutungen
+\footnotesize
+
+\begin{tabular}{ll}
+$\beta_0$   & Erwartungswert der Kontrollgruppe                                     \\
+$\beta_1$   & Erwartungswertunterschied zwischen Kontrollgruppe und Treatmentgruppe  \\
+$\beta_2$   & Steigungsparameter der Pretest-Kovariate                             \\
+$\sigma^2$  & Variabilität der Posttest-Daten                                        \\
+\end{tabular}
+
+# Posttest-Kovarianzanalyse mit Pretest-Kovariate
+\small
+Designmatrixform für das Anwendungsbeispiel
+\footnotesize
+
+\begin{equation}
+y = X\beta + \eps
+\Leftrightarrow
+\begin{pmatrix}
+y_{11}  \\
+y_{21}  \\
+y_{31}  \\
+y_{41}  \\
+y_{51}  \\
+y_{61}  \\
+y_{71}  \\
+y_{81}  \\
+y_{91}  \\
+y_{101} \\
+y_{111} \\
+y_{121} \\
+y_{131} \\
+y_{141} \\
+y_{151} \\
+y_{161} \\
+\end{pmatrix}
+=
+\begin{pmatrix}
+1   &   0  & y_{10}  \\
+1   &   0  & y_{20}  \\
+1   &   0  & y_{30}  \\
+1   &   0  & y_{40}  \\
+1   &   0  & y_{50}  \\
+1   &   0  & y_{60}  \\
+1   &   0  & y_{70}  \\
+1   &   0  & y_{80}  \\
+1   &   1  & y_{90}  \\
+1   &   1  & y_{100} \\
+1   &   1  & y_{110} \\
+1   &   1  & y_{120} \\
+1   &   1  & y_{130} \\
+1   &   1  & y_{140} \\
+1   &   1  & y_{150} \\
+1   &   1  & y_{160} \\
+\end{pmatrix}
+\begin{pmatrix}
+\beta_0     \\
+\beta_1     \\
+\beta_2     \\
+\end{pmatrix}
++
+\begin{pmatrix}
+\eps_1      \\
+\eps_2      \\
+\eps_3      \\
+\eps_4      \\
+\eps_5      \\
+\eps_6      \\
+\eps_7      \\
+\eps_8      \\
+\eps_9      \\
+\eps_{10}   \\
+\eps_{11}   \\
+\eps_{12}   \\
+\eps_{13}   \\
+\eps_{14}   \\
+\eps_{15}   \\
+\eps_{16}   \\
+\end{pmatrix}
+\end{equation}
+mit
+\begin{equation}
+\eps_i \sim N(0,\sigma^2) \mbox{ u.i.v. für } i = 1,...,n \Leftrightarrow
+\eps \sim N(0_{16},\sigma^2I_{16})
+\end{equation}
+
+# Posttest-Kovarianzanalyse mit Pretest-Kovariate
+\small
+Modellevaluation für das Anwendungsbeispiel
+
+\footnotesize
+\vspace{2mm}
+```{r, echo = T}
+D   = read.csv("./3-Daten/pre-post.csv", row.names = 1)     # Dateneinlesen
+M   = lm(Post ~ Group + Pre, data = D)                      # Modellformulierung und -schätzung
+coefs       = summary(M)$coefficients                         # Parameterschätzer
+ci          = confint(M, level = 0.95)                         # Konfidenzintervalle
+```
+```{r, echo = F}
+print(cbind(coefs, KI.u = ci[, 1], KI.o = ci[, 2]), digits = 4)
+```
+
+\small
+$\Rightarrow$ Geschätzter Erwartungswertunterschied zwischen Treatment- und Kontrollgruppe: -5.75 ($\pm$ 1.15)
+
+# Posttest-Kovarianzanalyse mit Pretest-Kovariate
+\small
+Visualisierung für das Anwendungsbeispiel
+\vspace{-2mm}
+```{r, eval = F}
+library(latex2exp)
+trt         = c("Control", "Treatment")
+trc         = c("gray80", "black")
+D           = read.csv("./3-Daten/pre-post.csv", row.names = 1)
+pdf(
+file        = "./3-Abbildungen/ivf-3-pre-post-posttest-ancova.pdf",
+width       = 4.5,
+height      = 4.5)
+par(
+family      = "sans",
+mfcol       = c(1,1),
+pty         = "s",
+bty         = "l",
+lwd         = 1,
+las         = 1,
+mgp         = c(2,1,0),
+xaxs        = "i",
+yaxs        = "i",
+font.main   = 1,
+cex         = 1,
+cex.main    = 1)
+plot(
+NA,
+type        = "n",
+xlim        = c(28,40),
+ylim        = c(20,35),
+xlab        = "Pretest",
+ylab        = "Posttest",
+main        = "")
+for(t in 1:2){
+    points(
+    D$Pre[D$Group  == trt[t]],
+    D$Post[D$Group == trt[t]],
+    pch         = 21,
+    col         = "white",
+    bg          = trc[t])
+    lines(
+    D$Pre[D$Group == trt[t]],
+    predict(M)[D$Group == trt[t]],
+    col         = trc[t])
+}
+dev.off()
+```
+
+
+```{r, echo = FALSE, out.width = "60%", fig.align = "center"}
+knitr::include_graphics("3-Abbildungen/ivf-3-pre-post-posttest-ancova.pdf")
+```
+\vspace{-3mm}
+\center
+\textcolor{lightgray}{$\bullet$} Kontrollgruppe, $\,$
+\textcolor{black}{$\bullet$} Treatmentgruppe, $\,$
+\textcolor{lightgray}{$-$}, \textcolor{black}{$-$} $\hat{y} = X\hat{\beta}$, $\,$
+
+# Posttest-Kovarianzanalyse mit Pretest-Kovariate
+\small
+Adjustierte Posttest-Gruppenmittelwerte
+\footnotesize
+\setstretch{1.6}
+
+Modellschätzer-basierte Prädiktion der Posttest-Gruppenmittelwerte für marginalen Pretest-Mittelwert
+
+* Marginaler Pretest-Mittelwert = Mittelwert der Pretest-Daten über beide Gruppen
+\begin{equation}
+\bar{y}_0 = \frac{1}{n} \sum_{i=1}^n y_{i0}
+\end{equation}
+* Modellschätzer-basierte Prädiktion der Posttest-Gruppenmittelwerte (K: Kontrolle, T: Treatment)
+\begin{equation}
+\begin{pmatrix}
+\hat{\bar{y}}_1^{\tiny \mbox{C}} \\
+\hat{\bar{y}}_1^{\tiny \mbox{T}} \\
+\end{pmatrix}
+=
+\begin{pmatrix}
+1 & 0 & \bar{y}_0 \\
+1 & 1 & \bar{y}_0 \\
+\end{pmatrix}
+\begin{pmatrix}
+\hat{\beta}_0 \\ \hat{\beta}_1\\ \hat{\beta}_2
+\end{pmatrix}
+\end{equation}
+* Bedingte Antwort auf die Frage nach den Gruppenmittelwerten bei angenommenen identischen Pretest-Daten
+* "Wenn die Pretest-Daten beider Gruppen identisch wären, was wären dann die Posttest-Gruppenmittelwerte?"
+* $\Rightarrow$ Marginaler Mittelwert der Pretest-Daten als Schätzer für interventionsunabhängigen Pretest-Erwartungswert
+* Auch als  Expected / Conditional / Estimated / Population Marginal Means bezeichnet
+
+\footnotesize
+\flushright
+vgl. @goodnight1978, @searle1980, @lenth2016
+
+
+# Posttest-Kovarianzanalyse mit Pretest-Kovariate
+\small
+Adjustierte Posttest-Gruppenmittelwerte
+\tiny
+\vspace{3mm}
+
+```{r, echo = T}
+D           = read.csv("./3-Daten/pre-post.csv", row.names = 1) # Dateneinlesen
+M           = lm(Post ~ Group  + Pre, data = D)                 # Modellformulierung und -schätzung
+beta_hat    = M$coefficients                                    # Betaparameterschätzer
+y_0_bar     = mean(D$Pre)                                       # Marginaler Mittelwert Pretest-Daten
+X_p         = matrix(c(1,1,0,1,y_0_bar,y_0_bar), nrow = 2)      # Prädiktionsdesignmatrix
+y_1_bar_adj = X_p %*% beta_hat                                  # Adjustierte Posttest-Gruppenmittelwerte
+```
+```{r, echo = F}
+cat("Adjusted marginal means",
+    "\nKontrolle  :" , round(y_1_bar_adj[1],1),
+    "\nTreatment  :" , round(y_1_bar_adj[2],1))
+```
+
+\vspace{3mm}
+
+```{r, echo = T}
+library(emmeans)                                                # R Paket für adjustierte Gruppenmittelwerte
+AMM         = emmeans(M, "Group")                               # Adjustierte Gruppenmittelwerte
+```
+```{r, echo = F}
+print(AMM)
+```
+
+# Posttest-Kovarianzanalyse mit Pretest-Kovariate
+```{r, eval = F}
+library(latex2exp)
+trt         = c("Control", "Treatment")
+trc         = c("gray80", "black")
+xlimits     = c(28,40)
+ylimits     = c(20,35)
+D           = read.csv("./3-Daten/pre-post.csv", row.names = 1)
+pdf(
+file        = "./3-Abbildungen/ivf-3-pre-post-posttest-ancova-apgms.pdf",
+width       = 4.5,
+height      = 4.5)
+par(
+family      = "sans",
+mfcol       = c(1,1),
+pty         = "s",
+bty         = "l",
+lwd         = 1,
+las         = 1,
+mgp         = c(2,1,0),
+xaxs        = "i",
+yaxs        = "i",
+font.main   = 1,
+cex         = 1,
+cex.main    = 1,
+xpd         = TRUE)
+plot(
+NA,
+type        = "n",
+xlim        = xlimits,
+ylim        = ylimits,
+xlab        = "Pretest",
+ylab        = "Posttest",
+main        = "")
+premeans   = c(mean(D$Pre[D$Group  == trt[1]]), mean(D$Pre[D$Group  == trt[2]]))
+postmeans  = c(mean(D$Post[D$Group == trt[1]]), mean(D$Post[D$Group == trt[2]]))
+for(t in 1:2){
+    points(
+    D$Pre[D$Group  == trt[t]],
+    D$Post[D$Group == trt[t]],
+    pch         = 21,
+    col         = "white",
+    bg          = trc[t])
+    lines(
+    D$Pre[D$Group == trt[t]],
+    predict(M)[D$Group == trt[t]],
+    col         = trc[t])
+    points(
+    premeans[t],
+    ylimits[1],
+    pch         = 23,
+    col         = "white",
+    bg          = trc[t],
+    cex         = 1.5)
+    points(
+    xlimits[1],
+    postmeans[t],
+    pch         = 23,
+    col         = "white",
+    bg          = trc[t],
+    cex         = 1.5)
+    points(
+    y_0_bar,
+    ylimits[1],
+    pch         = 22,
+    cex         = 1.5,
+    col         = "white",
+    bg          = "darkgray")
+    points(
+    xlimits[1],
+    y_1_bar_adj[t],
+    pch         = 23,
+    col         = "white",
+    bg          = trc[t],
+    cex         = 1)
+    lines(
+    c(y_0_bar, y_0_bar),
+    c(ylimits[1], y_1_bar_adj[1]),
+    lty         = 2,
+    col         = "darkgray")
+    lines(
+    c(y_0_bar, y_0_bar),
+    c(ylimits[1], y_1_bar_adj[2]),
+    lty         = 2,
+    col         = "darkgray")
+    lines(
+    c(xlimits[1], y_0_bar),
+    c(y_1_bar_adj[t], y_1_bar_adj[t]),
+    lty         = 2,
+    col         = "darkgray")
+}
+dev.off()
+```
+
+\small
+Adjustierte Posttest-Gruppenmittelwerte
+
+\footnotesize
+Visualisierung für das Anwendungsbeispiel
+
+\vspace{-2mm}
+```{r, echo = FALSE, out.width = "50%", fig.align = "center"}
+knitr::include_graphics("3-Abbildungen/ivf-3-pre-post-posttest-ancova-apgms.pdf")
+```
+
+\vspace{-3mm}
+\center
+\textcolor{lightgray}{$\bullet$} Kontrollgruppe, $\,$
+\textcolor{black}{$\bullet$} Treatmentgruppe, $\,$
+\textcolor{lightgray}{$-$}, \textcolor{black}{$-$} $\hat{y} = X\hat{\beta}$, $\,$
+
+\textcolor{lightgray}{$\blacklozenge$} Pretest-Kontrollgruppenmittelwert,
+\textcolor{black}{$\blacklozenge$} Pretest-Treatmentgruppenmittelwert,
+\textcolor{gray}{$\blacksquare$} Marginaler Pretest-Mittelwert
+
+
+\textcolor{lightgray}{$\lozenge$} Adjustierter Posttest-Kontrollgruppenmittelwert,
+\textcolor{black}{$\lozenge$} Adjustierter Posttest-Treatmentgruppenmittelwert
+
+# Posttest-Kovarianzanalyse mit Pretest-Kovariate
+\small
+
+Dokumentation
+
+\small
+Anwendungsbeispiel Klinische Psychologie
+
+\footnotesize
+*Eine Posttest-Kovarianzanalyse mit Pretest-Symptomatik als Kovariate zeigte nach
+Abschluss der Intervention eine geringere depressive Symptomatik in der
+KVT-Gruppe als in der Wartelistenkontrollgruppe, b = -5.75, SE = 1.15,
+95%-KI [-8.22, -3.27], t(13) = -5.01, p < .001. Bei einem gemeinsamen marginalen Pretestwert betrugen
+die adjustierten Posttest-Mittelwerte 29.9 in der Kontrollgruppe und 24.2 in der
+KVT-Gruppe. Die KVT-Gruppe wies somit auch nach Adjustierung für die
+Pretest-Symptomatik eine geschätzt 5.75 Skalenpunkte geringere depressive
+Symptomatik auf.*
+
+\vspace{3mm}
+\small
+Anwendungsbeispiel Umweltpsychologie
+
+\footnotesize
+*Eine Posttest-Kovarianzanalyse mit Pretest-Stromverbrauch als Kovariate ergab
+nach Abschluss der Intervention einen geringeren Stromverbrauch in der
+Feedbackgruppe als in der Kontrollgruppe ohne Feedback, b = -5.75, SE = 1.15,
+95%-KI [-8.22, -3.27], t(13) = -5.01, p < .001. Bei einem gemeinsamen marginalen Pretestwert lagen die
+adjustierten Posttest-Mittelwerte bei 29.9 in der Kontrollgruppe und 24.2 in der
+Feedbackgruppe. Der Stromverbrauch war in der Feedbackgruppe somit auch nach
+Adjustierung für den Pretest-Stromverbrauch geschätzt 5.75 Einheiten geringer.*
+
+
+
+
+# Posttest-Kovarianzanalyse mit Pretest-Kovariate
+\small
+Adjustierte Posttest-Gruppenmittelwerte
+
+```{r}
+# Adjustierte Posttest-Gruppenmittelwertsszenarien (vgl. Maxwell (2018), Chpt. 9)
+set.seed(0)                                                                     # Zufallszahlengeneratorzustand
+library(MASS)                                                                   # Multivariate Normalverteilung
+library(latex2exp)                                                              # Latex Annotation
+trt     = c("Control", "Treatment")                                             # Gruppenfaktorlevel
+trc     = c("gray80", "black")                                                  # Gruppenfarben
+xlimits = c(20,40)                                                              # x-Limits
+ylimits = c(10,30)                                                              # y-limits
+n_1     = 50                                                                    # Anzahl Proband:innen Kontrollgruppe
+n_2     = 50                                                                    # Anzahl Proband:innen Treatmentgruppe
+n       = n_1 + n_2                                                             # Gesamtanzahl Proband:innen
+P       = 1:n                                                                   # Proband:innen ID
+group   = c(rep("Control", n_1), rep("Treatment", n_2))                         # Gruppenfaktor
+mu_1    = array(c(30,25,25,20,25,22,25,25)  , dim = c(2,4))                     # Kontrollgruppen-Pre-Post-Erwartungswert
+mu_2    = array(c(30,20,35,20,35,17,35,20)  , dim = c(2,4))                     # Treatmentgruppen-Pre-Post-Erwartungswert
+Sigma   = array(c(4,2,2,4,4,2,2,4,4,-2,-2,4,4,0,0,4), dim = c(2,2,4))           # Treatmentgruppen-Pre-Post-Kovarianzmatrix
+for(s in 1:4){                                                                  # Szenarieniterationen
+    Y           = rbind(mvrnorm(n_1, mu_1[,s], Sigma[,,s]),                     # Kontrollgruppen daten
+                        mvrnorm(n_2, mu_2[,s], Sigma[,,s]))                     # Treatmentgruppendaten
+    D           = data.frame(P = P, Group = group, Pre = Y[,1], Post = Y[,2])   # Dataframe
+    M           = lm(Post ~ Group  + Pre, data = D)                             # Modellformulierung und -schätzung
+    beta_hat    = M$coefficients                                                # Betaparameterschätzer
+    y_0_bar     = mean(D$Pre)                                                   # Marginaler Mittelwert Pretest-Daten
+    X_p         = matrix(c(1,1,0,1,y_0_bar,y_0_bar), nrow = 2)                  # Prädiktionsdesignmatrix
+    y_1_bar_adj = X_p %*% beta_hat
+    pdf(
+    file        = sprintf("./3-Abbildungen/ivf-3-pre-post-posttest-ancova-apgms-%d.pdf",s),
+    width       = 4.5,
+    height      = 4.5)
+    par(
+    family      = "sans",
+    mfcol       = c(1,1),
+    pty         = "s",
+    bty         = "l",
+    lwd         = 1,
+    las         = 1,
+    mgp         = c(2,1,0),
+    xaxs        = "i",
+    yaxs        = "i",
+    font.main   = 1,
+    cex         = 1,
+    cex.main    = 1,
+    xpd         = TRUE)
+    plot(
+    NA,
+    type        = "n",
+    xlim        = xlimits,
+    ylim        = ylimits,
+    xlab        = "Pretest",
+    ylab        = "Posttest",
+    main        = "")
+    premeans    = c(mean(D$Pre[D$Group  == trt[1]]), mean(D$Pre[D$Group  == trt[2]]))
+    postmeans   = c(mean(D$Post[D$Group == trt[1]]), mean(D$Post[D$Group == trt[2]]))
+    for(t in 1:2){
+        points(
+        D$Pre[D$Group  == trt[t]],
+        D$Post[D$Group == trt[t]],
+        pch         = 21,
+        col         = "white",
+        bg          = trc[t])
+        lines(
+        D$Pre[D$Group == trt[t]],
+        predict(M)[D$Group == trt[t]],
+        col         = trc[t])
+        points(
+        premeans[t],
+        ylimits[1],
+        pch         = 23,
+        col         = "white",
+        bg          = trc[t],
+        cex         = 1.5)
+        points(
+        xlimits[1],
+        postmeans[t],
+        pch         = 23,
+        col         = "white",
+        bg          = trc[t],
+        cex         = 1.5)
+        points(
+        y_0_bar,
+        ylimits[1],
+        pch         = 22,
+        cex         = 1.5,
+        col         = "white",
+        bg          = "darkgray")
+        points(
+        xlimits[1],
+        y_1_bar_adj[t],
+        pch         = 23,
+        col         = "white",
+        bg          = trc[t],
+        cex         = 1)
+        lines(
+        c(y_0_bar, y_0_bar),
+        c(ylimits[1], y_1_bar_adj[1]),
+        lty         = 2,
+        col         = "darkgray")
+        lines(
+        c(y_0_bar, y_0_bar),
+        c(ylimits[1], y_1_bar_adj[2]),
+        lty         = 2,
+        col         = "darkgray")
+        lines(
+        c(xlimits[1], y_0_bar),
+        c(y_1_bar_adj[t], y_1_bar_adj[t]),
+        lty         = 2,
+        col         = "darkgray")
+    }
+dev.off()}
+```
+
+
+\footnotesize
+Geringe Pretest-Gruppenmittelwertsunterschiede $\Rightarrow$ Geringer Effekt der Posttest-Gruppenmittelwertadjustierung
+\vspace{-2mm}
+```{r, echo = FALSE, out.width = "50%", fig.align = "center"}
+knitr::include_graphics("3-Abbildungen/ivf-3-pre-post-posttest-ancova-apgms-1.pdf")
+```
+
+\vspace{-3mm}
+\center
+\textcolor{lightgray}{$\bullet$} Kontrollgruppe, $\,$
+\textcolor{black}{$\bullet$} Treatmentgruppe, $\,$
+\textcolor{lightgray}{$-$}, \textcolor{black}{$-$} $\hat{y} = X\hat{\beta}$, $\,$
+
+\textcolor{lightgray}{$\blacklozenge$} Pretest-Kontrollgruppenmittelwert,
+\textcolor{black}{$\blacklozenge$} Pretest-Treatmentgruppenmittelwert,
+\textcolor{gray}{$\blacksquare$} Marginaler Pretest-Mittelwert
+
+# Posttest-Kovarianzanalyse mit Pretest-Kovariate
+
+\small
+Adjustierte Posttest-Gruppenmittelwerte
+
+\footnotesize
+Große Pretest-Gruppenmittelwertsunterschiede mit Verstärkung des Posttest-Gruppenmittelwertsunterschieds
+\vspace{-2mm}
+```{r, echo = FALSE, out.width = "50%", fig.align = "center"}
+knitr::include_graphics("3-Abbildungen/ivf-3-pre-post-posttest-ancova-apgms-2.pdf")
+```
+
+\vspace{-3mm}
+\center
+\textcolor{lightgray}{$\bullet$} Kontrollgruppe, $\,$
+\textcolor{black}{$\bullet$} Treatmentgruppe, $\,$
+\textcolor{lightgray}{$-$}, \textcolor{black}{$-$} $\hat{y} = X\hat{\beta}$, $\,$
+
+\textcolor{lightgray}{$\blacklozenge$} Pretest-Kontrollgruppenmittelwert,
+\textcolor{black}{$\blacklozenge$} Pretest-Treatmentgruppenmittelwert,
+\textcolor{gray}{$\blacksquare$} Marginaler Pretest-Mittelwert
+
+# Posttest-Kovarianzanalyse mit Pretest-Kovariate
+
+\small
+Adjustierte Posttest-Gruppenmittelwerte
+
+\footnotesize
+Große Pretest-Gruppenmittelwertsunterschiede mit Verringerung des Posttest-Gruppenmittelwertsunterschieds
+\vspace{-2mm}
+```{r, echo = FALSE, out.width = "50%", fig.align = "center"}
+knitr::include_graphics("3-Abbildungen/ivf-3-pre-post-posttest-ancova-apgms-3.pdf")
+```
+
+\vspace{-3mm}
+\center
+\textcolor{lightgray}{$\bullet$} Kontrollgruppe, $\,$
+\textcolor{black}{$\bullet$} Treatmentgruppe, $\,$
+\textcolor{lightgray}{$-$}, \textcolor{black}{$-$} $\hat{y} = X\hat{\beta}$, $\,$
+
+\textcolor{lightgray}{$\blacklozenge$} Pretest-Kontrollgruppenmittelwert,
+\textcolor{black}{$\blacklozenge$} Pretest-Treatmentgruppenmittelwert,
+\textcolor{gray}{$\blacksquare$} Marginaler Pretest-Mittelwert
+
+# Posttest-Kovarianzanalyse mit Pretest-Kovariate
+
+\small
+Adjustierte Posttest-Gruppenmittelwerte
+
+\footnotesize
+Geringe Pretest-Posttest-Korrelation $\Rightarrow$ Geringer Effekt der Posttest-Gruppenmittelwertadjustierung
+\vspace{-2mm}
+```{r, echo = FALSE, out.width = "50%", fig.align = "center"}
+knitr::include_graphics("3-Abbildungen/ivf-3-pre-post-posttest-ancova-apgms-4.pdf")
+```
+
+\vspace{-3mm}
+\center
+\textcolor{lightgray}{$\bullet$} Kontrollgruppe, $\,$
+\textcolor{black}{$\bullet$} Treatmentgruppe, $\,$
+\textcolor{lightgray}{$-$}, \textcolor{black}{$-$} $\hat{y} = X\hat{\beta}$, $\,$
+
+\textcolor{lightgray}{$\blacklozenge$} Pretest-Kontrollgruppenmittelwert,
+\textcolor{black}{$\blacklozenge$} Pretest-Treatmentgruppenmittelwert,
+\textcolor{gray}{$\blacksquare$} Marginaler Pretest-Mittelwert
+
+# Posttest-Kovarianzanalyse mit Pretest-Kovariate
+\small
+Adjustierte Posttest-Gruppenmittelwerte
+\footnotesize
+
+* Adjustierte Posttest-Gruppenmittelwerte unterscheiden sich von tatsächlichen
+  Posttest-Gruppenmittelwerten (nur) dann stark, wenn sich die Pretest-Daten der
+  Zielvariablen zwischen den Gruppen stark unterscheiden und die Pretest-Posttest-Korrelation groß ist.
+
+* Wenn sich die Pretest-Daten der Zielvariablen zwischen den Gruppen nicht unterscheiden,
+  führt auch eine starke Pretest-Posttest-Korrelation nicht zu einem Unterschied zwischen
+  adjustierten und tatsächlichen Gruppenmittelwerten.
+
+* In randomisierten kontrollierten Studien ("Experimentellen Designs") ist der Zweck
+  der Randomisierung gerade die Minimierung von Unterschieden zwischen Gruppen in den Pretest-Daten.
+
+* In randomisierten kontrollierten Studien sollten in der Regel die adjustierten
+  Posttest-Gruppenmittelwerte also nur wenig von den tatsächlichen Posttest-Gruppenmittelwerten abweichen.
+
+* Die Bestimmung adjustierter Posttest-Gruppenmittelwerte im Rahmen einer Posttest-Kovarianzanalyse
+  mit Pretest-Kovariate ist also insbesondere bei nicht-randomisierten Studien ("quasiexperimentellen Designs")
+  mit erheblichen in den Pretest-Daten bestehenden Gruppenunterschieden sinnvoll.
+
+\vspace{2mm}
+\flushright
+vgl. @maxwell2018, Kapitel 9
+
+
+#
+\vfill
+\setstretch{2.3}
+\large
+Einführung
+
+Posttest-Varianzanalyse
+
+Posttest-Kovarianzanalyse mit Pretest-Kovariate
+
+**Change-Score-Varianzanalyse**
+
+Linear-Mixed-Model-Analyse
+
+Selbstkontrollfragen
+\vfill
+
+# Change-Score-Varianzanalyse
+
+Change-Score-Varianzanalyse
+
+\setstretch{3}
+\small
+* Change-Scores werden auch als Gain-Scores oder Difference-Scores bezeichnet
+* Einfaktorielle Varianzanalyse/Zweistichproben-T-Test-Analyse der Posttest-Pretest-Differenzen
+* Rückführung bivariater Proband:innendaten (Pre, Post) auf univariates Maß (Posttest-Pretest)
+* Langanhaltende Debatte zur Validität und Äquivalenz bezüglich Posttest-Kovarianzanalyse
+
+\flushright
+\footnotesize
+vgl. z.B. @lord1967, @allison1990, @maris1998
+
+
+# Change-Score-Varianzanalyse
+\small
+Strukturelle Modellform
+
+\footnotesize
+Für $i = 1,...,n$ Proband:innen seien $y_{i0}$ und $y_{i1}$ die Pretest- bzw. Posttest-Daten.
+Weiterhin seien
+\begin{equation}
+y_{i1} - y_{i0}
+\end{equation}
+die Differenzen von Posttest- und Pretest-Daten.
+
+Dann hat das Change-Score-Analysemodell die strukturelle Modellform
+\begin{equation}
+y_{i1} - y_{i0} = \beta_0 + \beta_1x_i + \eps_i
+\end{equation}
+mit
+
+* $x_i := 0$ für Proband:in $i$ in Kontrollgruppe
+* $x_i := 1$ für Proband:in $i$ in Treatmentgruppe
+* $\eps_i \sim N\left(0,\sigma^2\right)$ u.i.v.
+
+\small
+Parameterbedeutungen
+\footnotesize
+\begin{tabular}{ll}
+$\beta_0$   & Erwartungswert der Posttest-Pretest-Differenzen in der Kontrollgruppe                               \\
+$\beta_1$   & Erwartungswertunterschied der Posttest-Pretest-Differenzen zwischen Kontroll- und Treatmentgruppe    \\
+$\sigma^2$  & Variabilität der Posttest-Pretest-Differenzen zwischen Proband:innen                                \\
+\end{tabular}
+
+# Change-Score-Varianzanalyse
+\small
+\vspace{2mm}
+Designmatrixform für das Anwendungsbeispiel
+
+\footnotesize
+\begin{equation}
+y = X\beta + \eps
+\Leftrightarrow
+\begin{pmatrix}
+y_{11}  - y_{10}    \\
+y_{21}  - y_{20}    \\
+y_{31}  - y_{30}    \\
+y_{41}  - y_{40}    \\
+y_{51}  - y_{50}    \\
+y_{61}  - y_{60}    \\
+y_{71}  - y_{70}    \\
+y_{81}  - y_{80}    \\
+y_{91}  - y_{90}    \\
+y_{101} - y_{100}   \\
+y_{111} - y_{110}   \\
+y_{121} - y_{120}   \\
+y_{131} - y_{130}   \\
+y_{141} - y_{140}   \\
+y_{151} - y_{150}   \\
+y_{161} - y_{160}   \\
+\end{pmatrix}
+=
+\begin{pmatrix}
+1   &   0   \\
+1   &   0   \\
+1   &   0   \\
+1   &   0   \\
+1   &   0   \\
+1   &   0   \\
+1   &   0   \\
+1   &   0   \\
+1   &   1   \\
+1   &   1   \\
+1   &   1   \\
+1   &   1   \\
+1   &   1   \\
+1   &   1   \\
+1   &   1   \\
+1   &   1   \\
+\end{pmatrix}
+\begin{pmatrix}
+\beta_0     \\
+\beta_1
+\end{pmatrix}
++
+\begin{pmatrix}
+\eps_1      \\
+\eps_2      \\
+\eps_3      \\
+\eps_4      \\
+\eps_5      \\
+\eps_6      \\
+\eps_7      \\
+\eps_8      \\
+\eps_9      \\
+\eps_{10}   \\
+\eps_{11}   \\
+\eps_{12}   \\
+\eps_{13}   \\
+\eps_{14}   \\
+\eps_{15}   \\
+\eps_{16}   \\
+\end{pmatrix}
+\end{equation}
+mit
+\begin{equation}
+\eps_i \sim N(0,\sigma^2) \mbox{ u.i.v. für } i = 1,...,n \Leftrightarrow
+\eps \sim N(0_{16},\sigma^2I_{16})
+\end{equation}
+
+
+# Change-Score-Varianzanalyse
+\small
+Modellevaluation für das Anwendungsbeispiel
+
+\footnotesize
+\vspace{2mm}
+```{r, echo = T}
+D       = read.csv("./3-Daten/pre-post.csv", row.names = 1) # Dateneinlesen
+D$CS    = D$Post - D$Pre                                    # Change-Score-Berechnung
+M       = lm(CS ~ Group, data = D)                           # Modellformulierung und -schätzung
+coefs       = summary(M)$coefficients                         # Parameterschätzer
+ci          = confint(M, level = 0.95)                         # Konfidenzintervalle
+```
+```{r, echo = F}
+print(cbind(coefs, KI.u = ci[, 1], KI.o = ci[, 2]), digits = 4)
+```
+
+\small
+$\Rightarrow$ Geschätzter Erwartungswertunterschied zwischen Treatment- und Kontrollgruppe: -4.43 ($\pm$ 1.15)
+
+# Change-Score-Varianzanalyse
+\small
+Visualisierung für das Anwendungsbeispiel
+
+```{r, echo = F, eval = F}
+trt         = c("Control", "Treatment")
+trt_lab     = c("Kontrolle", "Treatment")
+D           = read.csv("./3-Daten/pre-post.csv", row.names = 1)
+D$CS        = D$Post - D$Pre
+C           = D[D$Group == "Control", ]
+T           = D[D$Group == "Treatment", ]
+n_1         = nrow(C)
+n_2         = nrow(T)
+x_1         = 1 + seq(-.07, .07, length.out = n_1)
+x_2         = 2 + seq(-.07, .07, length.out = n_2)
+pdf(
+file        = "./3-Abbildungen/ivf-3-pre-post-change-score-anova.pdf",
+width       = 4,
+height      = 4)
+par(
+family      = "sans",
+mfcol       = c(1,1),
+pty         = "s",
+bty         = "l",
+lwd         = 1,
+las         = 1,
+mgp         = c(2,1,0),
+xaxs        = "i",
+yaxs        = "i",
+font.main   = 1,
+cex         = 1,
+cex.main    = 1)
+plot(
+NA,
+type        = "n",
+xaxt        = "n",
+xlab        = "",
+ylab        = "",
+main        = "Posttest-Pretest-Differenzen",
+xlim        = c(0.5,2.5),
+ylim        = c(-15,5))
+points(
+x_1,
+C$CS,
+type        = "p",
+pch         = 21,
+col         = "white",
+bg          = "grey80")
+points(
+x_2,
+T$CS,
+type        = "p",
+pch         = 21,
+col         = "white",
+bg          = "black",
+cex         = 1.1)
+axis(
+1,
+at          = c(1, 2),
+labels      = trt_lab)
+cmean       = mean(C$CS)
+tmean       = mean(T$CS)
+points(
+x           = c(1,2),
+y           = c(cmean, tmean),
+pch         = 23,
+col         = "white",
+bg          = c("grey80", "black"),
+cex         = 2)
+dev.off()
+```
+\vspace{-2mm}
+```{r, echo = FALSE, out.width = "60%", fig.align = "center"}
+knitr::include_graphics("3-Abbildungen/ivf-3-pre-post-change-score-anova.pdf")
+```
+
+
+\vspace{-3mm}
+\small
+\center
+\textcolor{lightgray}{$\bullet$} Kontrollgruppe $\,$
+\textcolor{black}{$\bullet$} Treatmentgruppe, $\,$
+\textcolor{lightgray}{$\blacklozenge$}, \textcolor{black}{$\blacklozenge$} $y = X\hat{\beta}$
+
+# Change-Score-Varianzanalyse
+
+Dokumentation
+
+\small
+Anwendungsbeispiel Klinische Psychologie
+
+\footnotesize
+*Eine Change-Score-Varianzanalyse zeigte eine stärkere Abnahme der depressiven
+Symptomatik in der KVT-Gruppe als in der Wartelistenkontrollgruppe, b = -4.43,
+SE = 1.15, 95%-KI [-6.90, -1.95], t(14) = -3.84, p = .002. Die mittlere Posttest-Pretest-Differenz
+betrug -4.93 Skalenpunkte in der Kontrollgruppe und -9.36 Skalenpunkte in der
+KVT-Gruppe. Die depressive Symptomatik nahm in der KVT-Gruppe somit im Mittel
+um geschätzt 4.43 Skalenpunkte stärker ab als in der Kontrollgruppe.*
+
+\vspace{3mm}
+\small
+Anwendungsbeispiel Umweltpsychologie
+
+\footnotesize
+*Eine Change-Score-Varianzanalyse ergab eine stärkere Verringerung des
+Stromverbrauchs in der Feedbackgruppe als in der Kontrollgruppe ohne Feedback,
+b = -4.43, SE = 1.15, 95%-KI [-6.90, -1.95], t(14) = -3.84, p = .002. Die mittlere
+Posttest-Pretest-Differenz betrug -4.93 Einheiten in der Kontrollgruppe und
+-9.36 Einheiten in der Feedbackgruppe. Der Stromverbrauch ging in der
+Feedbackgruppe somit im Mittel um geschätzt 4.43 Einheiten stärker zurück als in
+der Kontrollgruppe.*
+
+
+
+# Change-Score-Varianzanalyse
+\small
+Spezielle Äquivalenzen der bisher betrachteten Modelle für $i = 1,...,n$
+
+\footnotesize
+\vspace{2mm}
+\center
+\begin{tabular}{lrl}
+Posttest-Kovarianzanalyse mit Pretest-Kovariate & $y_{i1}$          &  $= \beta_0 + \beta_1x_i + \beta_2y_{i0} + \eps_i$  \\
+Posttest-Varianzanalyse                         & $y_{i1}$          &  $= \beta_0 + \beta_1x_i + \eps_i$                  \\
+Change-Score-Varianzanalyse                     & $y_{i1} - y_{i0}$ &  $= \beta_0 + \beta_1x_i + \eps_i$                  \\
+\end{tabular}
+
+\vspace{2mm}
+
+\flushleft
+Für das Posttest-Kovarianzanalysemodell mit Pretest-Kovariate gelte $\beta_2 := 0$
+
+* Dann gilt
+\begin{equation}
+y_{i1} = \beta_0 + \beta_1x_i + 0\cdot y_{i0} + \eps_i = \beta_0 + \beta_1x_i + \eps_i
+\end{equation}
+und das Posttest-Kovarianzanalysemodell ist äquivalent zum Posttest-Varianzanalysemodell.
+
+Für das Posttest-Kovarianzanalysemodell mit Pretest-Kovariate gelte $\beta_2 := 1$
+
+* Dann gilt
+\begin{equation}
+y_{i1}
+= \beta_0 + \beta_1x_i + 1\cdot y_{i0} + \eps_i
+= \beta_0 + \beta_1x_i + y_{i0} + \eps_i
+\Leftrightarrow y_{i1} - y_{i0} = \beta_0 + \beta_1x_i + \eps_i
+\end{equation}
+und das Posttest-Kovarianzanalysemodell ist äquivalent zum Change-Score-Varianzanalysemodell.
+
+Allgemeinere Einsichten in die Beziehungen zwischen den hier betrachteten Modellen
+erlaubt an späterer Stelle die bivariate Analyse des Gruppen$\times$Zeitpunkt-Linear-Mixed-Models mit zufälligen
+Proband:inneneffekt
+
+# Change-Score-Varianzanalyse
+\small
+\setstretch{1.6}
+Lord Paradox
+\vspace{-2mm}
+
+* Divergierende Resultate bei Posttest-Kovarianz- und Change-Score-Varianzanalyse
+* $\Leftrightarrow$ Divergierende Resultate bei unterschiedlichen "Korrekturen" für Pretestunterschiede
+* Insbesondere bei Pretest-Gruppenunterschieden ("Quasiexperimenten") bedeutsam
+* Letztlich unterschiedliche korrekte Antworten auf unterschiedliche Fragen
+
+Lord Paradox Beispiel Annahmen
+\vspace{-2mm}
+
+* Parallelgruppen-Pretest-Posttest-Design
+* Kein Effekt der Treatment- bzw. Kontrollintervention
+* Pretest-Gruppenerwartungswertunterschiede
+* Positive Pretest-Post-Korrelation
+
+Lord Paradox Beispiel Resultate
+\vspace{-2mm}
+
+* Change-Score-Varianzanalyse zeigt keinen Gruppenunterschied der Veränderung
+* Mit Pretest-Kovariate adjustierte Posttestmittelwerte zeigen Gruppenunterschied
+
+\flushright
+\footnotesize
+vgl. @lord1967, @fitzmaurice2001, @wainer2006
+
+
+# Change-Score-Varianzanalyse
+\small
+Lord Paradox
+
+\footnotesize
+Beispiel Datengeneration
+\vspace{3mm}
+
+\tiny
+```{r, echo = T}
+set.seed(0)                                                                 # Zufallszahlengeneratorzustand
+library(MASS)                                                               # Multivariate Normalverteilung
+n_1         = 100                                                           # Anzahl Proband:innen Kontrollgruppe
+n_2         = 100                                                           # Anzahl Proband:innen Treatmentgruppe
+n           = n_1 + n_2                                                     # Gesamtanzahl Proband:innen
+P           = 1:n                                                           # Proband:innen ID
+group       = c(rep("Control", n_1), rep("Treatment", n_2))                 # Gruppenfaktor
+mu_1        = matrix(c(25,25), nrow = 2)                                    # Kontroll-Pre-Post-Erwartungswerte
+mu_2        = matrix(c(30,30), nrow = 2)                                    # Treatment-Pre-Post-Erwartungswerte
+Sigma       = matrix(c(4,1,1,4), nrow = 2)                                  # Pre-Post-Kovarianzmatrix
+Y           = rbind(mvrnorm(n_1, mu_1, Sigma), mvrnorm(n_2, mu_2, Sigma))   # Datensatz
+D           = data.frame(P = P, Group = group, Pre = Y[,1], Post = Y[,2])   # Dataframe
+write.csv(D, "./3-Daten/pre-post-lord.csv")                                 # Speichern
+```
+
+
+# Change-Score-Varianzanalyse
+\small
+Lord Paradox
+
+\footnotesize
+Kontrolle für Pretest-Unterschiede durch Change-Score-Analyse
+
+\vspace{2mm}
+\tiny
+```{r, echo = T}
+D       = read.csv("./3-Daten/pre-post-lord.csv", row.names = 1)    # Dateneinlesen
+D$CS    = D$Post - D$Pre                                            # Change-Score-Berechnung
+M1      = lm(CS ~ Group, data = D)                                  # Modellformulierung und -schätzung
+round(summary(M1)$coefficients,2)                                   # Ausgabe
+```
+
+\footnotesize
+$\Rightarrow$ Geringer und nicht signifikanter Effekt von Treatment
+
+
+# Change-Score-Varianzanalyse
+\small
+Lord Paradox
+
+\footnotesize
+Kontrolle für Pretest-Unterschiede durch Auswertung Pretest-adjustierter Posttest-Gruppenunterschiede
+\vspace{2mm}
+\tiny
+```{r, echo = T}
+library(emmeans)
+D       = read.csv("./3-Daten/pre-post-lord.csv", row.names = 1) # Dateneinlesen
+M2      = lm(Post ~ Group + Pre, data = D)                       # Modellformulierung und -schätzung
+M2a     = emmeans(M2, "Group")                                   # Adjustierte Posttest-Gruppenmittelwerte
+summary(M2a)                                                     # Adjustierte Posttest-Gruppenmittelwerte
+pairs(M2a)                                                       # Adjustierte Posttest-Gruppenmittelwertsdifferenz
+```
+
+\footnotesize
+$\Rightarrow$ Adjustierte Posttest-Gruppenmittelwertsdifferenz signifikant unterschiedlich
+
+
+# Change-Score-Varianzanalyse
+\small
+Lord Paradox
+
+\footnotesize
+Beispiel Visualisierung
+
+```{r, eval = F}
+library(latex2exp)
+trt         = c("Control", "Treatment")
+trt_lab     = c("Kontrolle", "Treatment")
+trc         = c("gray80", "black")
+D           = read.csv("./3-Daten/pre-post-lord.csv", row.names = 1)
+n_1         = 100
+n_2         = 100
+D$CS        = D$Post - D$Pre
+pdf(
+file        = "./3-Abbildungen/ivf-3-pre-post-lord.pdf",
+width       = 10,
+height      = 5)
+par(
+family      = "sans",
+mfcol       = c(1,2),
+pty         = "s",
+bty         = "l",
+lwd         = 1,
+las         = 1,
+mgp         = c(2,1,0),
+xaxs        = "i",
+yaxs        = "i",
+font.main   = 1,
+cex         = 1,
+cex.main    = 1,
+xpd         = TRUE)
+
+# Change-Score-Analyse
+plot(
+rep(1,n_1),
+D$CS[1:n_1],
+type        = "p",
+pch         = 21,
+col         = "white",
+bg          = trc[1],
+xaxt        = "n",
+xlab        = "",
+ylab        = "Posttest-Pretest",
+main        = "Change-Score-Analyse",
+xlim        = c(0.5,2.5),
+ylim        = c(-5,10))
+points(
+rep(2,n_2),
+D$CS[(n_1+1):(n_1+n_2)],
+type        = "p",
+pch         = 21,
+col         = "white",
+bg          = trc[2])
+axis(
+1,
+at          = c(1, 2),
+labels      = trt_lab)
+cmean       = mean(D$Post[D$Group == "Control"]   - D$Pre[D$Group == "Control"])
+tmean       = mean(D$Post[D$Group == "Treatment"] - D$Pre[D$Group == "Treatment"])
+points(
+x           = c(1,2),
+y           = c(cmean, tmean),
+pch         = 23,
+col         = "white",
+bg          = c("grey80", "black"),
+cex         = 2)
+
+# Kovarianzanalyse
+xlimits     = c(20,35)
+ylimits     = c(20,35)
+M           = lm(Post ~ Group  + Pre, data = D)                             # Modellformulierung und -schätzung
+beta_hat    = M$coefficients                                                # Betaparameterschätzer
+y_0_bar     = mean(D$Pre)                                                   # Marginaler Mittelwert Pretest-Daten
+X_p         = matrix(c(1,1,0,1,y_0_bar,y_0_bar), nrow = 2)                  # Prädiktionsdesignmatrix
+y_1_bar_adj = X_p %*% beta_hat
+
+plot(
+NA,
+type        = "n",
+xlim        = xlimits,
+ylim        = ylimits,
+xlab        = "Pretest",
+ylab        = "Posttest",
+main        = "Posttest-Kovarianzanalyse")
+premeans    = c(mean(D$Pre[D$Group  == trt[1]]), mean(D$Pre[D$Group  == trt[2]]))
+postmeans   = c(mean(D$Post[D$Group == trt[1]]), mean(D$Post[D$Group == trt[2]]))
+for(t in 1:2){
+    points(
+    D$Pre[D$Group  == trt[t]],
+    D$Post[D$Group == trt[t]],
+    pch         = 21,
+    bg          = trc[t],
+    col         = "white")
+    lines(
+    D$Pre[D$Group == trt[t]],
+    predict(M)[D$Group == trt[t]],
+    col         = trc[t])
+    points(
+    premeans[t],
+    ylimits[1],
+    pch         = 23,
+    col         = "white",
+    bg          = trc[t],
+    cex         = 2)
+    points(
+    xlimits[1],
+    postmeans[t],
+    pch         = 23,
+    col         = "white",
+    bg          = trc[t],
+    cex         = 2)
+    points(
+    y_0_bar,
+    ylimits[1],
+    pch         = 22,
+    cex         = 2,
+    col         = "white",
+    bg          = "darkgray")
+    points(
+    xlimits[1],
+    y_1_bar_adj[t],
+    pch         = 23,
+    col         = "white",
+    bg          = trc[t],
+    cex         = 2)
+    lines(
+    c(y_0_bar, y_0_bar),
+    c(ylimits[1], y_1_bar_adj[1]),
+    lty         = 2,
+    col         = "darkgray")
+    lines(
+    c(y_0_bar, y_0_bar),
+    c(ylimits[1], y_1_bar_adj[2]),
+    lty         = 2,
+    col         = "darkgray")
+    lines(
+    c(xlimits[1], y_0_bar),
+    c(y_1_bar_adj[t], y_1_bar_adj[t]),
+    lty         = 2,
+    col         = "darkgray")
+}
+dev.off()
+```
+
+```{r, echo = FALSE, out.width = "100%", fig.align = "center"}
+knitr::include_graphics("3-Abbildungen/ivf-3-pre-post-lord.pdf")
+```
+
+\vspace{-3mm}
+\center
+\textcolor{lightgray}{$\bullet$} Kontrollgruppe, $\,$
+\textcolor{black}{$\bullet$} Treatmentgruppe
+
+
+# Change-Score-Varianzanalyse
+\small
+Lord Paradox
+
+\footnotesize
+
+Fragestellung bei Change-Score-Varianzanalyse
+
+* "Gibt es einen Erwartungswertunterschied in der Pretest-Posttest-Veränderung zwischen Kontrolle und Treatment?"
+* Die Frage wird unabhängig von, d.h. gemittelt über alle, möglichen Pretestwerte gestellt
+* In diesem Sinn ist die Fragestellung bei Change-Score-Varianzanalyse "unbedingt" bzw. "marginal"
+* Die Fragestellung ist die entscheidende Fragestellung in der Evaluation von Interventionen
+
+Fragestellung bei Posttest-Kovarianzanalyse mit Pretest-Kovariate und adjustierten Posttest-Gruppenmittelwerten
+
+* "Gibt es einen Posttest-Erwartungswertunterschied zwischen einer Kontrollproband:in und einer
+   Treatmentproband:in mit identischem Pretest-Wert?"
+* Die Frage wird explizit bedingt auf einen der möglichen Pretestwerte gestellt
+* In diesem Sinn ist die Fragestellung bei Posttest-Kovarianzanalysen "bedingt" bzw. "conditional"
+* Bestehen Pretestunterschiede zwischen Gruppen und haben zwei Proband:innen den gleichen Pretestwert
+  (z.B. den marginalen Pretestgruppenmittelwert), so sind sie per Definition bezüglich ihrer Gruppenerwartungswerte
+  untypisch und der Regression-zur-Mitte-Effekt induziert adjustierte Posttest-Gruppenunterschiede,
+  die den Pretestunterschieden ähneln.
+* Die Fragestellung ist bei der Evaluation von Interventionen nicht entscheidend und im Idealfall gibt
+  es in randomisierten Designs sowieso keine Pretestgruppenunterschiede bezüglich der primären Zielvariablen.
+
+\flushright
+vgl. @fitzmaurice2001
+
+# Change-Score-Varianzanalyse
+\small
+Lord Paradox und Regression-zur-Mitte-Effekt
+
+\setstretch{2.3}
+\footnotesize
+Intuitive Erläuterung
+\vspace{-2mm}
+
+* Eine Proband:in habe einen festen Gruppenerwartungswert $\mu$ bezüglich der primären Zielvariable.
+* Für die Pretest- und Posttestfehlervariablen gelte $\eps_{i0} \sim N(0,\sigma^2)$ und $\eps_{i1} \sim N(0,\sigma^2)$, also $\mathbb{V}(\eps_{i0}) = \mathbb{V}(\eps_{i1})$
+* In der Pretest-Messung zeige sich ein hoher Wert $y_{i0} = \mu + \eps_{i0}$ durch einen hohen Fehlerbeitrag $\eps_{i0}$.
+* Hohe Abweichungen von $\eps_{i0} \sim N(0,\sigma^2)$ von $0$ sind unwahrscheinlicher als geringe Abweichungen.
+* Der Pretestwert für die Proband:in ist also bezüglich des Gruppenrerwartungswerts untypisch.
+* In der Posttest-Messung ist $\eps_{i1}$ mit hoher Wahrscheinlichkeit geringer als $\eps_{i0}$, da auch $\eps_{i1} \sim N(0,\sigma^2)$
+* Damit ist aber auch $y_{i1} = \mu + \eps_{i1}$ mit hoher Wahrscheinlichkeit geringer als $y_{i0}$.
+* Bedingt auf $y_{i0}$ zeigt sich eine durch den Zufallsfehler induzierte Reduktion in der primären Zielvariablen.
+* Marginal, d.h. gemittelt über viele Proband:innen gleichen sich positive und negative Effekte dieser Art aus.
+
+# Change-Score-Varianzanalyse
+\small
+Lord Paradox und Regression-zur-Mitte-Effekt
+
+\footnotesize
+Formale Erläuterung
+\vspace{-2mm}
+
+* Gegeben sei für $\sigma_{00}^2 := \sigma_{11}^2 := \sigma^2$
+\begin{equation}
+\begin{pmatrix}
+y_{i0} \\
+y_{i1}
+\end{pmatrix}
+\sim
+N\left(
+\begin{pmatrix}
+\mu \\ \mu
+\end{pmatrix},
+\begin{pmatrix}
+\sigma_{00}^2 & \sigma_{01}^2 \\
+\sigma_{10}^2 & \sigma_{11}^2
+\end{pmatrix}
+\right)
+\end{equation}
+* Dann gilt nach dem Theorem zu den bedingten Normalverteilungen
+\begin{align}
+\begin{split}
+\mathbb{E}(y_{i1}|y_{i0})
+& = \mu + \frac{\sigma_{01}^2}{\sigma_{11}^2}(y_{i0} - \mu)                                                     \\
+& = \mu + \frac{\mathbb{C}(y_{i0},y_{i1})}{\mathbb{V}(y_{11})}(y_{i0} - \mu)                                    \\
+& = \mu + \frac{\mathbb{C}(y_{i0},y_{i1})}{\sqrt{\mathbb{V}(y_{i1})}\sqrt{\mathbb{V}(y_{i0})}}(y_{i0} - \mu)    \\
+& = \mu + \rho(y_{i0}, y_{i1})(y_{i0} - \mu_0)                                                                    \\
+\end{split}
+\end{align}
+* Mit $|\rho(y_{i0}, y_{i1})| \le 1$ folgt dann
+\begin{equation}
+\mathbb{E}(y_{i1}|y_{i0}) - \mu \le  y_{i0} - \mu \Leftrightarrow \mathbb{E}(y_{i1} - \mu|y_{i0})  \le  y_{i0} - \mu
+\end{equation}
+* Gegeben den Pretest-Wert $y_{i0}$ ist die erwartete Abweichung des Posttest-Wertes
+   $y_{i1}$ vom Posttesterwartungswert also geringer als die Abweichung des Pretest-Wertes
+   $y_{i0}$ vom Pretesterwartungswert, sofern $|\rho(y_{i0}, y_{i1})| < 1$, also entsprechend $|\rho(\eps_{i0}, \eps_{i1})| < 1$.
+
+#
+\vfill
+\setstretch{2.3}
+\large
+Einführung
+
+Posttest-Varianzanalyse
+
+Posttest-Kovarianzanalyse mit Pretest-Kovariate
+
+Change-Score-Varianzanalyse
+
+**Linear-Mixed-Model-Analyse**
+
+Selbstkontrollfragen
+\vfill
+
+# Linear-Mixed-Model-Analyse
+\setstretch{2.2}
+Linear-Mixed-Model-Analyse
+\small
+
+* Aktuell präferierte Analyseform, vgl. @detry2016,  @yu2022
+* Parameter für Gruppeneffekte, Zeitpunkteffekte, Gruppen $\times$ Zeitpunkt Interaktionen
+* Durch Hinzunahme von Random-Effects ergibt sich eine Vielzahl möglicher Analysemodelle
+* Für einen Überblick und einen systematischen Vergleiche, siehe @tango2017
+* Generell variable Kombinationen von Fixed- und Random Effekten möglich
+* Fokus hier auf einem Pretest-Posttest-LMM nach @crager1987 und @chen2006
+* Fokus hier auf Bezügen zu den bisher betrachteten Modellen
+
+
+# Linear-Mixed-Model-Analyse
+\small
+Strukturelle Modellform
+
+\footnotesize
+Für $i = 1,...,n$ Proband:innen seien $y_{i0}$ und $y_{i1}$ die Pretest- bzw. Posttest-Daten.
+
+Dann hat das *Gruppen$\times$Zeitpunkt-LMM mit zufälligem Proband:inneneffekt* die Form
+\footnotesize
+\begin{align}
+\begin{split}
+y_{i0} & = \beta_0 + \beta_1x_i \quad\quad\quad\quad\quad\quad  + b_{i} + \eps_{i0} \\
+y_{i1} & = \beta_0 + \beta_1x_i + \beta_2 + \beta_3x_i          + b_{i} + \eps_{i1} \\
+\end{split}
+\end{align}
+mit
+
+* $x_i := 0$ für Proband:in $i$ in Kontrollgruppe
+* $x_i := 1$ für Proband:in $i$ in Treatmentgruppe
+* $\eps_{i0} \sim N\left(0,\sigma_{\eps}^2\right)$ und $\eps_{i1} \sim N\left(0,\sigma_{\eps}^2\right)$ u.i.v.
+* $b_i \sim N\left(0,\sigma_b^2\right)$ u.i.v.
+
+
+\small
+Parameterbedeutungen
+
+\footnotesize
+\begin{tabular}{ll}
+$\beta_0$       & Erwartungswert im Pretests der Kontrollgruppe                                                                 \\
+$\beta_1$       & Erwartungswertunterschied im Pretest zwischen Kontroll- und Treatmentgruppe                                   \\
+$\beta_2$       & Erwartungswertunterschied zwischen Posttest und Pretest in der Kontrollgruppe                                 \\
+$\beta_3$       & Unterschied der Posttest-Pretest-Erwartungswertunterschiede zwischen Kontroll- und Treatmentgruppe    \\
+$\sigma_\eps^2$ & Varianz der Fehlerterme in Pretest und Posttest in Kontroll- und Treatmentgruppe                              \\
+$\sigma_b^2$    & Varianz des zufälligen Proband:innen-spezifischen Intercepts
+\end{tabular}
+
+# Linear-Mixed-Model-Analyse
+\small
+Designmatrixform für Proband:innen $i = 1,2,3,9,10,11$  des Anwendungsbeispiels
+
+\footnotesize
+\begin{align}
+\begin{split}
+y & = X\beta + Zb + \eps \\
+\Leftrightarrow
+\begin{pmatrix}
+y_{10} \\
+y_{11} \\
+y_{20} \\
+y_{21} \\
+y_{30} \\
+y_{31} \\
+y_{90} \\
+y_{91} \\
+y_{100} \\
+y_{101} \\
+y_{110} \\
+y_{111} \\
+\end{pmatrix}
+& =
+\begin{pmatrix}
+1 & 0 & 0 & 0 \\
+1 & 0 & 1 & 0 \\
+1 & 0 & 0 & 0 \\
+1 & 0 & 1 & 0 \\
+1 & 0 & 0 & 0 \\
+1 & 0 & 1 & 0 \\
+1 & 1 & 0 & 0 \\
+1 & 1 & 1 & 1 \\
+1 & 1 & 0 & 0 \\
+1 & 1 & 1 & 1 \\
+1 & 1 & 0 & 0 \\
+1 & 1 & 1 & 1 \\
+\end{pmatrix}
+\begin{pmatrix}
+\beta_0 \\
+\beta_1 \\
+\beta_2 \\
+\beta_3 \\
+\end{pmatrix}
++
+\begin{pmatrix}
+1 & 0 & 0 & 0 & 0 & 0\\
+1 & 0 & 0 & 0 & 0 & 0\\
+0 & 1 & 0 & 0 & 0 & 0\\
+0 & 1 & 0 & 0 & 0 & 0\\
+0 & 0 & 1 & 0 & 0 & 0\\
+0 & 0 & 1 & 0 & 0 & 0\\
+0 & 0 & 0 & 1 & 0 & 0\\
+0 & 0 & 0 & 1 & 0 & 0\\
+0 & 0 & 0 & 0 & 1 & 0\\
+0 & 0 & 0 & 0 & 1 & 0\\
+0 & 0 & 0 & 0 & 0 & 1\\
+0 & 0 & 0 & 0 & 0 & 1\\
+\end{pmatrix}
+\begin{pmatrix}
+b_1     \\
+b_2     \\
+b_3     \\
+b_9     \\
+b_{10}  \\
+b_{11}  \\
+\end{pmatrix}
++
+\begin{pmatrix}
+\eps_{10} \\
+\eps_{11} \\
+\eps_{20} \\
+\eps_{21} \\
+\eps_{30} \\
+\eps_{31} \\
+\eps_{90} \\
+\eps_{91} \\
+\eps_{100} \\
+\eps_{101} \\
+\eps_{110} \\
+\eps_{111} \\
+\end{pmatrix}
+\end{split}
+\end{align}
+mit
+\begin{equation}
+\eps \sim N(0_{12}, \sigma_\eps^2I_{12}) \mbox{ und } b \sim N(0_{6},\sigma_b^2I_6) \mbox{ u.v. }
+\end{equation}
+
+# Linear-Mixed-Model-Analyse
+\vspace{2mm}
+Expressivität der Fixed-Effects des Modells - Erwartungswerte
+
+```{r, echo = F, eval = F}
+library(latex2exp)
+X           = matrix(c(1,0,0,0,
+                       1,0,1,0,
+                       1,1,0,0,
+                       1,1,1,1), byrow = TRUE, nrow  = 4)
+beta        = matrix(c(  3,   3,  3,  3,
+                       -.1,   0, -1, -1,
+                        -1,  -1, -1, -1,
+                         0,  -1,  0, -1), byrow = TRUE, nrow = 4)
+beta_lab    = c(TeX("$\\beta = (3,0,-1,0)^T$"),
+                TeX("$\\beta = (3,0,-1,-1)^T$"),
+                TeX("$\\beta = (3,-1,-1,0)^T$"),
+                TeX("$\\beta = (3,-1,-1,-1)^T$"))
+pdf(
+file        = "./3-Abbildungen/ivf-3-pre-post-lmm-parameters.pdf",
+width       = 8,
+height      = 8)
+par(
+family      = "sans",
+mfcol       = c(2,2),
+pty         = "s",
+bty         = "l",
+lwd         = 1,
+las         = 1,
+mgp         = c(2,1,0),
+xaxs        = "i",
+yaxs        = "i",
+font.main   = 1,
+cex         = 1,
+cex.main    = 1)
+x           = 1:2
+cols        = c("grey80", "black")
+for(i in 1:ncol(beta)){
+    mu      = X %*% beta[,i]
+    mus     = rbind(mu[1:2], mu[3:4])
+    matplot(
+    x,
+    t(mus),
+    type    = "l",
+    lty     = 1,
+    col     = cols,
+    xaxt    = "n",
+    xlab    = "",
+    ylab    = "",
+    xlim    = c(.8,2.2),
+    ylim    = c(-1, 4),
+    main    = beta_lab[i])
+    for(g in 1:2){
+        points(
+        x,
+        mus[g, ],
+        pch     = 21,
+        col     = "white",
+        bg      = cols[g])
+    }
+    axis(1, at = x, labels = c("Pre", "Post"))
+    legend(
+    "topright",
+    legend  = c("Kontrolle", "Treatment"),
+    col     = "white",
+    pt.bg   = cols,
+    pch     = 21,
+    lty     = 1,
+    bty     = "n",
+    cex     = .9)
+}
+dev.off()
+```
+\vspace{-1mm}
+```{r, echo = FALSE, out.width = "70%", fig.align = "center"}
+knitr::include_graphics("3-Abbildungen/ivf-3-pre-post-lmm-parameters.pdf")
+```
+
+# Linear-Mixed-Model-Analyse
+\vspace{2mm}
+\small
+Modellevaluation für das Anwendungsbeispiel
+\vspace{1mm}
+
+\tiny
+```{r, echo = TRUE}
+library(tidyverse)
+D = read.csv("./3-Daten/pre-post.csv", row.names = 1)                             # Dateneinlesen
+D = D %>% pivot_longer(cols = c(Pre, Post), names_to = "Time", values_to = "Y")   # Long format
+D$Time = factor(D$Time, levels = c("Pre", "Post"))                                # Zeitfaktor-Kodierung
+```
+\setstretch{.8}
+```{r}
+knitr::kable(D, digits = 0)
+```
+
+# Linear-Mixed-Model-Analyse
+\small
+Modellevaluation für das Anwendungsbeispiel
+
+\tiny
+\vspace{2mm}
+```{r, echo = T}
+library(nlme)                                                                           # nlme
+D         = read.csv("./3-Daten/pre-post.csv", row.names = 1)                           # Dateneinlesen
+D         = D %>% pivot_longer(cols = c(Pre, Post), names_to = "Time", values_to = "Y") # Long format
+D$Time    = factor(D$Time, levels = c("Pre", "Post"))                                  # Zeitfaktor-Kodierung
+M         = lme(Y ~ Group*Time, data = D, random = ~ 1 | P)                             # LMM
+X         = model.matrix(M,D)                                                           # Fixed-Effects-Designmatrix
+Z         = model.matrix(~ M$groups[[1]] - 1)                                           # Random-Effects-Designmatrix
+beta_hat  = M$coefficients$fixed                                                        # Fixed-Effects-Schätzer
+b_hat     = M$coefficients$random$P                                                     # Random-Effects-Schätzer
+s_eps_hat = M$sigma**2                                                                  # Varianzkomponentenschätzer
+s_b_hat   = diag(getVarCov(M))                                                          # Varianzkomponentenschätzer
+ci        = intervals(M, level = 0.95, which = "fixed")                                 # Konfidenzintervalle
+```
+\setstretch{1.1}
+```{r, echo = F}
+cat("beta_hat         :", round(beta_hat,2),
+    "\nb_hat            :", round(b_hat,2),
+    "\nsigsqr_b_hat     :", round(s_b_hat,2),
+    "\nsigsqr_eps_hat   :", round(s_eps_hat,2))
+print(ci, digits = 3)                                                           # nlme Konfidenzintervalle
+```
+
+\small
+$\Rightarrow$ Signifikanter Gruppe $\times$ Zeitpunkt-Effekt
+
+# Linear-Mixed-Model-Analyse
+\small
+Visualisierung für das Anwendungsbeispiel
+
+```{r, echo = FALSE, out.width = "60%", fig.align = "center"}
+knitr::include_graphics("3-Abbildungen/ivf-3-pre-post-means.pdf")
+```
+
+# Linear-Mixed-Model-Analyse
+
+Dokumentation
+
+\small
+Anwendungsbeispiel Klinische Psychologie
+
+\footnotesize
+*Eine Linear-Mixed-Model-Analyse mit festen Effekten für Gruppe, Zeitpunkt und
+Gruppe $\times$ Zeitpunkt sowie zufälligem Proband:inneneffekt zeigte einen
+signifikanten Gruppe $\times$ Zeitpunkt-Effekt, b = -4.43, SE = 1.15,
+95%-KI [-6.90, -1.95], t(14) = -3.84, p = .002. Die mittleren Werte lagen in der Kontrollgruppe bei
+35.25 im Pretest und 30.31 im Posttest sowie in der KVT-Gruppe bei 33.10 im
+Pretest und 23.74 im Posttest. Der negative Interaktionseffekt entspricht einer
+um geschätzt 4.43 Skalenpunkte stärkeren Posttest-Pretest-Abnahme der depressiven
+Symptomatik in der KVT-Gruppe.*
+
+\vspace{3mm}
+\small
+Anwendungsbeispiel Umweltpsychologie
+
+\footnotesize
+*Eine Linear-Mixed-Model-Analyse mit festen Effekten für Gruppe, Zeitpunkt und
+Gruppe $\times$ Zeitpunkt sowie zufälligem Proband:inneneffekt ergab einen
+signifikanten Gruppe $\times$ Zeitpunkt-Effekt, b = -4.43, SE = 1.15,
+95%-KI [-6.90, -1.95], t(14) = -3.84, p = .002. Der mittlere Stromverbrauch lag in der Kontrollgruppe
+bei 35.25 im Pretest und 30.31 im Posttest sowie in der Feedbackgruppe bei 33.10
+im Pretest und 23.74 im Posttest. Der negative Interaktionseffekt entspricht
+einer um geschätzt 4.43 Einheiten stärkeren Posttest-Pretest-Verringerung des
+Stromverbrauchs in der Feedbackgruppe.*
+
+
+# Linear-Mixed-Model-Analyse
+\setstretch{1.8}
+\small
+Bivariate Analyse
+
+\small
+Überblick und Hauptaussagen
+
+\vspace{1mm}
+
+\noindent (1) Marginale Datenverteilung des LMMs für Proband:in $i$
+
+$\Rightarrow$ Induktion von Fehlerkovarianz durch zufällige Proband:inneneffekte
+
+\vspace{1mm}
+
+\noindent (2) Induktion des Change-Score-Varianzanalyse-Modells
+
+$\Rightarrow$ Change-Score Varianzanalyse als Differenzvariante des LMMs
+
+\vspace{1mm}
+
+\noindent (3) Posttest-Kovarianzanalysemodell mit Pretest-Kovariate als bedingte Verteilung der Change-Scores
+
+$\Rightarrow$ Kovarianzanalyse als spezialisierte Change-Score-Analyse
+
+
+
+# Linear-Mixed-Model-Analyse
+\small
+Bivariate Analyse
+
+\footnotesize
+\noindent (1) Marginale Datenverteilung des LMMs für Proband:in $i$
+
+Für Proband:in $i$ hat das Gruppen$\times$Zeitpunkt-LMM mit zufälligem Proband:inneneffekt die Designmatrixform
+\begin{align}
+\begin{split}
+y = X\beta + Zb + \eps \Leftrightarrow
+\begin{pmatrix}
+y_{i0} \\
+y_{i1}
+\end{pmatrix}
+=
+\begin{pmatrix}
+1 & x_i & 0 & 0 \\
+1 & x_i & 1 & x_i
+\end{pmatrix}
+\begin{pmatrix}
+\beta_0 \\
+\beta_1 \\
+\beta_2 \\
+\beta_3 \\
+\end{pmatrix}
++
+\begin{pmatrix}
+1 \\
+1
+\end{pmatrix}
+\begin{pmatrix}
+b_i
+\end{pmatrix}
++
+\begin{pmatrix}
+\eps_{i0} \\
+\eps_{i1}
+\end{pmatrix}
+\end{split}
+\end{align}
+mit
+\begin{equation}
+\eps \sim N(0_2, \sigma_\eps^2I_2) \mbox{ und } b \sim N(0,\sigma_b^2) \mbox{ u.v. }
+\end{equation}
+Nach dem Theorem zur marginalen Datenverteilung des Linear-Mixed-Models gilt damit
+\begin{equation}
+y \sim N\left(\mu_y,\Sigma_y\right) \mbox{ mit } \mu_y = X\beta \mbox{ und } \Sigma_y = \sigma_b^2 ZZ^T + \sigma_\eps^2I_2
+\end{equation}
+also
+\begin{equation}
+\mu_y =
+\begin{pmatrix}
+1 & x_i & 0 & 0 \\
+1 & x_i & 1 & x_i
+\end{pmatrix}
+\begin{pmatrix}
+\beta_0 \\
+\beta_1 \\
+\beta_2 \\
+\beta_3 \\
+\end{pmatrix}
+=
+\begin{pmatrix*}[l]
+\beta_0 + \beta_1x_i                         \\
+\beta_0 + \beta_1x_i + \beta_2 + \beta_3x_i  \\
+\end{pmatrix*}
+\end{equation}
+und
+\begin{equation}
+\Sigma_y
+= \sigma_b^2
+\begin{pmatrix}
+1 \\
+1
+\end{pmatrix}
+\begin{pmatrix}
+1 & 1
+\end{pmatrix} +
+\sigma_\eps^2
+\begin{pmatrix}
+1 & 0 \\
+0 & 1
+\end{pmatrix}
+=
+\begin{pmatrix}
+\sigma_b^2 & \sigma_b^2 \\
+\sigma_b^2 & \sigma_b^2
+\end{pmatrix} +
+\begin{pmatrix}
+\sigma_\eps^2 & 0 \\
+0             & \sigma_\eps^2
+\end{pmatrix}
+=
+\begin{pmatrix}
+\sigma_b^2 + \sigma_\eps^2 & \sigma_b^2                 \\
+\sigma_b^2                 & \sigma_b^2 + \sigma_\eps^2
+\end{pmatrix}
+\end{equation}
+
+# Linear-Mixed-Model-Analyse
+\small
+Bivariate Analyse
+
+\footnotesize
+\noindent (1) Marginale Datenverteilung des LMMs für Proband:in $i$
+
+Für Proband:in gilt also
+\begin{equation}
+\begin{pmatrix}
+y_{i0} \\
+y_{i1}
+\end{pmatrix}
+\sim
+N\left(
+\begin{pmatrix}
+\mu_{i0}  \\
+\mu_{i1}
+\end{pmatrix},
+\begin{pmatrix}
+\sigma_{00}^2 & \sigma_{01}^2                 \\
+\sigma_{10}^2 & \sigma_{11}^2
+\end{pmatrix}
+\right)
+\end{equation}
+mit
+\begin{equation}
+\mu_{i0} = \beta_0 + \beta_1x_i \mbox{ und } \mu_{i1} = \beta_0 + \beta_1x_i + \beta_2 + \beta_3x_i
+\end{equation}
+sowie
+\begin{equation}
+\sigma_{00}^2 = \sigma_{11}^2 = \sigma_b^2 + \sigma_\eps^2 \mbox{ und }
+\sigma_{01}^2 = \sigma_{10}^2 = \sigma_b^2
+\end{equation}
+Äquivalent gilt also
+\begin{equation}
+y = X\beta + \epsilon
+\mbox{ mit }
+\epsilon \sim
+N\left(
+\begin{pmatrix}
+0 \\
+0
+\end{pmatrix},
+\begin{pmatrix}
+\sigma_{00}^2 & \sigma_{01}^2                 \\
+\sigma_{10}^2 & \sigma_{11}^2
+\end{pmatrix}
+\right)
+\end{equation}
+Man erkennt also, dass die Annahme eines zufälligen Proband:inneneffektes $i$ in
+der Verteilung der Pretest- und Posttest-Daten von Proband:in $i$ eine Daten- und Fehlerkovarianz von
+\begin{equation}
+\mathbb{C}(y_{i0},y_{i1}) = \sigma_b^2 = \mathbb{C}(\epsilon_{i0}, \epsilon_{i1})
+\end{equation}
+bzw. eine Daten- und Fehlerkorrelation von
+\begin{equation*}
+\rho(y_{i0},y_{i1})
+= \frac{\mathbb{C}(y_{i0},y_{i1})}{\sqrt{\mathbb{V}(y_{i0})}\sqrt{\mathbb{V}(y_{i1})}}
+= \frac{\mathbb{C}(y_{i0},y_{i1})}{\mathbb{V}(y_{i0})}
+= \frac{\sigma_b^2}{\sigma_b^2 + \sigma_\eps^2}
+= \frac{\mathbb{C}(\epsilon_{i0},\epsilon_{i1})}{\mathbb{V}(\epsilon_{i0})}
+= \frac{\mathbb{C}(\epsilon_{i0}, \epsilon_{i1})}{\sqrt{\mathbb{V}(\epsilon_{i0})}\sqrt{\mathbb{V}(\epsilon_{i1})}}
+= \rho(\epsilon_{i0},\epsilon_{i1})
+\end{equation*}
+induziert.
+
+
+```{r}
+set.seed(2)
+library(MASS)
+n           = 20
+mu          = matrix(c(3,1), nrow = 2)
+sigsqr_b    = 1
+sigsqr_eps  = c(.01,100)
+for(s in 1:length(sigsqr_eps)){
+  sigsqr_01   = sigsqr_b/(sigsqr_b + sigsqr_eps[s])
+  Sigma       = matrix(c(1,sigsqr_01, sigsqr_01, 1), nrow = 2)
+  Y           = mvrnorm(n, mu, Sigma)
+  pdf(
+  file        = sprintf("./3-Abbildungen/ivf-3-pre-post-bivariate-%d.pdf",s),
+  width       = 8,
+  height      = 4)
+  par(
+  family      = "sans",
+  mfcol       = c(1,2),
+  pty         = "s",
+  bty         = "l",
+  lwd         = 1,
+  las         = 1,
+  mgp         = c(2,1,0),
+  xaxs        = "i",
+  yaxs        = "i",
+  font.main   = 1,
+  cex         = 1,
+  cex.main    = 1)
+  cols        = c("grey80", "black")
+  matplot(
+  rbind(
+  matrix(Y[,1], ncol = n),
+  matrix(Y[,2], ncol = n)),
+  type        = "l",
+  lty         = 1,
+  col         = "grey",
+  xaxt        = "n",
+  xlab        = "",
+  ylab        = "",
+  ylim        = c(-2,6),
+  xlim        = c(0.8,2.2))
+  matpoints(
+  rbind(
+  matrix(Y[,1], ncol = n),
+  matrix(Y[,2], ncol = n)),
+  pch         = 21,
+  bg          = "black",
+  col         = "white")
+  axis(
+  1,
+  at          = c(1, 2),
+  labels      = c("Pre", "Post"))
+  plot(
+  Y[,1],
+  Y[,2],
+  type        = "p",
+  pch         = 21,
+  bg          = "black",
+  col         = "white",
+  xlim        = c(0, 6),
+  ylim        = c(-2,4),
+  xlab        = "Pre ",
+  ylab        = "Post",
+  main        = "")
+  dev.off()
+}
+```
+
+
+# Linear-Mixed-Model-Analyse
+\small
+Bivariate Analyse
+
+\footnotesize
+\noindent (1) Marginale Datenverteilung des LMMs für Proband:in $i$ für $\sigma_b = 1$, $\sigma_\eps = 0.01$
+\vspace{1mm}
+
+```{r, echo = FALSE, out.width = "100%", fig.align = "center"}
+knitr::include_graphics("3-Abbildungen/ivf-3-pre-post-bivariate-1.pdf")
+```
+# Linear-Mixed-Model-Analyse
+\small
+Bivariate Analyse
+
+\footnotesize
+\noindent (1) Marginale Datenverteilung des LMMs für Proband:in $i$ für $\sigma_b = 1$, $\sigma_\eps = 100$
+\vspace{1mm}
+
+```{r, echo = FALSE, out.width = "100%", fig.align = "center"}
+knitr::include_graphics("3-Abbildungen/ivf-3-pre-post-bivariate-2.pdf")
+```
+
+
+# Linear-Mixed-Model-Analyse
+\small
+Bivariate Analyse
+
+\footnotesize
+\noindent(2) Induktion des Change-Score-Varianzanalyse-Modells durch lineare Transformation von Pre- und Posttest-Daten
+
+Für den Change-Score für Proband:in $i$, also die Posttest-Pretest-Differenz
+\begin{equation}
+d_i := y_{i1} - y_{i0}
+\end{equation}
+betrachten wir die gemeinsame Verteilung des Zufallsvektors
+\begin{equation}
+z := (y_{i0},y_{i1},d_i)^T
+\end{equation}
+vor dem Hintergrund des Gruppen$\times$Zeitpunkt-LMMs mit zufälligem Proband:inneneffekt. Dazu halten wir
+zunächst fest, dass
+\begin{equation}
+z = Ay \mbox{ mit}
+A :=
+\begin{pmatrix}
+ 1 & 0 \\
+ 0 & 1 \\
+-1 & 1
+\end{pmatrix},
+\end{equation}
+denn
+\begin{equation}
+Ay =
+\begin{pmatrix}
+ 1 & 0 \\
+ 0 & 1 \\
+-1 & 1
+\end{pmatrix}
+\begin{pmatrix}
+y_{i0} \\
+y_{i1} \\
+\end{pmatrix}
+=
+\begin{pmatrix}
+y_{i0} \\
+y_{i1} \\
+y_{i1} - y_{i0} \\
+\end{pmatrix}
+=
+\begin{pmatrix}
+y_{i0} \\
+y_{i1} \\
+d_{i}  \\
+\end{pmatrix}
+\end{equation}
+
+# Linear-Mixed-Model-Analyse
+\small
+Bivariate Analyse
+
+\footnotesize
+\noindent(2) Induktion des Change-Score-Varianzanalyse-Modells durch lineare Transformation von Pre- und Posttest-Daten
+
+Also gilt mit dem Theorem zu linearen Transformation normalverteilter Zufallsvektoren, dass
+\begin{equation}\label{eq:pz}
+z \sim N(\mu_z, \Sigma_z)
+\mbox{ mit }
+\mu_z
+=
+A
+\begin{pmatrix}
+\mu_{i0} \\
+\mu_{i1}
+\end{pmatrix}
+\mbox{ und }
+\Sigma_z
+=
+A
+\begin{pmatrix}
+\sigma_{01}^2 & \sigma_{01}^2                 \\
+\sigma_{10}^2 & \sigma_{11}^2
+\end{pmatrix}
+A^T.
+\end{equation}
+Speziell ergibt sich
+\begin{align}
+\begin{split}
+\mu_z
+& =
+\begin{pmatrix}
+ 1 & 0 \\
+ 0 & 1 \\
+-1 & 1
+\end{pmatrix}
+\begin{pmatrix}
+\mu_{i0} \\
+\mu_{i1}
+\end{pmatrix} \\
+& =
+\begin{pmatrix}
+\mu_{i0} \\
+\mu_{i1} \\
+\mu_{i1} - \mu_{i0}
+\end{pmatrix} \\
+& =
+\begin{pmatrix*}[l]
+\beta_0 + \beta_1x_i                                                  \\
+\beta_0 + \beta_1x_i + \beta_2 + \beta_3x_i                           \\
+\beta_0 + \beta_1x_i + \beta_2 + \beta_3x_i - (\beta_0 + \beta_1x_i)  \\
+\end{pmatrix*} \\
+& =
+\begin{pmatrix*}[l]
+\beta_0 + \beta_1x_i                          \\
+\beta_0 + \beta_1x_i + \beta_2 + \beta_3x_i   \\
+\beta_2 + \beta_3x_i                          \\
+\end{pmatrix*}.
+\end{split}
+\end{align}
+
+
+# Linear-Mixed-Model-Analyse
+\small
+Bivariate Analyse
+
+\footnotesize
+\noindent(2) Induktion des Change-Score-Varianzanalyse-Modells durch lineare Transformation von Pre- und Posttest-Daten
+
+Weiterhin ergibt sich
+\begin{align}
+\begin{split}
+\Sigma_z
+& =
+\begin{pmatrix}
+1   &   0 \\
+0   &   1 \\
+-1  &   1
+\end{pmatrix}
+\begin{pmatrix}
+\sigma_{00}^2 & \sigma_{01}^2\\
+\sigma_{10}^2  & \sigma_{11}^2
+\end{pmatrix}
+\begin{pmatrix}
+1 & 0 & -1  \\
+0 & 1 & 1
+\end{pmatrix} \\
+& =
+\begin{pmatrix}
+\sigma_{00}^2                   & \sigma_{01}^2                        \\
+\sigma_{10}^2                   & \sigma_{11}^2                         \\
+\sigma_{10}^2 - \sigma_{00}^2   & \sigma_{11}^2 - \sigma_{01}^2
+\end{pmatrix}
+\begin{pmatrix}
+1 & 0 & -1  \\
+0 & 1 & 1
+\end{pmatrix} \\
+& =
+\begin{pmatrix}
+\sigma_{00}^2
+& \sigma_{01}^2
+& \sigma_{01}^2- \sigma_{00}^2
+\\
+\sigma_{10}^2
+& \sigma_{11}^2
+& \sigma_{11}^2 - \sigma_{10}^2
+\\
+  \sigma_{10}^2 - \sigma_{00}^2
+& \sigma_{11}^2 - \sigma_{01}^2
+& \sigma_{11}^2 - \sigma_{01}^2- \left(\sigma_{10}^2 - \sigma_{00}^2\right)
+\end{pmatrix}
+\\
+& =
+\begin{pmatrix}
+  \sigma_{00}^2
+& \sigma_{01}^2
+& \sigma_{01}^2- \sigma_{00}^2
+\\
+  \sigma_{10}^2
+& \sigma_{11}^2
+& \sigma_{11}^2 - \sigma_{10}^2
+\\
+  \sigma_{01}^2- \sigma_{00}^2
+& \sigma_{11}^2 - \sigma_{01}^2
+& \sigma_{00}^2 + \sigma_{11}^2 - 2\sigma_{01}^2
+\end{pmatrix}.
+\end{split}
+\end{align}
+
+# Linear-Mixed-Model-Analyse
+\small
+Bivariate Analyse
+
+\footnotesize
+\noindent(2) Induktion des Change-Score-Varianzanalyse-Modells durch lineare Transformation von Pre- und Posttest-Daten
+
+Ablesen der Marginalverteilung von $d_i = y_{i1} - y_{i0}$ ergibt damit mit
+\begin{equation}
+\sigma_{00}^2 + \sigma_{11}^2 - 2\sigma_{01}^2 = 2\sigma_b^2 + 2\sigma_\eps^2 - 2\sigma_b^2 =   2\sigma_\eps^2
+\end{equation}
+dass
+\begin{equation}
+y_{i1} - y_{i0} \sim N\left(\beta_2 + \beta_3x_i, 2\sigma_\eps^2 \right)
+\end{equation}
+oder äquivalent
+\begin{equation}
+y_{i1} - y_{i0} = \beta_2 + \beta_3x_i + \eps_i \mbox{ mit } \eps_i \sim N\left(0, 2\sigma_\eps^2 \right)
+\end{equation}
+Umbenennen der Parameter durch
+\begin{equation}
+\beta_2 \mapsto \beta_0,\,\, \beta_3 \mapsto \beta_1 \mbox{ und } 2\sigma_\eps^2 \mapsto \sigma^2
+\end{equation}
+zeigt dann die Äquivalenz zur strukturellen Modellform der Change-Score-Varianzanalyse
+\begin{equation}
+y_{i1} - y_{i0} = \beta_0 + \beta_1x_i + \eps_i \mbox{ mit } \eps_i \sim  N\left(0, \sigma^2 \right).
+\end{equation}
+Das Change-Score-Varianzanalysemodell ist also das ALM, das sich durch Posttest-Pretest-Differenzbildung
+im Gruppen$\times$Zeitpunkt-LMM mit zufälligen Proband:inneneffekten ergibt. Man beachte
+die identische Parameterbedeutungen der entsprechenden Fixed-Effects-Parameter sowie die Tatsache,
+dass der Varianzeffekt der Posttest-Pretest-Differenzen über Proband:innen $\left(\sigma_b^2\right)$
+durch Differenzbildung innerhalb der Proband:innen aus dem Modell entnommen wird.
+
+
+# Linear-Mixed-Model-Analyse
+\small
+Bivariate Analyse
+
+\footnotesize
+\noindent(3) Posttest-Kovarianzanalysemodell mit Pretest-Kovariate als bedingte Verteilung der Change-Scores
+
+Wir betrachten schließlich die bedingte Verteilung der Posttest-Pretest-Differenzen gegeben die Pretest-Werte.
+Anhand der gemeinsamen Verteilung (vgl. Gleichung \eqref{eq:pz}) von $y_{i0},y_{i1}$ und $d_i$ ergibt sich mit dem
+Theorem zu bedingten Normalverteilungen
+\begin{equation}
+d_i | y_{i0} \sim N\left(\mu_{d_i|y_{i0}}, \Sigma_{d_i|y_{i0}} \right)
+\end{equation}
+Insbesondere ergibt sich mit $\rho_{01} := \rho(y_{i0},y_{i1}) = \sigma^2_{01}/\sigma_{00}^2$, dass
+\begin{align}
+\begin{split}
+\mu_{d_i|y_{i0}}
+& = \mu_{d_i} + \mathbb{C}(d_i,y_{i0})\mathbb{V}(y_{i0})^{-1}(y_{i0} - \mu_{y_{i0}})                                                              \\
+& = \beta_2 + \beta_3x_i + \left(\frac{\sigma^2_{01} - \sigma_{00}^2}{\sigma_{00}^2}\right)(y_{i0} - \beta_0 - \beta_1x_i)                        \\
+& = \beta_2 + \beta_3x_i + \left(\frac{\sigma^2_{01}}{\sigma_{00}^2} - \frac{\sigma^2_{00}}{\sigma_{00}^2}\right)(y_{i0} - \beta_0 - \beta_1x_i)  \\
+& = \beta_2 + \beta_3x_i + \left(\rho_{01} - 1 \right)(y_{i0} - \beta_0 - \beta_1x_i)                                                             \\
+& = \beta_2 + \beta_3x_i + \rho_{01}y_{i0} - y_{i0} -  \rho_{01}\beta_0 + \beta_0 - \rho_{01}\beta_1x_i + \beta_1x_i                              \\
+& = \beta_0 - \rho_{01}\beta_0 + \beta_1x_i - \rho_{01}\beta_1x_i + \beta_2 + \beta_3x_i + \rho_{01}y_{i0} - y_{i0}                               \\
+& = (1 - \rho_{01})\beta_0 + (1-\rho_{01})\beta_1x_i + \beta_2 + \beta_3x_i + (\rho_{01} - 1)y_{i0}                                                \\
+\end{split}
+\end{align}
+
+
+# Linear-Mixed-Model-Analyse
+\small
+Bivariate Analyse
+
+\footnotesize
+\noindent(3) Posttest-Kovarianzanalysemodell mit Pretest-Kovariate als bedingte Verteilung der Change-Scores
+
+Weiterhin gilt
+\begin{align}
+\begin{split}
+\Sigma_{d_i|y_{i0}}
+& = \mathbb{V}(d_i) - \mathbb{C}(d_i, y_{i0})\mathbb{V}(y_{i0})^{-1}\mathbb{C}(y_{i0}, d_i) \\
+& = \sigma_{00}^2 + \sigma_{11}^2 - 2\sigma_{01}^2 - \frac{\left(\sigma_{01}^2 - \sigma_{00}^2\right)^2}{\sigma_{00}^2} \\
+& = \frac{\sigma_{00}^4 + \sigma_{11}^2\sigma_{00}^2 - 2\sigma_{01}^2\sigma_{00}^2}{\sigma_{00}^2}
+    - \frac{\sigma_{01}^4 - 2\sigma_{01}^2\sigma_{00}^2 + \sigma_{00}^4}{\sigma_{00}^2}  \\
+& = \frac{\sigma_{00}^4 + \sigma_{11}^2\sigma_{00}^2 - 2\sigma_{01}^2\sigma_{00}^2 - \sigma_{01}^4 + 2\sigma_{01}^2\sigma_{00}^2 -\sigma_{00}^4}{\sigma_{00}^2} \\
+& = \frac{\sigma_{11}^2\sigma_{00}^2 - \sigma_{01}^4}{\sigma_{00}^2} \\
+& = \frac{\sigma_{11}^2\sigma_{00}^2}{\sigma_{00}^2} - \frac{\sigma_{01}^4}{\sigma_{00}^2} \\
+& = \sigma_{11}^2 - \frac{\sigma_{01}^4}{\sigma_{00}^2} \\
+\end{split}
+\end{align}
+
+# Linear-Mixed-Model-Analyse
+\small
+Bivariate Analyse
+
+\footnotesize
+\noindent(3) Posttest-Kovarianzanalysemodell mit Pretest-Kovariate als bedingte Verteilung der Change-Scores
+
+Es ergibt sich also
+\begin{equation}
+y_{i1} - y_{i0} | y_{i0}
+\sim
+N\left((1-\rho_{01})\beta_0 + (1-\rho_{01})\beta_1x_i + \beta_2 + \beta_3x_i + (\rho_{01}- 1)y_{i0}, \sigma_{11}^2 - \frac{\sigma_{01}^4}{\sigma_{00}^2}  \right)
+\end{equation}
+ bzw.
+\begin{equation}
+y_{i1} - y_{i0} | y_{i0}
+= (1-\rho_{01})\beta_0 + (1-\rho_{01})\beta_1x_i + \beta_2 + \beta_3x_i + (\rho_{01}- 1)y_{i0} + \eps_{i}
+\mbox{ mit }
+\eps_{i} \sim N\left(0, \sigma_{11}^2 - \frac{\sigma_{01}^4}{\sigma_{00}^2}  \right)
+\end{equation}
+Nimmt man nun weiterhin an, dass es für die Pretestwerte keine Gruppenunterschiede gibt,
+also dass $\beta_1 := 0$, so erhält man (vgl. @chen2006, Seite 4163 oben)
+\begin{align}
+\begin{split}
+y_{i1} - y_{i0} | y_{i0}
+& = (1-\rho_{01})\beta_0 + \beta_2 + \beta_3x_i + (\rho_{01}- 1)y_{i0} + \eps_{i} \\
+\Leftrightarrow
+y_{i1} - y_{i0} | y_{i0}
+& = (1-\rho_{01})\beta_0 + \beta_2 + \beta_3x_i + \rho_{01}y_{i0} - y_{i0} + \eps_{i} \\
+\Leftrightarrow
+y_{i1} | y_{i0}
+& = (1-\rho_{01})\beta_0 + \beta_2 + \beta_3x_i + \rho_{01}y_{i0}  + \eps_{i} \\
+\end{split}
+\end{align}
+
+# Linear-Mixed-Model-Analyse
+\small
+Bivariate Analyse
+
+\footnotesize
+\noindent(3) Posttest-Kovarianzanalysemodell mit Pretest-Kovariate als bedingte Verteilung der Change-Scores
+
+Umbenennen der Parameter durch
+\begin{equation}
+(1-\rho_{01})\beta_0 + \beta_2  \mapsto \beta_0,\,\,
+\beta_3 \mapsto \beta_1, \,\,
+\rho_{01} \mapsto \beta_2  \mbox{ und }
+\sigma_{11}^2 - \frac{\sigma_{01}^4}{\sigma_{00}^2} \mapsto \sigma^2
+\end{equation}
+zeigt dann die Äquivalenz zur strukturellen Modellform der Posttest-Kovarianzanalyse mit Pretest-Kovariate
+\begin{equation}
+y_{i1} | y_{i0} = \beta_0 + \beta_1x_i + \beta_2y_{i0} + \eps_i \mbox{ mit } \eps_i \sim  N\left(0, \sigma^2 \right).
+\end{equation}
+Insbesondere zeigen sich dabei der auf den Pretest-Werten-bedingte Charakter dieses Modells sowie die
+Tatsache, dass der Koeffizient der Pretest-Werte im Posttest-Kovarianzanalysemodell
+im hier betrachteten Spezialfall der Korrelation
+\begin{equation}
+\rho_{01} = \rho(y_{i0},y_{i1}) = \frac{\sigma_b^2}{\sigma_b^2 + \sigma_{\eps}^2}
+\end{equation}
+der Pretest-Posttest-Werte bzw. Fehlervariablen entspricht (vgl. Theorem A.1 in @crager1987).
+
+#
+\vfill
+\setstretch{2.3}
+\large
+Einführung
+
+Posttest-Varianzanalyse
+
+Posttest-Kovarianzanalyse mit Pretest-Kovariate
+
+Change-Score-Varianzanalyse
+
+Linear-Mixed-Model-Analyse
+
+**Selbstkontrollfragen**
+\vfill
+
+# Selbstkontrollfragen
+\footnotesize
+\setstretch{2}
+
+1. Erläutern Sie die wesentlichen Charakteristika eines Parallelgruppen-Pretest-Posttest-Designs.
+1. Nennen Sie vier mögliche Datenanalysen für Parallelgruppen-Pretest-Posttest-Designs.
+1. Erläutern Sie das Modell der Posttest-Varianzanalyse.
+1. Erläutern Sie das Modell der Posttest-Kovarianzanalyse mit Pretest-Kovariate.
+1. Erläutern Sie den Begriff der adjustierten Posttest-Gruppenmittelwerte.
+1. Erläutern Sie die Bedeutung adjustierter Posttest-Gruppenmittelwerte für randomisierte ("experimentelle") und nicht-randomisierte ("quasiexperimentelle") Studien.
+1. Erläutern Sie das Modell der Change-Score-Varianzanalyse.
+1. Geben Sie die speziellen Äquivalenzen zwischen den Modellen der Posttest-Varianzanalyse, der Posttest-Kovarianzanalyse mit Pretest-Kovariate und der Change-Score-Varianzanalyse wieder.
+1. Erläutern Sie das Lord Paradox.
+1. Erläutern Sie den Regression-zur-Mitte-Effekt.
+1. Erläutern Sie das Gruppen $\times$ Zeitpunkt-LMM mit zufälligem Proband:inneneffekt
+
+# Referenzen {.allowframebreaks}
+\footnotesize
+
+ -->
+
+
