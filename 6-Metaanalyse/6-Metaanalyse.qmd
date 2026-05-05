@@ -1,0 +1,2833 @@
+---
+fontsize: 8pt
+format:
+    beamer:
+        include-in-header: "6-Header.tex"
+bibliography: 6-Referenzen.bib
+---
+
+#  {.plain}
+\center
+```{r, echo = FALSE, out.width = "20%", fig.align = "center"}
+knitr::include_graphics("6-Abbildungen/ivf-6-otto.png")
+```
+\vspace{2mm}
+
+\huge
+Interventionsforschung
+\vspace{4mm}
+
+\large
+MSc Klinische Psychologie und Psychotherapie
+
+MSc Umweltpsychologie / Mensch-Technik-Interaktion
+
+\vspace{2mm}
+SoSe 2026
+
+\vspace{2mm}
+\normalsize
+Prof. Dr. Dirk Ostwald
+
+#  {.plain}
+\vfill
+\center
+\huge
+\textcolor{black}{(6) Metaanalyse}
+\vfill
+
+#
+\vfill
+\setstretch{2.7}
+\large
+Einführung
+
+Effektstärkeschätzung
+
+Fixed-Effects-Modelle
+
+Random-Effects-Modelle
+
+Selbstkontrollfragen
+\vfill
+
+#
+\vfill
+\setstretch{2.7}
+\large
+**Einführung**
+
+Effektstärkeschätzung
+
+Fixed-Effects-Modelle
+
+Random-Effects-Modelle
+
+Selbstkontrollfragen
+\vfill
+
+# Einführung
+\setstretch{1.6}
+\large
+Definitionsversuch
+
+\normalsize
+Metaanalyse
+
+... ist eine Gruppe quantitativer Methoden zur Kombination von Evidenz
+
+... ist die Analyse der Resultate statistischer Analysen
+
+... ist überwiegend frequentistisch geprägt
+
+\vspace{2mm}
+
+\setstretch{1.4}
+\small
+
+@glass1976 "Primary, Secondary, and Meta-Analysis of Research"
+
+"My major interest currently is in what we have come to call — not for want of
+a less pretentious name — the **meta-analysis of research**. The term is a bit grand,
+but it is precise, and apt, and in the spirit of "meta-mathematics," "meta-psychology,"
+and "meta-evaluation." Meta-anal­ysis refers to the analysis of analy­ses. I use it
+to refer to the statistical analysis of a large collection of anal­ysis results
+from individual studies for the purpose of integrating the findings. It connotes
+a rigorous al­ternative to the casual, narrative discussions of research studies
+which typify our attempts to make sense of the rapidly expanding research liter­ature."
+
+\footnotesize
+\flushright
+@glass1976
+
+# Einführung
+Ethischer Imperativ
+\small
+\setstretch{2.2}
+
+* Die Öffentlichkeit investiert substantielle Mittel in die (außer)universitäre Forschung.
+* Neben wenigen Großforschungsprojekten gibt es viele kleine Forschungsprojekte.
+* Die Kleinforschungsprojekte sind oft nicht zentralisiert und interessens- und zufallsgeleitet.
+* Empirische Wissenschaft basiert auf der Replikation oder Nichtreplikation von Erkenntnissen.
+* Die Analyse von Kleinforschungsergebnissen hat den potenziellen Mehrwert von Großforschung.
+* Es ist intuitiv sinnvoll und plausibel nach der gesammelten Evidenz für etwas zu fragen.
+* Metaanalysen wird das Potential zugeschrieben, aussagekräftiger als Einzelstudien zu sein.
+* Entscheidungsrelevante Aussagen werden gerne aufgrund großer Datenmengen getroffen.
+* Forschung hat die Pflicht, integrierte Evidenz dem Wohle der Gesellschaft bereitzustellen.
+
+\flushright
+\footnotesize
+@borenstein2009, @harrer2021
+
+# Einführung
+\setstretch{1.8}
+\small
+Narrative Reviews
+
+* Standard der Akkumulation wissenschaftlicher Evidenz bis etwa 1990
+* Subjektive und intransparente Auswahl von Studien durch Expert:innen
+* Nicht-explizite und qualitative Gewichtung von Studien
+* Relativ gut möglich bei eher geringer Anzahl von zu inkludierenden Studien
+
+Systematische Reviews und Metaanalysen
+
+* Standard der Akkumulation wissenschaftlicher Evidenz seit etwa 2000
+* Transparente Auswahl von Studien anhand festgelegter Kriterien
+* Explizite, quantitative Wichtung von Studien mithilfe metaanalytischer Statistik
+* Hilfreich bei einer großen Anzahl von zu inkludierenden Studien durch Automatisierung
+
+\flushright
+\footnotesize
+@borenstein2009, @harrer2021
+
+# Einführung
+\vspace{2mm}
+\setstretch{1}
+Metaanalysen in der Psychotherapieforschung
+
+\small
+@eysenck1952
+
+\footnotesize
+"A survey was made of reports on the im­provement of neurotic patients after
+psycho­therapy, and the results compared with the best available estimates of
+recovery without benefit of such therapy. **The figures fail to support the hypothesis
+that psychotherapy facilitates re­covery from neurotic disorder**. In view of the
+many difficulties attending such actuarial com­parisons, no further conclusions
+could be de­rived from the data whose shortcomings high­light the necessity of
+properly planned and executed experimental studies into this im­portant field."
+
+\small
+@smith1977
+
+\footnotesize
+"Results of nearly 400 controlled evaluations of psychotherapy and counseling
+were coded and integrated statistically. **The findings provide convincing evidence
+of the efficacy of psychotherapy**. On the average, the typical therapy client is
+better off than 75% of untreated individuals. Few important differences in
+effectiveness could be established among many quite different types of psychotherapy.
+More generally, virtually no difference in effectiveness was observed between
+the class of all behavioral therapies (systematic desensitization, behavior
+modification) and the nonbehavioral therapies (Rogerian, psychodynamic, rational-emotive,
+transactional analysis, etc.)."
+
+
+\small
+@cuijpers2019
+\footnotesize
+
+"In the 1950s, Eysenck suggested that psychotherapies may not be effective at all.
+Twenty-five years later, the first meta-analysis of randomised controlled trials
+showed that the effects of psychotherapies were considerable and that Eysenck was wrong.
+However, since that time methods have become available to assess biases in meta-analyses.
+We examined the influence of these biases on the effects of psychotherapies for
+adult depression, including risk of bias, publication bias and the exclusion of
+waiting list control groups. The unadjusted effect size of psychotherapies compared
+with control groups was g = 0.70 (limited to Western countries: g = 0.63) (...).
+Only 23% of the studies could be considered as a low risk of bias. **When adjusting
+for several sources of bias, the effect size across all types of therapies dropped
+to g = 0.31.**"
+
+\flushright
+\footnotesize
+@borenstein2009, @harrer2021
+
+
+# Einführung
+\vspace{2mm}
+\setstretch{1.6}
+Metaanalysen in der Medizin
+\small
+
+* Inhaltliche Beiträge, z.B. @peto1980
+* Methodische Beiträge, z.B. @dersimonian1986
+* Richtlinien, z.B. @moher2009
+
+[\textcolor{darkblue}{Cochrane Collaboration}](https://www.cochrane.org/)
+
+\small
+* Stiftung zur Förderung der evidenzbasierten metaanalytischen Medizin seit 1993
+* [\textcolor{darkblue}{www.cochrane.org}](https://www.cochrane.org/)
+
+
+\normalsize
+[\textcolor{darkblue}{Campbell Collaboration}](https://www.campbellcollaboration.org/)
+
+\small
+* Stiftung zur Förderung der evidenzbasierten metaanalytischen Sozialwissenschaft seit 2000
+* [\textcolor{darkblue}{www.campbellcollaboration.org}](https://www.campbellcollaboration.org/)
+
+
+
+# Einführung
+Typische Charakteristika des Metaanalysen-Genres
+\setstretch{2.5}
+
+\small
+* Orientierung am [\textcolor{darkblue}{PRISMA Statement}](https://www.prisma-statement.org/) (@page2021)
+* Spezifikation von Suchtermen für Studiendatenbanken wie [\textcolor{darkblue}{Web Of Science}](https://bit.ly/445JN1V)
+* Spezifikation des Studienscreenings
+* Extraktion von Effektstärken (Cohen's $d$)
+* Korrektur von Effektstärken (Hedges' $g$)
+* Angabe eines "mittleren" Hedges' $g$
+* Mehrebenenanalyse mithilfe eines Linear Mixed Models
+* Versuche der Qualifikation und evtl. Quantifizierung und Korrektur von Biases
+
+\flushright
+\footnotesize
+@borenstein2009, @harrer2021
+
+# Einführung
+\small
+PRISMA (Preferred Reporting Items for Systematic reviews and Meta-Analyses) Checklist
+
+```{r, echo = FALSE, out.width = "80%", fig.align = "center"}
+knitr::include_graphics("6-Abbildungen/ivf-6-prisma-1.pdf")
+```
+
+# Einführung
+\small
+PRISMA (Preferred Reporting Items for Systematic reviews and Meta-Analyses) Checklist
+
+```{r, echo = FALSE, out.width = "80%", fig.align = "center"}
+knitr::include_graphics("6-Abbildungen/ivf-6-prisma-2.pdf")
+```
+
+# Einführung
+\small
+\vspace{2mm}
+Versuche der Qualifikation von Biases
+
+Einschätzung des Verzerrungsrisikos anhand des [\textcolor{darkblue}{Cochrane Risk of Bias Tools}](https://methods.cochrane.org/risk-bias-2)
+\vspace{1mm}
+
+```{r, echo = FALSE, out.width = "40%", fig.align = "center"}
+knitr::include_graphics("6-Abbildungen/ivf-6-schaeuffele-cochrane-robt-1.pdf")
+```
+\vspace{3mm}
+```{r, echo = FALSE, out.width = "70%", fig.align = "center"}
+knitr::include_graphics("6-Abbildungen/ivf-6-schaeuffele-cochrane-robt-2.pdf")
+```
+
+\footnotesize
+\flushright
+@schaeuffele2024
+
+# Einführung
+\small
+\vspace{2mm}
+Cochrane Risk of Bias Tool als Teil der kommerziellen Cochrane RevMan Software
+
+\vspace{3mm}
+```{r, echo = FALSE, out.width = "70%", fig.align = "center"}
+knitr::include_graphics("6-Abbildungen/ivf-6-cochrane-revman.png")
+```
+
+
+
+# Einführung
+\vspace{1mm}
+Typische Probleme des Metaanalyse-Genres
+\small
+
+Apples and Oranges
+
+* Metaanalysen integrieren Studien, die sich in experimentellen Details unterscheiden
+* Die zulässige experimentelle Varianz hängt von der metaanalytischen Fragestellung ab
+
+Garbage In, Garbage Out
+
+* Die Qualität eines metaanalytischen Ergebnisses hängt von der Qualität der Primärstudien ab
+* Bei geringer Primärstudienqualität kann eine Metaanalyse zumindest diese Erkenntnis bringen
+
+
+The Filedrawer Problem
+
+* Nicht jede themenrelevante Forschung wird tatsächlich auch publiziert
+* Insbesondere sind meist hochwertig angefertigte Nullresultatstudien unterrepräsentiert
+
+Researcher Agendas
+
+* Jeder Studienreport, auch eine Metaanalyse, ist letztlich ein Kommunikationsakt
+* Die Kommunikationssender sind bewusst oder unbewusst nicht frei von eigenen Motiven
+
+\vspace{1mm}
+\flushright
+\footnotesize
+@borenstein2009, @harrer2021
+
+#
+\vfill
+\setstretch{2.7}
+\large
+Einführung
+
+**Effektstärkeschätzung**
+
+Fixed-Effects-Modelle
+
+Random-Effects-Modelle
+
+Selbstkontrollfragen
+\vfill
+
+# Effektstärkeschätzung
+Anwendungsbeispiel
+
+\small
+Was Eysenck right after all? A reassessment of the effects of psychotherapy for adult depression
+
+\footnotesize
+"We used a database of randomised trials of psychotherapies for adult depression that has been described
+in a methods paper (Cuijpers et al. 2008a). The general methods we have used in this paper
+have been described in a manual that is freely available (Cuijpers, 2016b). In brief, the database was developed
+through a comprehensive literature search (from 1966 until 1 January 2017), and is updated every year. We
+searched major bibliographical databases (PsycINFO, PubMed, Embase, Cochrane Central Register of
+Controlled Trials). The full search string for PubMed is given in Appendix A.
+
+In this database, we included all randomised trials in which at least one arm was a psychological treatment
+for adults (>18 years) with a depressive disorder according to a diagnostic interview or an elevated level
+of depressive symptomatology (as indicated by a score above a cut-off score on a validated self-report depression
+scale). In the current study, we only used trials that compared a psychotherapy for adult depression
+with a control group (waiting list, care-as-usual, placebo or other; this last category included control conditions
+that could not be categorised into one of the three categories, such as participation in online discussion
+forums, in workshops on other subjects, routine care in general medical care or an information booklet).
+
+**We calculated effect sizes (Hedges’ g) for each comparison between a psychotherapy and a comparison group.
+We only included outcome measures that assess depressive symptoms.** If there is more than one measure of depression,
+these are pooled within the study, before the overall effects are pooled across studies."
+
+\flushright
+@cuijpers2019
+
+# Effektstärkeschätzung
+Anwendungsbeispiel
+
+\small
+Was Eysenck right after all? A reassessment of the effects of psychotherapy for adult depression
+
+```{r, echo = FALSE, out.width = "42%", fig.align = "center"}
+knitr::include_graphics("6-Abbildungen/ivf-6-cuijpers-table.pdf")
+```
+
+\footnotesize
+\flushright
+@cuijpers2019
+
+
+# Effektstärkeschätzung
+Anwendungsbeispiel
+
+\small
+Is psychotherapy effective? A re-analysis of treatments for depression
+
+```{r, echo = FALSE, out.width = "45%", fig.align = "center"}
+knitr::include_graphics("6-Abbildungen/ivf-6-munder-figure.pdf")
+```
+
+\footnotesize
+\flushright
+@munder2019
+
+# Effektstärkeschätzung
+Cohen's $d$ in den Worten von Jacob Cohen
+
+\tiny
+"Thus, we see that the absence of the phenomenon under study is expressed by a
+null hypothesis which specifies an exact value for a population parameter, one
+which is appropriate to the way the phenomenon under study is manifested.
+Without intending any necessary implication of causality, **it is convenient to
+use the phrase "effect size" to mean "the degree to which the phenomenon is
+present in the population," or "the degree to which the null hypothesis is false."**
+
+Whatever the manner of representation of a phenomenon in a particular research
+in the present treatment, the null hypothesis always means that the effect size
+is zero. By the above route, it can now readily be made clear that when the
+null hypothesis is false, it is false to some specific degree, i.e., the effect size
+(ES) is some specific nonzero value in the population. The larger this value,
+the greater the degree to which the phenomenon under study is manifested.
+Thus, in terms of the previous illustrations:
+
+1. If the percentage of males in the population of psychiatric patients bearing a
+diagnosis of paranoid schizophrenia is 52%. and the effect is measured as
+a departure from the hypothesized 50%. the ES is 2%; if it is 60%, the ES is 10%, a larger ES.
+2. If children of multiple births have a population mean IQ of 96, the ES is 4 IQ units
+(or- 4, depending on directionality of significance criterion); if it is 92,
+the ES is 8 (or - 8) IQ units, i.e., a larger ES."
+3. If the population product moment r between neurophysiological and questionnaire
+measures of introversion-extroversion is .30, the ES is .30; if  r is .60, so is t
+he ES, a larger value and a larger departure from the null hypothesis, which here
+is r = 0.
+4. If the population of consumers preferring brand A has a median annual income
+$700 higher than that of brand B, the ES is $700. If the population median
+difference and hence the ES is $1000, the effect of income on brand preference
+would be larger.
+
+Thus, whether measured in one unit or another, whether expressed  as a difference
+between two population parameters or the departure of a population parameter
+from a constant or in any other suitable way, the ES can itself be treated as
+a parameter which takes the value zero when the null hypothesis is true and some
+other specific nonzero value when the null hypothesis is false, and in this way
+the ES serves as an index of degree of departure from the null hypothesis."
+
+\flushright
+\footnotesize
+@cohen1988 Statistical power analysis for the behavioral sciences
+
+# Effektstärkeschätzung
+Cohen's $d$ in den Worten von Jacob Cohen
+\vspace{2mm}
+
+```{r, echo = FALSE, out.width = "65%", fig.align = "center"}
+knitr::include_graphics("6-Abbildungen/ivf-6-cohens-d-1.pdf")
+```
+
+\flushright
+\footnotesize
+@cohen1988 Statistical power analysis for the behavioral sciences
+
+# Effektstärkeschätzung
+Cohen's $d$ in den Worten der metaanalytischen Community
+\vspace{2mm}
+
+```{r, echo = FALSE, out.width = "55%", fig.align = "center"}
+knitr::include_graphics("6-Abbildungen/ivf-6-cohens-d-2.pdf")
+```
+\vspace{-15mm}
+```{r, echo = FALSE, out.width = "57%", fig.align = "center"}
+knitr::include_graphics("6-Abbildungen/ivf-6-cohens-d-3.pdf")
+```
+
+\flushright
+\footnotesize
+@borenstein2009 Introduction to Meta-Analysis
+
+
+# Effektstärkeschätzung
+\footnotesize
+\vspace{3mm}
+\setstretch{1.2}
+\begin{definition}[Cohen's $d$ im Parallelgruppen-Design]
+\justifying
+Gegeben seien ein Parallelgruppen-Design mit einer Treatmentgruppe $t$
+und einer Kontrollgruppe $c$ und es seien
+\begin{equation}
+y_{t1}, ..., y_{tn_t} \mbox{ und } y_{c1}, ..., y_{cn_c}
+\end{equation}
+die skalaren reellen Werte des primären Ergebnismaßes jeder Gruppe. Es seien weiterhin
+\begin{equation}
+\bar{y}_t := \frac{1}{n_t}\sum_{j=1}^{n_t} y_{tj}, \quad
+s_t^2     := \frac{1}{n_t - 1}\sum_{j=1}^{n_t} \left(y_{tj} - \bar{y}_t\right)^2 \mbox{ und }
+\bar{y}_c := \frac{1}{n_c}\sum_{j=1}^{n_c} y_{cj}, \quad
+s_c^2     := \frac{1}{n_c - 1}\sum_{j=1}^{n_c} \left(y_{cj} - \bar{y}_c\right)^2
+\end{equation}
+die Mittelwerte und die empirischen Varianzen beider Gruppen. Schließlich
+sei
+\begin{equation}
+s := \sqrt{\frac{(n_t-1)s^2_t + (n_c-1)s^2_c}{n_t + n_c -2}}
+\end{equation}
+die \textit{gepoolte empirische Standardabweichung} der beiden Gruppen. Dann ist
+\textit{Cohen's $d$ im Parallelgruppen-Design} definiert als
+\begin{equation}
+d := \frac{\bar{y}_t - \bar{y}_c}{s}.
+\end{equation}
+\end{definition}
+
+# Effektstärkeschätzung
+\footnotesize
+\setstretch{1.6}
+Bemerkungen
+
+* $\bar{y}_t - \bar{y}_c$ ist die *empirische Effektstärke*.
+* $d$ ist die mithilfe der gepoolten empirischen Standardabweichung *standardisierte empirische Effektstärke*.
+* $d$ misst den Unterschied der Mittelwerte in Einheiten der gepoolten Standardabweichung, z.B.
+\begin{equation}
+\bar{y}_t - \bar{y}_c = 0   \Leftrightarrow d = 0 \quad
+\bar{y}_t - \bar{y}_c = s   \Leftrightarrow d = 1 \quad
+\bar{y}_t - \bar{y}_c = 2s  \Leftrightarrow d = 2.
+\end{equation}
+* Für $\mu_0 = 0$ gilt im Sinne der Zweistichproben-T-Teststatistik, dass
+\begin{equation}
+T = \sqrt{\frac{n_tn_c}{n_t+n_c}}d \Leftrightarrow d = \sqrt{\frac{n_t+n_c}{n_tn_c}} T.
+\end{equation}
+* Ersetzt man in der Definition von Cohen's $d$ die gepoolte empirische Standardabweichung $s$ durch die
+  empirische Standardabweichung der Kontrollgruppe, so erhält man das nach @glass1976 benannte
+\begin{equation}
+\Delta := \frac{\bar{y}_t - \bar{y}_c}{\sqrt{s_c^2}}.
+\end{equation}
+*  Glass $\Delta$ wird heutzutage allerdings eher selten als Effektstärkenmaß im metaanalytischen Kontext betrachtet.
+
+# Effektstärkeschätzung
+Bestimmung von Cohen's $d$ für den Beispieldatensatz
+\vspace{2mm}
+
+\tiny
+```{r, echo = T}
+D       = read.csv("6-Daten/parallelgruppendesign.csv")             # Einlesen des Datensatzes
+y_t     = D$dBDI[D$Group == "T"]                                    # Daten der Treatmentgruppe
+y_c     = D$dBDI[D$Group == "C"]                                    # Daten der Kontrollgruppe
+n_t     = length(y_t)                                               # Umfang Treatmentgruppe
+n_c     = length(y_c)                                               # Umfang Kontrollgruppe
+bar_y_t = mean(y_t)                                                 # Mittelwert der Treatmentgruppe
+bar_y_c = mean(y_c)                                                 # Mittelwert der Kontrollgruppe
+s6_t    = var(y_t)                                                  # empirische Varianz der Treatmentgruppe
+s6_c    = var(y_c)                                                  # empirische Varianz der Kontrollgruppe
+s       = sqrt(((n_t-1)*s6_t + (n_c-1)*s6_c)/(n_t + n_c -2))        # gepoolte Standardabweichung
+es      = bar_y_t - bar_y_c                                         # empirische Effektstärke
+d       = (bar_y_t - bar_y_c)/s                                     # Cohen's d
+```
+
+```{r, echo = F}
+cat(
+"Mittelwert Treatmentgruppe             :", round(bar_y_t, digits = 2),
+"\nMittelwert Kontrollgruppe              :", round(bar_y_c, digits = 2),
+"\nGepoolte empirische Standardabweichung :", round(s, digits = 2),
+"\nEmpirische Effektstärke                :", round(es, digits = 2),
+"\nCohen's d                              :", round(d, digits = 2))
+```
+
+# Effektstärkeschätzung
+\small
+Hedge's $g$
+\vspace{1mm}
+\footnotesize
+
+Hedges' $g$ ist ein durch einen Multiplikationsfaktor angepasstes Cohen's $d$, das
+von @hedges1981 und @hedges1985 eingeführt wurde. Grundlage für Hedges' $g$ ist
+die frequentistische Verteilung von Cohen's $d$ in einem Normalverteilungsmodell der Daten
+einer einzelnen Studie. In diesem Modell ist Cohen's $d$ ein verzerrter Schätzer der
+wahren, aber unbekannten, standardisierten Effektstärke, der Erwartungswert von Cohen's
+$d$ entspricht also nicht der wahren, aber unbekannten, standardisierten Effektstärke.
+Die Differenz zwischen dem Erwartungswert und der wahren, aber unbekannten, standardisierten
+Effektstärke, wird *Bias* genannt.
+
+Im betrachteten Normalverteilungsmodell kann der Bias von Cohen's $d$ analytisch
+bestimmt und numerisch approximiert werden. Die Bekanntheit des Bias erlaubt dann
+seine Korrektur durch Skalierung von Cohen's $d$ und der zur Biaskorrektur skalierte
+Wert von Cohen's $d$ wird *Hedges' $g$* genannt. Dabei ist der Bias von Cohen's
+$d$ für kleine Stichprobenumfänge am größten.
+
+Letztlich ist Hedges' $g$ einfach der Tatsache geschuldet, dass Cohen's $d$ eng
+mit der T-Statistik verwandt ist, die bekanntlich bei Nicht-Zutreffen der Nullhypothese
+nichtzentral-$t$-verteilt ist und der Erwartungswert einer nichtzentralen-$t$-verteilten
+Zufallsvariable nicht mit ihrem Nichtzentralitätsparameter identisch ist. Dabei
+ist die Nicht-Normalität der Verteilung von Cohen's $d$ für größere Stichprobenumfänge
+vernachlässigbar, was wiederum asymptotische Schätzungen der Varianz von Hedges' $g$
+ermöglicht.
+
+Im Kontext von Metaanalysen werden Hedges' $g$ und sein Varianzschätzer meist zunächst
+für jede Einzelstudie bestimmt und dann über Studien, zum Beispiel mit den Fixed-Effects-
+und Random-Effects-Modellen aus Einheit (4) integriert.
+
+# Effektstärkeschätzung
+\footnotesize
+\begin{definition}[Einzelstudienmodell]
+\justifying
+Es seien $y_{tj}$ für $j = 1,...,n_t$ und $y_{cj}$ für $j = 1,...,n_c$ die
+Zufallsvariablen, die die primären Ergebnismaße der $j$ten experimentellen Einheit
+in der Treatment- und der Kontrollgruppe einer Einzelstudie modellieren, respektive.
+Dann ist das Einzelstudienmodell (ESM) gegeben durch
+\begin{align}
+\begin{split}
+y_{tj} & := \mu_t + \varepsilon_{tj}  \mbox{ mit }  \varepsilon_{tj} \sim N(0,\sigma^2) \mbox{ für } j = 1,...,n_t \\
+y_{cj} & := \mu_c + \varepsilon_{cj}  \mbox{ mit }  \varepsilon_{cj} \sim N(0,\sigma^2) \mbox{ für } j = 1,...,n_c  \\
+\end{split}
+\end{align}
+und die wahre, aber unbekannte, standardisierte Effektstärke (SES) ist definiert als
+\begin{equation}
+\delta := \frac{\mu_t - \mu_c}{\sigma}.
+\end{equation}
+\end{definition}
+
+Bemerkungen
+
+* Das Einzelstudienmodell ist offenbar äquivalent zum Zweistichproben-T-Test-Modell.
+* Mit dem Theorem zur linear-affinen Transformation von normalverteilten Zufallsvariablen gilt äquivalent
+\begin{equation}
+y_{tj} \sim N(\mu_t ,\sigma^2) \mbox{ für } j = 1,...,n_t  \mbox{ und }
+y_{cj} \sim N(\mu_c ,\sigma^2) \mbox{ für } j = 1,...,n_c
+\end{equation}
+* Die hier gewählte Formulierung entspricht @hedges1985 p. 76 (vgl. @lin2021)
+* @hedges1981 formuliert ein äquivalentes Modell basierend auf einer nicht-standardisierten Effektstärke.
+
+# Effektstärkeschätzung
+\footnotesize
+\begin{definition}[SES-Schätzer im Einzelstudienmodell]
+\justifying
+Gegeben sei ein Einzelstudienmodell mit wahrer, aber unbekannter, standardisierter Effektstärke
+$\delta \in \mathbb{R}$. Dann ist der \textit{Standardisierte Effektstärkeschätzer (SES-Schätzer)} $d$ von
+$\delta$ definiert als
+\begin{equation}
+d := \frac{\bar{y}_t - \bar{y}_c}{s},
+\end{equation}
+wobei
+\begin{equation}
+\bar{y}_t := \frac{1}{n_t}\sum_{j=1}^{n_t} y_{tj} \mbox{ und }
+\bar{y}_c := \frac{1}{n_c}\sum_{j=1}^{n_c} y_{cj}
+\end{equation}
+die Stichprobenmittel der Treatment- und der Kontrollgruppe bezeichnen und $s$
+die mithilfe der Stichprobenvarianzen
+\begin{equation}
+s_t^2 := \frac{1}{n_t - 1}\sum_{j=1}^{n_t}\left(y_{tj} - \bar{y}_t\right)^2 \mbox{ und }
+s_c^2 := \frac{1}{n_c - 1}\sum_{j=1}^{n_c}\left(y_{cj} - \bar{y}_c\right)^2
+\end{equation}
+der Treatment- und Kontrollgruppe definierte \textit{gepoolte Stichprobenstandardabweichung}
+\begin{equation}
+s := \sqrt{\frac{(n_t - 1)s_t^2 + (n_c - 1)s_c^2}{n_t + n_c - 2}}.
+\end{equation}
+bezeichnet.
+\end{definition}
+
+Bemerkungen
+
+* Der SES-Schätzer ist offenbar mit Cohen's $d$ identisch.
+* Für den SES-Schätzer werden in $\delta$ lediglich $\mu_t$, $\mu_c$ und $\sigma$ durch ihre empirischen Äquivalente ersetzt.
+
+# Effektstärkeschätzung
+\footnotesize
+\begin{theorem}[Eigenschaften des SES-Schätzers im ESM]
+\justifying
+\normalfont
+Gegeben sei ein Einzelstudienmodell, es sei $d$ der Schätzer der wahren,
+aber unbekannten, standardisierten Effektstärke $\delta$ und es seien
+\begin{equation}
+n := \frac{n_t n_c}{n_t + n_c},
+m := n_t + n_c - 2 \mbox{ und }
+c_m = \frac{\Gamma(m/2)}{\sqrt{m/2}\Gamma((m-1)/2)}.
+\end{equation}
+Dann hat $d$ folgende Eigenschaften:
+\begin{enumerate}
+\item[(1)] $\sqrt{n} d \sim t(\sqrt{n}\delta,m)$,
+\item[(2)] $\mathbb{E}(d) = \frac{1}{c_m}\delta$, und
+\item[(3)] $\mathbb{V}(d) = \frac{m}{(m - 2)n}(1 + n\delta^2) - \frac{1}{c_m^2}\delta^2$.
+\end{enumerate}
+\end{theorem}
+
+Bemerkungen
+
+* $\sqrt{n}d$ ist eine nichtzentral-$t$-verteilte Zufallsvariable.
+* Der Nichtzentralitätsparameter von $\sqrt{n}d$ ist $\sqrt{n}\delta$, der Freiheitsgradparameter ist $m$.
+* Für die Definition nichtzentral-$t$-verteilter Zufallsvariablen und ihre Kennzahlen verweisen wir auf den Appendix.
+* Für $\delta \neq 0$ und $c_m \neq 1$ impliziert (2), dass $\mathbb{E}(d) \neq \delta$.
+* $d$ ist also ein verzerrter Schätzer von $\delta$.
+
+
+# Effektstärkeschätzung
+\footnotesize
+\underline{Beweis}
+
+\noindent (1) Wir verzichten auf einen Beweis und verweisen wie @hedges1981 auf @johnson1940.
+
+\noindent (2)  Mit dem Erwartungswert einer nichtzentral-$t$-verteilten Zufallsvariablen ergibt sich
+\begin{equation}
+\mathbb{E}(\sqrt{n}d)
+= \sqrt{n}\delta \sqrt{\frac{m}{2}} \frac{\Gamma((m-1)/2)}{\Gamma(m/2)}.
+\end{equation}
+Es ergibt sich also
+\begin{equation}
+\mathbb{E}(d)
+= \frac{\sqrt{n}}{\sqrt{n}}\mathbb{E}(d)
+= \frac{1}{\sqrt{n}}\mathbb{E}(\sqrt{n}d)
+= \delta \sqrt{\frac{m}{2}} \frac{\Gamma((m-1)/2)}{\Gamma(m/2)}
+= \frac{1}{c_m}\delta.
+\end{equation}
+\noindent (3) Mit der Varianz von nichtzentral-$t$-verteilten Zufallsvariablen ergibt sich
+\begin{align}
+\begin{split}
+\mathbb{V}(\sqrt{n}d)
+& =  \frac{m(1 + (\sqrt{n}\delta)^2)}{m-2}
+   - \frac{(\sqrt{n}\delta)^2m}{2}\left(\frac{\Gamma((m-1)/2)}{\Gamma(m/2)} \right)^2 \\
+& =  \frac{m}{m-2}(1 + n\delta^2)
+   - n\delta^2\frac{m}{2}\left(\frac{\Gamma((m-1)/2)}{\Gamma(m/2)} \right)^2 \\
+   & =  \frac{m}{m-2}(1 + n\delta^2) - n\delta^2\frac{1}{c_m^2}.
+\end{split}
+\end{align}
+Es ergibt sich also
+\begin{equation}
+\mathbb{V}(d)
+= \frac{n}{n}\mathbb{V}(d)
+= \frac{1}{n}\mathbb{V}(\sqrt{n}d)
+= \frac{1}{n}\left(\frac{m}{m-2}(1 + n\delta^2) - n\delta^2\frac{1}{c_m^2} \right)
+= \frac{m}{(m-2)n}(1 + n\delta^2) - \delta^2\frac{1}{c_m^2}.
+\end{equation}
+
+# Effektstärkeschätzung
+\small
+Verteilung von $\sqrt{n}d$
+
+\footnotesize
+$10^5$ SES-Schätzerrealisierungen mit $\delta = 2, n_t = 10, n_c = 10, m = 18, n = 5$
+\vspace{4mm}
+
+\tiny
+```{r, echo = T}
+sim      = 1e5                                        # Anzahl Realisierungen
+n_t      = 10                                         # Treatmentgruppenumfang
+n_c      = 10                                         # Kontrollgruppenumfang
+mu_t     = 2                                          # Erwartungswertparameter Treatment
+mu_c     = 0                                          # Erwartungswertparameter Control
+sigma    = 1                                          # Varianzparameter
+delta    = (mu_t - mu_c)/sigma                        # wahre, aber unbekannte, SES
+n        = (n_t*n_c/(n_t+n_c))                        # Stichprobenumfangparameter
+m        = n_t + n_c - 2                              # Freiheitsgradparameter
+c_m      = (gamma(m/2))/(sqrt(m/2)*gamma((m-1)/2))    # Biaskorrekturfaktor
+ds       = rep(NaN, sim)                              # SES-Schätzerarrayinitialisierung
+for(i in 1:sim){                                      # Simulationsiterationen
+   y     = matrix(rep(NaN,n_t+n_c), ncol = 2)         # Datenarrayinitialisierung
+   y[,1] = rnorm(n_t, mu_t, sigma)                    # Datengeneration Treatmentgruppe
+   y[,2] = rnorm(n_c, mu_c, sigma)                    # Datengeneration Kontrollgruppe
+   ybar  = apply(y,2,mean)                            # Gruppenmittelwerte
+   s2    = apply(y,2,var)                             # Gruppenvarianzen
+   s     = sqrt(((n_t-1)*s2[1] + (n_c-1)*s2[2])/m)    # gepoolte Standardabweichung
+   ds[i] = (ybar[1]-ybar[2])/s}                       # SES-Schätzerrealisierung
+```
+
+
+# Effektstärkeschätzung
+\small
+Verteilung von $\sqrt{n}d$
+
+\footnotesize
+$10^5$ SES-Schätzerrealisierungen mit $\delta = 2, n_t = 10, n_c = 10, m = 18, n = 5$
+\vspace{2mm}
+
+```{r, eval = F}
+# figure setup
+library(latex2exp)
+pdf(file = "./6-Abbildungen/ivf-6-d-verteilung.pdf", width = 6, height = 4)
+par(
+family      = "sans",
+mfcol       = c(1,1),
+pty         = "m",
+bty         = "l",
+lwd         = 1,
+las         = 1,
+mgp         = c(2,1,0),
+xaxs        = "i",
+yaxs        = "i",
+font.main   = 1)
+
+# Histogramm
+hist(
+sqrt(n)*ds,
+breaks   = 100,
+col      = "gray90",
+prob     = TRUE,
+xlab     = TeX("$\\sqrt{n}d$"),
+ylab     = "",
+ylim     = c(0,.4),
+xlim     = c(1,10),
+main     = TeX("$\\sqrt{n}d \\sim t(\\sqrt{n}\\delta, m)$"))
+
+# Analytische Verteilung
+snd      = seq(1,10,len=1e2)
+lines(
+snd,
+dt(snd,m,sqrt(n)*delta),
+lwd      = 2,
+col      = "darkorange")
+dev.off()
+```
+
+```{r, echo = FALSE, out.width = "80%", fig.align = "center"}
+knitr::include_graphics("6-Abbildungen/ivf-6-d-verteilung.pdf")
+```
+
+# Effektstärkeschätzung
+\footnotesize
+\begin{theorem}[Hedges' $g$ im ESM]
+\justifying
+\normalfont
+Gegeben sei ein Einzelstudienmodell, $d$ sei der verzerrte Schätzer von $\delta$ und es seien
+\begin{equation}
+n := \frac{n_t n_c}{n_t + n_c},
+m := n_t + n_c - 2 \mbox{ und }
+c_m = \frac{\Gamma(m/2)}{\sqrt{m/2}\Gamma((m-1)/2)}.
+\end{equation}
+wie oben definiert. Dann ist
+\begin{equation}
+g := c_m d,
+\end{equation}
+genannt \textit{Hedges' $g$}, ein unverzerrter Schätzer von $\delta$ und es gilt
+\begin{equation}
+\mathbb{V}(g) < \mathbb{V}(d).
+\end{equation}
+\end{theorem}
+\underline{Beweis}
+
+Die Unverzerrtheit von $g$ ergibt sich aus
+\begin{equation}
+\mathbb{E}(g) = \mathbb{E}(c_m d) = c_m\mathbb{E}(d) = c_m \frac{1}{c_m}\delta = \delta.
+\end{equation}
+Die Varianzreduktion von $g$ in Bezug auf $d$ folgt aus der Tatsache, dass $c_m < 1$
+für alle $m$ und somit
+\begin{equation}
+\mathbb{V}(g) = \mathbb{V}(c_m d)  = c_m^2\mathbb{V}(d) <\mathbb{V}(d).
+\end{equation}
+$\hfill \Box$
+
+# Effektstärkeschätzung
+\footnotesize
+\vspace{2mm}
+Bemerkungen
+
+* Man beachte, dass der Korrekturfaktor $c_m$ durch $n_t + n_c - 2$ vom Gesamtstichprobenumfang abhängig ist.
+* Der Wert des Korrekturfaktors für einen gegebenen Wert von $m$ kann sehr genau durch
+\begin{equation}
+c_m \approx 1 - \frac{3}{4m-1}
+\end{equation}
+angenähert werden, vgl. @hedges1981, @borenstein2009 und untenstehende Abbildung.
+
+```{r, eval = F}
+library(latex2exp)
+pdf(file = "./6-Abbildungen/ivf-6-c-m.pdf", width = 4, height = 4)
+par(
+family      = "sans",
+mfcol       = c(1,1),
+pty         = "m",
+bty         = "l",
+lwd         = 1,
+las         = 1,
+mgp         = c(2,1,0),
+xaxs        = "i",
+yaxs        = "i",
+font.main   = 1)
+m           = 2:40
+c_m         = gamma(m/2)/(sqrt(m/2)*gamma((m-1)/2))
+c_m_a       = 1 - (3/(4*m-1))
+plot(
+m,
+c_m,
+type     = "l",
+ylim     = c(.5,1.),
+xlim     = c(0,40),
+xlab     = TeX("$m$"),
+ylab     = " ",
+pch      =  19,
+cex      =  1,
+main     =  "",
+lwd      = 3)
+lines(
+m,
+c_m_a,
+col      = "gray",
+lty      = 2,
+lwd      = 1)
+legend(
+"bottomright",
+c(TeX("$c_m$"), TeX("$c_m$ Approximation")),
+pch         = c(NaN,NaN),
+lwd         = c(2,1),
+lty         = c(1,2),
+col         = c("black", "gray"),
+bty         = "n",
+cex         = 1,
+x.intersp   = 1)
+dev.off()
+```
+\vspace{-3mm}
+```{r, echo = FALSE, out.width = "40%", fig.align = "center"}
+knitr::include_graphics("6-Abbildungen/ivf-6-c-m.pdf")
+```
+\vspace{-3mm}
+
+* @lin2021 zeigen in Appendix A1, dass  $c_m \to 1$ für $m \to \infty$.
+* Die Biaskorrektur ist am wichtigsten bei Gesamtgruppengrößen $n_t + n_c < 30$.
+* Die Biaskorrektur ist am wichtigsten bei Treatment- und Kontrollgruppengrößen $n_t = n_c < 15$.
+
+# Effektstärkeschätzung
+
+\vspace{2mm}
+
+\small
+Geschätzte Erwartungswerte der verzerrten und unverzerrten SES-Schätzer im ESM
+\vspace{2mm}
+
+\footnotesize
+$10^5$ SES-Schätzerrealisierungen mit $\delta = 2, n_t = 10, n_c = 10, m = 18, n = 5$
+\vspace{2mm}
+
+```{r, eval = F}
+library(latex2exp)
+pdf(file = "./6-Abbildungen/ivf-6-d-bias-korrektur.pdf", width = 5, height = 4)
+par(
+family      = "sans",
+mfcol       = c(1,1),
+pty         = "m",
+bty         = "l",
+lwd         = 1,
+las         = 1,
+mgp         = c(2,1,0),
+xaxs        = "i",
+yaxs        = "i",
+font.main   = 1)
+m           = 18
+c_m         = (gamma(m/2))/(sqrt(m/2)*gamma((m-1)/2))
+plot(
+c(1,2),
+c(mean(ds), mean(c_m*ds)),
+type     = "p",
+ylim     = c(1.5,2.5),
+xlim     = c(0.5,2.5),
+xaxt     = "n",
+xlab     = "",
+ylab     = "",
+pch      =  19,
+cex      =  1)
+lines(
+0:3,
+rep(delta,4),
+col      = "gray80",
+lty      = 1)
+axis(1, at = c(1,2), labels = c(TeX("$\\hat{E}(d)$"), TeX("$\\hat{E}(c_m d)$")))
+dev.off()
+```
+
+```{r, echo = FALSE, out.width = "70%", fig.align = "center"}
+knitr::include_graphics("6-Abbildungen/ivf-6-d-bias-korrektur.pdf")
+```
+
+
+# Effektstärkeschätzung
+\footnotesize
+\begin{theorem}[Asymptotische Normalverteilung von Hedges' $g$]
+\justifying
+\normalfont
+Gegeben sei ein Einzelstudienmodell und $g$ sei der unverzerrte Schätzer von $\delta$.
+Dann ist $g$ bei einem konstanten Verhältnis von $n_t$ und $n_c$ für $n_t \to \infty$,
+$n_c \to \infty$ asymptotisch normalverteilt und es gilt speziell
+\begin{equation}
+g \stackrel{a}{\sim} N\left(\delta, \frac{1}{n_t} + \frac{1}{n_c} + \frac{\delta^2}{2(n_t + n_c)}\right).
+\end{equation}
+\end{theorem}
+\vspace{2mm}
+Bemerkungen
+
+* Wir erinnern daran, dass *Asymptotische Schätzereigenschaften* sich auf große Stichprobenumfänge beziehen.
+* Das Theorem ist äquivalent dazu, dass die nichtzentrale-$t$-Verteilung für $\nu \to \infty$ die Normalverteilung annähert.
+* Wir verzichten auf einen Beweis und verweisen wie @hedges1985 auf @johnson1940.
+
+# Effektstärkeschätzung
+\small
+Asymptotische Normalverteilung von Hedges' $g$
+
+\footnotesize
+$10^4$ SES-Schätzerrealisierungen mit $\delta = 2$ für kleinen und großen Stichprobenumfang
+\vspace{2mm}
+
+\tiny
+\setstretch{1.2}
+```{r, echo = T}
+sim            = 1e4                                           # Anzahl Realisierungen
+mu_t           = 2                                             # Erwartungswertparameter Treatment
+mu_c           = 0                                             # Erwartungswertparameter Control
+sigma          = 1                                             # Varianzparameter
+delta          = (mu_t - mu_c)/sigma                           # wahre, aber unbekannte, SES
+ng             = c(10,100)                                     # Stichprobenumfänge
+gs             = matrix(rep(NaN, 2*sim), ncol = 2)             # Hedges' g Arrayinitialisierung
+vgs            = rep(NaN,2)                                    # asymptotische Varianzarray
+for (j in 1:2){                                                # Stichprobenumfangsiterationen
+   n_t         = ng[j]                                         # Treatmentgruppenumfang
+   n_c         = ng[j]                                         # Kontrollgruppenumfang
+   n           = (n_t*n_c/(n_t+n_c))                           # Stichprobenumfangparameter
+   m           = n_t + n_c - 2                                 # Freiheitsgradparameter
+   c_m         = (gamma(m/2))/(sqrt(m/2)*gamma((m-1)/2))       # Biaskorrekturfaktor
+   vgs[j]      = (1/n_t)+(1/n_c)+(delta^2)/(2*(n_t+n_c))       # Asymptotische Varianz von Hedges' g
+   for(i in 1:sim){                                            # Simulationsiterationen
+      y        = matrix(rep(NaN,n_t+n_c), ncol = 2)            # Datenarrayinitialisierung
+      y[,1]    = rnorm(n_t, mu_t, sigma)                       # Datengeneration Treatmentgruppe
+      y[,2]    = rnorm(n_c, mu_c, sigma)                       # Datengeneration Kontrollgruppe
+      ybar     = apply(y,2,mean)                               # Gruppenmittelwerte
+      s2       = apply(y,2,var)                                # Gruppenvarianzen
+      s        = sqrt(((n_t-1)*s2[1] + (n_c-1)*s2[2])/m)       # gepoolte Standardabweichung
+      gs[i,j] = c_m*(ybar[1]-ybar[2])/s}}                      # Hedges' g
+```
+
+# Effektstärkeschätzung
+\small
+Asymptotische Normalverteilung von Hedges' $g$
+
+\footnotesize
+$10^5$ SES-Schätzerrealisierungen mit $\delta = 2$ für kleinen und großen Stichprobenumfang
+\vspace{2mm}
+
+```{r, eval = F}
+# figure setup
+library(latex2exp)
+pdf(file = "./6-Abbildungen/ivf-6-g-verteilung.pdf", width = 8, height = 4)
+par(
+family      = "sans",
+mfcol       = c(1,2),
+pty         = "m",
+bty         = "l",
+lwd         = 1,
+las         = 1,
+mgp         = c(2,1,0),
+xaxs        = "i",
+yaxs        = "i",
+font.main   = 1)
+lab         = c(TeX("$n_t = n_c = 10$"), TeX("$n_t = n_c = 100$"))
+g           = seq(0,4,len=1e2)
+for(j in 1:2){
+   hist(
+   gs[,j],
+   breaks   = 30,
+   col      = "gray90",
+   prob     = TRUE,
+   xlab     = TeX("$g$"),
+   ylab     = "",
+   xlim     = c(0,4),
+   ylim     = c(0,2.5),
+   main     = lab[j])
+   lines(
+   g,
+   dnorm(g,delta,sqrt(vgs[j])),
+   lwd      = 2,
+   col      = "darkorange")
+}
+dev.off()
+```
+
+```{r, echo = FALSE, out.width = "100%", fig.align = "center"}
+knitr::include_graphics("6-Abbildungen/ivf-6-g-verteilung.pdf")
+```
+
+
+# Effektstärkeschätzung
+\footnotesize
+\begin{definition}[Asymptotische Varianz und Varianzschätzer von Hedges' $g$]
+Gegeben sei ein Einzelstudienmodell und für den
+\begin{equation}
+g \stackrel{a}{\sim} N\left(\delta, \frac{1}{n_t} + \frac{1}{n_c} + \frac{\delta^2}{2(n_t + n_c)}\right).
+\end{equation}
+Dann wird der Varianzparameter der asymptotischen Verteilung von $g$ die \textit{asymptotische Varianz}
+von $g$ genannt und mit
+\begin{equation}
+\mathbb{V}_{a}(g) = \frac{1}{n_t} + \frac{1}{n_c} + \frac{\delta^2}{2(n_t + n_c)}.
+\end{equation}
+bezeichnet. Ein häufig genutzter Schätzer für die asymptotische Varianz von Hedges' $g$ ist
+\begin{equation}
+\hat{\mathbb{V}}_{a}(g) = \frac{1}{n_t} + \frac{1}{n_c} + \frac{g^2}{2(n_t + n_c)}.
+\end{equation}
+\end{definition}
+
+* $\hat{\mathbb{V}}_{a}(g)$ wird häufig für die metaanalytische Modellbildung genutzt, vgl. Einheit (4) und @lin2021.
+* Bei konstantem Wert von Hedges' $g$ nimmt $\hat{\mathbb{V}}_{a}(g)$ offenbar bei steigenden Werten von $n_t$ und $n_c$ ab.
+
+# Effektstärkeschätzung
+\footnotesize
+\begin{theorem}[Asymptotisches Konfidenzintervall für die SES]
+\justifying
+\normalfont
+Gegeben sei ein Einzelstudienmodell, $g$ sei der unverzerrte Schätzer der standardisierten
+Effektstärke $\delta$ und für ein Konfidenzlevel $\gamma \in ]0,1[$ sei
+\begin{equation}
+z_\gamma := \Phi^{-1}\left(\frac{1+\gamma}{2}\right)
+\end{equation}
+wobei $\Phi^{-1}$ die inverse kumulative Verteilungsfunktion der Standardnormalverteilung bezeichne.
+Dann ist
+\begin{equation}
+\kappa := \left[g - \sqrt{\mathbb{V}_{a}(g)}z_{\gamma}, g + \sqrt{\mathbb{V}_{a}(g)}z_{\gamma}\right]
+\end{equation}
+ein asymptotisches $\gamma$-Konfidenzintervall für die standardisierte Effektstärke $\delta$.
+\end{theorem}
+
+Bemerkungen
+
+* Das betrachtete Konfidenzintervall wurde von @hedges1985 (S. 86) vorgeschlagen.
+* Wir nutzen hier $\gamma$ für das Konfidenzlevel, da $\delta$ schon belegt ist.
+* $\kappa$ entspricht einem Konfidenzintervall für den Erwartungswert der Normalverteilung bei bekannter Varianz.
+* In der Anwendung wird man $\mathbb{V}_{a}(g)$ durch seinen Schätzer $\hat{\mathbb{V}}_{a}(g)$ ersetzen.
+* Asymptotische Konfidenzintervalle werden auch *Konfidenzintervalle von Wald-Typ* genannt.
+
+# Effektstärkeschätzung
+\footnotesize
+\underline{Beweis}
+
+Wir müssen zeigen, dass
+\begin{equation}
+\mathbb{P}(\kappa \ni \delta) = \gamma.
+\end{equation}
+Dazu halten wir zunächst fest, dass
+\begin{align}
+\begin{split}
+g \stackrel{a}{\sim} N\left(\delta, \mathbb{V}_{a}(g) \right).
+\end{split}
+\end{align}
+Mit dem Theorem zur $Z$-Transformation gilt dann
+\begin{equation}
+Z_g := \frac{g - \delta}{\sqrt{\mathbb{V}_{a}(g)}} \sim N(0,1).
+\end{equation}
+
+Weiterhin gilt per Definition von $z_\gamma$, dass
+\begin{equation}
+\mathbb{P}\left(-z_\gamma \le Z_g \le z_\gamma \right) = \gamma.
+\end{equation}
+
+# Effektstärkeschätzung
+\footnotesize
+\underline{Beweis (fortgeführt)}
+
+Aus der Definition eines $\gamma$-Konfidenzintervalls folgt dann
+\begin{align}
+\begin{split}
+\gamma
+& = \mathbb{P}\left(-z_\gamma \le Z_g \le z_\gamma \right) \\
+& = \mathbb{P}\left(-z_\gamma \le  \frac{g - \delta}{\sqrt{\mathbb{V}_{a}(g)}} \le z_\gamma \right) \\
+& = \mathbb{P}\left(-z_\gamma\sqrt{\mathbb{V}_{a}(g)} \le g - \delta \le z_\gamma\sqrt{\mathbb{V}_{a}(g)} \right) \\
+& = \mathbb{P}\left(-g -z_\gamma\sqrt{\mathbb{V}_{a}(g)} \le - \delta \le -g + z_\gamma\sqrt{\mathbb{V}_{a}(g)} \right) \\
+& = \mathbb{P}\left(g + z_\gamma\sqrt{\mathbb{V}_{a}(g)} \ge \delta \ge g - z_\gamma\sqrt{\mathbb{V}_{a}(g)} \right) \\
+& = \mathbb{P}\left(g - z_\gamma\sqrt{\mathbb{V}_{a}(g)}  \le \delta \le g + z_\gamma\sqrt{\mathbb{V}_{a}(g)} \right) \\
+& = \mathbb{P}\left(\left[g - \sqrt{\mathbb{V}_{a}(g)}z_\gamma,g + \sqrt{\mathbb{V}_{a}(g)}z_\gamma\right]  \ni \delta \right) \\
+& = \mathbb{P}(\kappa \ni \delta)
+\end{split}
+\end{align}
+und damit ist alles gezeigt.
+
+
+# Effektstärkeschätzung
+\small
+\vspace{2mm}
+Simulation eines asymptotischen 95%-Konfidenzintervalls für die SES
+
+\vspace{1mm}
+\tiny
+\setstretch{1}
+```{r, echo = T}
+set.seed(0)                                                       # Zufallsgeneratorstate
+sim            = 1e2                                              # Anzahl Realisierungen
+mu_t           = 2                                                # Erwartungswertparameter Treatment
+mu_c           = 0                                                # Erwartungswertparameter Control
+sigma          = 1                                                # Varianzparameter
+delta          = (mu_t - mu_c)/sigma                              # wahre, aber unbekannte, SES
+gamma_level    = 0.95                                             # Konfidenzlevel
+z_gamma        = qnorm((1+gamma_level)/2)                         # Konfidenzlevelkonstante
+n_t            = 100                                              # Treatmentgruppenumfang
+n_c            = 100                                              # Kontrollgruppenumfang
+n              = (n_t*n_c/(n_t+n_c))                              # Stichprobenumfangparameter
+m              = n_t + n_c - 2                                    # Freiheitsgradparameter
+c_m            = (gamma(m/2))/(sqrt(m/2)*gamma((m-1)/2))          # Biaskorrekturfaktor
+gs             = rep(NaN, sim)                                    # Hedges' g Arrayinitialisierung
+vs             = rep(NaN, sim)                                    # asymptotische Varianzarray
+kappa          = array(rep(NaN, sim*2), dim = c(2,sim))           # Konfidenzintervallarray
+for(i in 1:sim){                                                  # Simulationsiterationen
+   y           = matrix(rep(NaN,n_t+n_c), ncol = 2)               # Datenarrayinitialisierung
+   y[,1]       = rnorm(n_t, mu_t, sigma)                          # Datengeneration Treatmentgruppe
+   y[,2]       = rnorm(n_c, mu_c, sigma)                          # Datengeneration Kontrollgruppe
+   ybar        = apply(y,2,mean)                                  # Gruppenmittelwerte
+   s2          = apply(y,2,var)                                   # Gruppenvarianzen
+   s           = sqrt(((n_t-1)*s2[1] + (n_c-1)*s2[2])/m)          # gepoolte Standardabweichung
+   gs[i]       = c_m*(ybar[1]-ybar[2])/s                          # Hedges' g
+   vs[i]       = ((n_t+n_c)/(n_t*n_c))+(gs[i]^2)/(2*(n_t+n_c))    # Varianzschätzer
+   kappa[1,i]  = gs[i] - sqrt(vs[i])*z_gamma                      # untere Konfidenzintervallgrenze
+   kappa[2,i]  = gs[i] + sqrt(vs[i])*z_gamma                      # obere  Konfidenzintervallgrenze
+}
+```
+
+# Effektstärkeschätzung
+\small
+\vspace{2mm}
+Simulation eines asymptotischen 95%-Konfidenzintervalls für die SES
+
+```{r, eval = F, echo = F}
+pdf(
+file         = "./6-Abbildungen/ivf-6-konfidenzintervalle.pdf",
+width       = 7,
+height      = 4)
+par(
+family      = "sans",
+mfcol       = c(1,1),
+pty         = "m",
+bty         = "l",
+lwd         = 1,
+las         = 1,
+mgp         = c(3,2,0),
+xaxs        = "i",
+yaxs        = "i",
+xpd         = TRUE,
+font.main   = 1,
+cex         = 1,
+cex.main    = 1)
+P_idx       = rep(NaN,sim)
+P_idx[delta < kappa[1,] | delta > kappa[2,]] = 3
+plot(
+1:sim,
+gs,
+type     = "p",
+xlim     = c(0,100),
+ylim     = c(1,3),
+xlab     = "Simulationen",
+ylab     = "",
+pch      =  19,
+cex      =  .5)
+arrows(
+x0       = 1:sim,
+y0       = kappa[1,1:sim],
+x1       = 1:sim,
+y1       = kappa[2,1:sim],
+code     = 3,
+angle    = 90,
+length   = 0.01,
+lwd      = .7)
+lines(
+1:sim,
+rep(delta, sim),
+col      = "gray80",
+lty      = 1)
+lines(
+1:sim,
+P_idx,
+type    = "p",
+pch     = 13,
+col     = "darkorange")
+dev.off()
+```
+
+```{r, echo = FALSE, out.width = "100%", fig.align = "center"}
+knitr::include_graphics("./6-Abbildungen/ivf-6-konfidenzintervalle.pdf")
+```
+
+<!-- # Effektstärkeschätzung
+\vspace{2mm}
+Anwendungsbeispiel
+
+```{r, echo = FALSE, out.width = "50%", fig.align = "center"}
+knitr::include_graphics("6-Abbildungen/ivf-6-schaeuffele-abstract.pdf")
+```
+
+\flushright
+@schaeuffele2024
+
+# Effektstärkeschätzung
+\vspace{2mm}
+Anwendungsbeispiel
+
+\small
+A systematic review and meta-analysis of TD-CBT for emotional disorders
+
+\footnotesize
+
+"All analyses were conducted in R (v.4.3.1), using the metafor (v.4.2-0),
+meta (v.6.5-0) and dmetar packages (v.0.1.0). **We calculated controlled effect
+sizes for the difference between the transdiagnostic treatment and the control
+conditions in main outcomes (depression and anxiety) at posttreatment (relative efficacy),
+using the bias-corrected Hedges’ g and the 95% CI. These were calculated by
+subtracting the mean posttreatment score of the transdiagnostic
+condition from the mean score of the control condition, divided by the pooled
+standard deviation of both conditions. Values of 0.2, 0.5 and 0.8 of Hedges’ g
+represent a small, moderate and large effect size, respectively.**"
+
+*Data and Code availability*. The data that support the findings of this study, along with
+data collection templates, are publicly available at the Open Science Framework
+and can be accessed at \url{https://osf.io/ta4fg/}. Custom analysis code that
+supports the findings of this study is publicly available at the Open Science
+Framework and can be accessed at \url{https://osf.io/ta4fg/}.
+
+\flushright
+@schaeuffele2024
+
+# Effektstärkeschätzung
+\vspace{2mm}
+Anwendungsbeispiel
+
+\small
+Identifikation von 56 relevanten RCTs mit n = 6916 Teilnehmer:innen ([\textcolor{blue}{PRISMA Flowchart}](https://www.prisma-statement.org/prisma-2020-flow-diagram))
+
+```{r, echo = FALSE, out.width = "60%", fig.align = "center"}
+knitr::include_graphics("6-Abbildungen/ivf-6-schaeuffele-prisma.pdf")
+```
+
+\footnotesize
+\flushright
+@schaeuffele2024
+
+
+# Effektstärkeschätzung
+\vspace{2mm}
+Anwendungsbeispiel
+
+Einschätzung des Verzerrungsrisikos anhand des [\textcolor{blue}{Cochrane Risk of Bias Tools}](https://methods.cochrane.org/risk-bias-2)
+\vspace{1mm}
+
+```{r, echo = FALSE, out.width = "40%", fig.align = "center"}
+knitr::include_graphics("6-Abbildungen/ivf-6-schaeuffele-cochrane-robt-1.pdf")
+```
+\vspace{3mm}
+```{r, echo = FALSE, out.width = "70%", fig.align = "center"}
+knitr::include_graphics("6-Abbildungen/ivf-6-schaeuffele-cochrane-robt-2.pdf")
+```
+
+\footnotesize
+\flushright
+@schaeuffele2024
+
+
+# Effektstärkeschätzung
+\vspace{2mm}
+Anwendungsbeispiel
+
+\footnotesize
+Beispielstudien
+
+```{r, echo = FALSE, out.width = "80%", fig.align = "center"}
+knitr::include_graphics("./6-Abbildungen/ivf-6-schaeuffele-beispielstudien.pdf")
+```
+
+\footnotesize
+\flushright
+@schaeuffele2024
+
+# Effektstärkeschätzung
+\vspace{2mm}
+Anwendungsbeispiel
+
+\footnotesize
+Reformatierung des Datensatzes
+
+\vspace{2mm}
+\tiny
+\setstretch{1.2}
+```{r, echo = T}
+# R Pakete
+library(tidyr)
+library(dplyr)
+
+# Dateneinlesen, rearrangieren, NA Ausschluss (nach https://osf.io/ta4fg/)
+load("6-Daten/td_ma.RData")
+data_dep_between_post <- data_dep_between %>%
+                           arrange(match(comparison, c("DS-CBT", "TAU", "other", "wait-list")),
+                                 study_name, match(setting, c("individual", "group", "internet-based")))
+DS  <- data_dep_between_post %>% drop_na(c(post_tau_m, post_tau_sd, post_td_m, post_td_sd, post_tau_n, post_td_n))
+
+# Reformatierung
+D       = data.frame(id         = DS$study_id,              # Studien ID
+                     reference  = DS$study_name,            # Studienreferenz
+                     control    = DS$comparison,            # Kontrollbedingung (DS, TAU, Other, WL)
+                     setting    = DS$setting,               # Studiensetting (individual, internet-based, group)
+                     outcome    = DS$questionnaire,         # Primäres Ergebnismaß
+                     n_t        = DS$post_td_n,             # n Treatmentgruppe
+                     n_c        = DS$post_tau_n,            # n Kontrollgruppe
+                     m_t        = DS$post_td_m,             # Mittelwert Treatmentgruppe
+                     m_c        = DS$post_tau_m,            # Mittelwert Kontrollgruppe
+                     sd_t       = DS$post_td_sd,            # Standardabweichung Treatmentgruppe
+                     sd_c       = DS$post_tau_sd)           # Standardabweichung Kontrollgruppe
+
+# Speichern des reformatierten Datensatzes
+write.csv(D, "6-Daten/TD-CBT.csv", row.names = FALSE)
+```
+
+# Effektstärkeschätzung
+\vspace{2mm}
+Anwendungsbeispiel
+
+\footnotesize
+n_ Gruppengröße, m_ Mittelwert, sd_ Standardabweichung für _t Treatment, _c Control
+
+\tiny
+\setstretch{.8}
+```{r}
+D       = read.csv("6-Daten/TD-CBT-C.csv")
+print(D[1:30,], digits = 1, row.names = FALSE)
+```
+
+# Effektstärkeschätzung
+\vspace{2mm}
+Anwendungsbeispiel
+
+\footnotesize
+n_ Gruppengröße, m_ Mittelwert, sd_ Standardabweichung für _t Treatment, _c Control
+
+\tiny
+\setstretch{.8}
+```{r}
+D       = read.csv("6-Daten/TD-CBT-C.csv")
+print(D[31:60,], digits = 1, row.names = FALSE)
+```
+
+# Effektstärkeschätzung
+\vspace{2mm}
+Anwendungsbeispiel
+
+\footnotesize
+Hedges' $g$, asymptotischer Varianzschätzer und asymptotisches 95%-Konfidenzintervall
+
+\vspace{2mm}
+\setstretch{1.2}
+\tiny
+
+```{r, echo = T}
+D       = read.csv("6-Daten/TD-CBT.csv")                               # Einlesen des Datensatzes
+k       = nrow(D)                                                        # Studienanzahl
+gamma_level = 0.95                                                       # Konfidenzlevel
+z_gamma     = qnorm((1 + gamma_level)/2)                                 # Konfidenzintervallkonstante
+D$hgi   = rep(NaN,k)                                                     # Hedges' g
+D$vgi   = rep(NaN,k)                                                     # asymptotische Varianz
+D$ci.lb = rep(NaN,k)                                                     # untere CI Grenze
+D$ci.ub = rep(NaN,k)                                                     # obere  CI Grenze
+for(i in 1:k){                                                           # Studieniterationen
+    n_t        = D$n_t[i]                                                # Umfang Treatmentgruppe
+    n_c        = D$n_c[i]                                                # Umfang Kontrollgruppe
+    bar_y_t    = D$m_t[i]                                                # Mittelwert der Treatmentgruppe
+    bar_y_c    = D$m_c[i]                                                # Mittelwert der Kontrollgruppe
+    s2_t       = D$sd_t[i]**2                                            # empirische Varianz der Treatmentgruppe
+    s2_c       = D$sd_c[i]**2                                            # empirische Varianz der Kontrollgruppe
+    s          = sqrt(((n_t-1)*s2_t + (n_c-1)*s2_c)/(n_t+n_c-2))         # gepoolte Standardabweichung
+    es         = bar_y_c - bar_y_t                                       # Effektstärke
+    d          = (bar_y_c - bar_y_t)/s                                   # Cohen's d
+    m          = n_t + n_c - 2                                           # Freiheitsgradparameter
+    c_m        = (gamma(m/2))/(sqrt(m/2)*gamma((m-1)/2))                 # Biaskorrekturfaktor
+    D$hgi[i]   = c_m*d                                                   # Hedges' g
+    D$vgi[i]   = 1/n_t + 1/n_c +(D$hgi[i]^2)/(2*(n_t+n_c))               # Geschätzte asymptotische Varianz
+    D$ci.lb[i] = D$hgi[i] - z_gamma*sqrt(D$vgi[i])                       # untere asymptotische KI Grenze
+    D$ci.ub[i] = D$hgi[i] + z_gamma*sqrt(D$vgi[i])}                      # obere asymptotische KI Grenze
+write.csv(D, "6-Daten/TD-CBT-GI.csv", row.names = FALSE)               # Speichern
+```
+
+# Effektstärkeschätzung
+\vspace{2mm}
+Anwendungsbeispiel
+
+\footnotesize
+Hedges' $g$ und asymptotischer Varianzschätzer mit `metafor`
+\vspace{2mm}
+\tiny
+```{r, echo = T}
+library(metafor)
+D           = read.csv("6-Daten/TD-CBT-GI.csv")                       # Einlesen des Datensatzes
+D           = escalc(                                                   # escalc() aus metafor
+data        = D,                                                        # Datensatz
+measure     = "SMD",                                                    # Hedges' g
+m1i         = m_c,                                                      # Mittelwerte Kontrollgruppe
+sd1i        = sd_c,                                                     # Standardabweichungen Kontrollgruppe
+m2i         = m_t,                                                      # Mittelwerte Treatmentgruppe
+sd2i        = sd_t,                                                     # Standardabweichungen Treatmentgruppe
+n1i         = n_c,                                                      # Umfang Kontrollgruppe
+n2i         = n_t,                                                      # Umfang Treatmentgruppe
+slab        = id)                                                       # Studien ID
+write.csv(D, "6-Daten/TD-CBT-GI.csv", row.names = FALSE)              # Speichern
+```
+
+# Effektstärkeschätzung
+\vspace{2mm}
+Anwendungsbeispiel
+
+\footnotesize
+Hedges' $g$, asymptotischer Varianzschätzer und asymptotisches 95%-Konfidenzintervall: `hgi`, `vgi`, `ci.lb`, `ci.ub`
+
+\tiny
+\setstretch{.8}
+```{r}
+print(D[1:30,c(2,12,13,14,15)], digits = 1)
+```
+
+# Effektstärkeschätzung
+\vspace{2mm}
+Anwendungsbeispiel
+
+\footnotesize
+Forestplot mit `metafor`
+
+\vspace{1mm}
+\setstretch{1.2}
+\tiny
+
+```{r, echo = T, eval = F}
+# figure setup
+library(latex2exp)
+library(metafor)
+pdf(file = "./6-Abbildungen/ivf-6-forest.pdf", width = 12, height = 18)
+par(
+family      = "sans",
+mfcol       = c(1,1),
+pty         = "m",
+bty         = "l",
+lwd         = 1,
+las         = 1,
+mgp         = c(2,1,0),
+xaxs        = "i",
+yaxs        = "i",
+font.main   = 1)
+
+# forest plot
+D           = read.csv("6-Daten/TD-CBT-GI.csv")                       # Einlesen des Datensatzes
+res         = rma(yi=yi, vi=vi, data = D)                               # Schätzen des Random Effects Models
+forest(                                                                 # metafor forest() Funktion
+res,                                                                    # Random-effect-model object
+slab        = paste(D$reference),                                       # Studienreferenzen
+alim        = c(-2,4),                                                  # Hedges' g-Spanne
+header      = paste0("Author(s) and Year"))                             # header for study label and SMD
+dev.off()
+```
+
+# Effektstärkeschätzung
+\vspace{2mm}
+Anwendungsbeispiel
+
+\footnotesize
+Forestplot mit `metafor`
+
+\footnotesize
+* Die 95%-Konfidenzintervalle entsprechen nicht denen nach @hedges1985 (S. 86) vorgeschlagenen.
+
+\vspace{-2mm}
+```{r, echo = FALSE, out.width = "40%", fig.align = "center"}
+knitr::include_graphics("6-Abbildungen/ivf-6-forest.pdf")
+```
+-->
+
+#
+\vfill
+\setstretch{2.7}
+\large
+Einführung
+
+Effektstärkeschätzung
+
+**Fixed-Effects-Modelle**
+
+Random-Effects-Modelle
+
+Selbstkontrollfragen
+\vfill
+
+# Fixed-Effects-Modelle
+\vspace{1mm}
+\footnotesize
+\begin{definition}[Fixed-Effects-Modell der Metaanalyse]
+\justifying
+Für Studien $i = 1,...,k$ seien $y_i$ und $\sigma_i^2$ bekannte studienspezifische
+standardisierte Effektstärkeschätzer und ihre Varianzschätzer, respektive. Dann ist das \textit{Fixed-Effects-Modell
+der Metaanalyse (FEM)} gegeben durch
+\begin{equation}
+y_i \sim N(\delta,\sigma_i^2),
+\end{equation}
+wobei $\delta$ die wahre, aber unbekannte, standardisierte Effektstärke (SES) bezeichnet und die
+$y_1,...,y_k$ als unabhängige Zufallsvariablen angenommen werden.
+\end{definition}
+\vspace{-2mm}
+Bemerkungen
+
+* $y_i$ entspricht meist dem Wert von Hedges' $g_i$.
+* Manchmal kann $y_i$ auch dem Wert von Cohen's $d_i$ entsprechen.
+* $y_i \sim N(\delta,\sigma_i^2)$ approximiert die nichtzentrale-$t$-Verteilung von $y_i$ bei großen Stichprobenumfängen.
+* $\sigma_i^2$ entspricht meist dem Wert eines Schätzers der Varianz von Hedges $g_i$.
+* Manchmal kann $\sigma_i^2$ auch dem Wert eines Schätzers der Varianz von Cohen's $d_i$ entsprechen.
+* Das Fixed-Effects-Modell der Metaanalyse nimmt explizit an, dass die $\sigma_i^2, i = 1,...,k$ bekannt sind.
+* Es gibt verschiedenste Möglichkeiten, die Varianz von Hedges $g_i$ bzw. Cohen's $d_i$ in Studie $i$ zu schätzen.
+* Wir betrachten nur den von @hedges1985 und in @viechtbauer2010 implementierten Schätzer
+\begin{equation}
+\sigma_i^2 := \hat{\mathbb{V}}_{a}(g_i) = \frac{1}{n_t} + \frac{1}{n_c}  + \frac{g^2_i}{2(n_t + n_c)}.
+\end{equation}
+* @lin2021 diskutieren verschiedene  Varianzschätzer für Hedges' $g_i$ bzw. Cohen's $d_i$.
+* Ziel der Fixed-Effects-Modellierung der Metaanalyse ist es, $\delta$ basierend auf den $y_i$ und $\sigma_i^2$ zu schätzen.
+
+# Fixed-Effects-Modelle
+\footnotesize
+\begin{theorem}[FEM-ML-SES-Schätzer]
+\justifying
+\normalfont
+Gegeben sei das Fixed-Effect-Modell der Metaanalyse mit wahrer, aber unbekannter,
+standardisierter Effektstärke  $\delta$. Dann ergibt sich der Maximum-Likelihood-Schätzer
+der standardisierten Effektstärke $\delta$ zu
+\begin{equation}
+\hat{\delta} := \frac{1}{\sum_{i=1}^k w_i}\sum_{i=1}^k w_i y_i \mbox{ mit den Wichtungsparametern }
+w_i := \frac{1}{\sigma_i^2}, i = 1,...,k.
+\end{equation}
+\end{theorem}
+Bemerkungen
+
+* $\hat{\delta}$ genügt der Intuition, dass Studien mit kleiner studienspezifischer
+Varianz des standardisierten Effektstärkeschätzers, z.B. hervorgerufen durch einen
+großen studienspezifischen Stichprobenumfang, mehr zu der übergeordneten
+Effektstärkeschätzung beitragen sollten als solche mit hoher studienspezifischer
+Varianz des standardisierten Effektstärkeschätzers.
+* Die Wichtungsparameter werden als reziproke Werte der studienspezifischen Varianz
+des standardisierten Effektstärkeschätzers auch *studienspezifische Präzisionen*
+des standardisierten Effektstärkeschätzers genannt.
+* Sind die studienspezifischen Varianzen $\sigma_i^2$ alle identisch zu $\sigma^2$, so ergibt sich mit $w := 1/\sigma^2$
+\begin{equation}
+\hat{\delta} = \frac{1}{\sum_{i=1}^k w}\sum_{i=1}^k w y_i = \frac{w}{w\sum_{i=1}^k 1}\sum_{i=1}^k y_i = \frac{1}{k}\sum_{i=1}^k y_i.
+\end{equation}
+
+# Fixed-Effects-Modelle
+\footnotesize
+\underline{Beweis}
+
+Ohne zwischen $y_i$ als Zufallsvariable oder Wert zu unterscheiden hat die Likelihood-Funktion des FEMs die Form
+\begin{equation}
+L : \mathbb{R} \to \mathbb{R}_{>0},
+\delta \mapsto L(\delta)
+:= \prod_{i=1}^k \frac{1}{\sqrt{2\pi\sigma_i^2}}
+\exp\left(-\frac{1}{2\sigma_i^2}(y_i - \delta)^2\right).
+\end{equation}
+Die Log-Likelihood-Funktion des FEMs hat damit die Form
+\begin{equation}
+\ell : \mathbb{R} \to \mathbb{R},
+\delta \mapsto \ell(\delta)
+:= -\frac{k}{2}\ln 2\pi - \frac{1}{2}\sum_{i=1}^k \ln \sigma_i^2
+- \sum_{i=1}^k \frac{1}{2\sigma_i^2}(y_i - \delta)^2.
+\end{equation}
+Die erste Ableitung der Log-Likelihood-Funktion des FEMs hat damit die Form
+\begin{equation}
+\frac{d}{d\delta} \ell(\delta)
+= - \sum_{i=1}^k \frac{1}{2\sigma_i^2}\frac{d}{d\delta}(y_i - \delta)^2
+=  \sum_{i=1}^k \frac{1}{\sigma_i^2}(y_i - \delta).
+\end{equation}
+Es ergibt sich also die Maximum-Likelihood-Bedingung
+\begin{equation}
+\sum_{i=1}^k \frac{1}{\sigma_i^2}(y_i - \hat{\delta}) = 0.
+\end{equation}
+Auflösen ergibt dann
+\begin{equation}
+\sum_{i=1}^k \frac{1}{\sigma_i^2}y_i - \sum_{i=1}^k \frac{1}{\sigma_i^2}\hat{\delta}
+= 0
+\Leftrightarrow
+\hat{\delta}
+= \frac{\sum_{i=1}^k \frac{1}{\sigma_i^2}y_i}{\sum_{i=1}^k\frac{1}{\sigma_i^2}}
+\Leftrightarrow
+\hat{\delta}
+= \frac{1}{\sum_{i=1}^k w_i}\sum_{i=1}^k w_i y_i.
+\end{equation}
+$\hfill \Box$
+
+# Fixed-Effects-Modelle
+\vspace{1mm}
+\footnotesize
+\setstretch{1.3}
+\begin{theorem}[Eigenschaften des FEM-ML-SES-Schätzers]
+\justifying
+\normalfont
+Gegeben sei das Fixed-Effect-Modell der Metaanalyse mit wahrer, aber unbekannter,
+standardisierter Effektstärke  $\delta$ und es sei $\hat{\delta}$ der Maximum-Likelihood-Schätzer
+von $\delta$. Dann gelten
+\begin{itemize}
+\item[(1)] $\mathbb{E}(\hat{\delta}) = \delta$
+\item[(2)] $\mathbb{V}(\hat{\delta}) = \frac{\sum_{i=1}^k w_i^2 \sigma_i^2}{(\sum_{i=1}^k w_i)^2}$
+\end{itemize}
+\end{theorem}
+\vspace{-2mm}
+Bemerkungen
+\vspace{-2mm}
+
+* Aussage (1) besagt insbesondere, dass $\hat{\delta}$ ein unverzerrter Schätzer von $\delta$ ist.
+* Aussage (2) wird z.B. in der Herleitung des DerSimonian-Laird-Schätzers benötigt.
+
+\underline{Beweis}
+
+\noindent (1) Mit den Eigenschaften des Erwartungswerts gilt
+\begin{equation}
+\mathbb{E}(\hat{\delta})
+= \mathbb{E}\left(\frac{1}{\sum_{i=1}^k w_i}\sum_{i=1}^k w_i y_i \right)
+= \frac{1}{\sum_{i=1}^k w_i}\sum_{i=1}^k w_i \mathbb{E}\left(y_i \right)
+= \frac{\sum_{i=1}^k w_i \delta}{\sum_{i=1}^k w_i}
+= \frac{\delta\sum_{i=1}^k w_i}{\sum_{i=1}^k w_i}
+= \delta.
+\end{equation}
+\noindent (2) Mit den Eigenschaften der Varianz bei unabhängigen Zufallsvariablen gilt
+\begin{equation}
+\mathbb{V}(\hat{\delta})
+= \mathbb{V}\left(\frac{1}{\sum_{i=1}^k w_i}\sum_{i=1}^k w_i y_i \right)
+= \frac{1}{(\sum_{i=1}^k w_i)^2}\mathbb{V}\left(\sum_{i=1}^k w_iy_i \right)
+= \frac{\sum_{i=1}^k w_i^2 \mathbb{V}(y_i) }{(\sum_{i=1}^k w_i)^2}
+= \frac{\sum_{i=1}^k w_i^2 \sigma_i^2}{(\sum_{i=1}^k w_i)^2}.
+\end{equation}
+
+# Fixed-Effects-Modelle
+\small
+Simulation mit $k := 10$, $\delta := 1$ und  $\sigma_i^2 \sim U(1,2)$
+\vspace{1mm}
+
+\tiny
+\setstretch{1.1}
+```{r, echo = T}
+set.seed(1)                                             # reproduzierbare Ergebnisse
+k               = 10                                    # Anzahl an Studien
+delta           = 1                                     # wahre, aber unbekannte, Effektstärke
+sigsqr_i        = rep(NaN,k)                            # wahre, bekannte, studienspezifische Varianzenarray
+y_i             = rep(NaN,k)                            # Empirische Effektstärkenarray
+for(i in 1:k){                                          # Studieniterationen
+    sigsqr_i[i] = runif(1,1,2)                          # wahre, bekannte, studienspezifische Varianz
+    y_i[i]      = rnorm(1, delta, sqrt(sigsqr_i[i]))}   # studienspezifischer Effektstärkeschätzer
+w_i             = 1/sigsqr_i                            # Wichtungsparameter
+delta_hat       = sum(w_i*y_i)/sum(w_i)                 # Fixed-Effects-Modell-basierter Effektstärkeschätzer
+```
+
+
+# Fixed-Effects-Modelle
+\footnotesize
+\vspace{1mm}
+\begin{theorem}[Q-Statistik]
+\justifying
+\normalfont
+Gegeben sei das Fixed-Effects-Modell der Metaanalyse und es sei
+\begin{equation}
+Q := \sum_{i=1}^k w_i(y_i - \hat{\delta})^2
+\mbox{ mit }
+\hat{\delta} := \frac{1}{\sum_{i=1}^k w_i}\sum_{i=1}^k w_i y_i
+\mbox{ und }
+w_i := \frac{1}{\sigma_i^2}, i = 1,...,k.
+\end{equation}
+Dann ist $Q$ asymptotisch $\chi^2$-verteilt mit Freiheitsgradparameter $k-1$
+\begin{equation}
+Q \stackrel{a}{\sim} \chi^2(k-1).
+\end{equation}
+\end{theorem}
+
+Bemerkungen
+
+* Die $Q$-Statistik ist die anhand der studienspezifischen Präzisionen gewichtete Summe der
+  quadrierten Abweichungen der studienspezifischen Effektstärkeschätzer vom
+  studienübergreifenden Effektstärkeschätzer. Intuitiv sprechen hohe Werte von $Q$ also
+  gegen die Annahme einer festen Effektstärke über Studien.
+* Unter der Annahme, dass die studienspezifischen Effektstärkeschätzer $y_i$
+  im Fixed-Effects-Modell tatsächlich auf ein und dieselbe Effektstärke $\delta$ zurückgehen,
+  ist $Q$ asymptotisch $\chi^2$-verteilt. Ansätze für Beweise dieser Tatsache
+  finden sich in @cochran1954 und @hedges1982.
+* Ist unter $Q \sim \chi^2(k-1)$ die Wahrscheinlichkeit für einen beobachteten Wert
+  oder einen extremeren als den beobachteten  Wert der Q-Statistik klein, so
+  spricht dies intuitiv gegen die Annahme des Fixed-Effects-Modells
+  (nach @schaeuffele2024: "A P value of the Q statistic below 0.05 indicates heterogeneity.")
+  Für eine vertiefte Diskussion, siehe @kulinskaya2011 und @kulinskaya2011a.
+
+
+# Fixed-Effects-Modelle
+\small
+Verteilung der Q-Statistik
+
+\footnotesize
+$10^5$ Q-Statistikrealisierungen für $k := 10$, $\delta := 1$ und $\sigma_i^2 \sim U(1,2)$
+\vspace{2mm}
+
+\tiny
+```{r, echo = T}
+set.seed(1)                                                 # reproduzierbare Ergebnisse
+sim                 = 1e5                                   # Anzahl Realisierungen
+k                   = 10                                    # Anzahl an Studien
+delta               = 1                                     # wahre, aber unbekannte, Effektstärke
+Q                   = rep(NaN,sim)                          # Q-Statistik Array
+for(s in 1:sim){                                            # Simulationsiterationen
+    sigsqr_i        = rep(NaN,k)                            # wahre, bekannte, studienspezifische Varianz
+    y_i             = rep(NaN,k)                            # Empirische Effektstärkenarray
+    for(i in 1:k){                                          # Studieniterationen
+        sigsqr_i[i] = runif(1,1,2)                          # wahre, bekannte, studienspezifische Varianz
+        y_i[i]      = rnorm(1, delta, sqrt(sigsqr_i[i]))}   # empirische Effektstärke
+    w_i             = 1/sigsqr_i                            # Wichtungsparameter
+    delta_hat       = sum(w_i*y_i)/sum(w_i )                # Fixed-Effects-Modell-basierter Effektstärkeschätzer
+    Q[s]            = sum(w_i*(y_i - delta_hat)**2)         # Q-Statistik
+}
+```
+
+
+```{r, echo = F, eval = F}
+pdf(file = "./6-Abbildungen/ivf-6-q-statistik-verteilung.pdf", width = 10, height = 5)
+library(latex2exp)
+par(
+family     = "sans",
+mfcol      = c(1,1),
+pty        = "m",
+bty        = "l",
+lwd        = 1,
+las        = 1,
+mgp        = c(2,1,0),
+xaxs         = "i",
+yaxs         = "i",
+font.main  = 1,
+cex        = 1.2,
+cex.main   = 1.3)
+
+# Histogramm und WDF
+hist(
+Q,
+breaks  = 100,
+col     = "gray90",
+prob    = TRUE,
+xlim    = c(0, 25),
+ylim    = c(0,.12),
+xlab    = "Q",
+ylab    = "",
+main    = TeX("$Q \\sim \\chi^2(k-1)$"))
+q_min   = 0
+q_max   = 50
+q_res   = 1e3
+q_space = seq(q_min, q_max, len = q_res)
+p_Q     = dchisq(q_space,k-1)
+lines(
+q_space,
+p_Q,
+lwd   = 2,
+col   = "darkorange")
+dev.off()
+```
+
+# Fixed-Effects-Modelle
+\small
+Verteilung der Q-Statistik
+
+\footnotesize
+$10^5$ Q-Statistikrealisierungen für $k := 10$, $\delta := 1$ und $\sigma_i^2 \sim U(1,2)$
+\vspace{2mm}
+
+```{r, echo = FALSE, out.width="80%", fig.align = "center"}
+knitr::include_graphics("6-Abbildungen/ivf-6-q-statistik-verteilung.pdf")
+```
+\vspace{-2mm}
+
+# Fixed-Effects-Modelle
+\footnotesize
+\begin{definition}[$I^2$-Statistik]
+\justifying
+\normalfont
+Gegeben sei das Fixed-Effects-Modell der Metaanalyse. Dann ist die $I^2$-Statistik
+definiert als
+\begin{equation}
+I^2 := \max\left\lbrace 0, \frac{Q - (k-1)}{Q} \right\rbrace,
+\end{equation}
+wobei $k$ die Studienanzahl und $Q$ die oben definierte $Q$-Statistik bezeichnen.
+\end{definition}
+Bemerkungen
+
+* Die $I^2$-Statistik wurde von @higgins2002 vorgeschlagen. Der Erwartungswert
+einer $\chi^2(k-1)$-verteilten Zufallsvariable ist $k-1$. $I^2$ misst also in
+standardisierter Form und unter Annahme des Fixed-Effects-Modells approximativ, inwieweit
+$Q > \mathbb{E}(Q)$ ist. (nach @schaeuffele2024: "$I^2$ ranges from 0 to 100%, with 25% representing low,
+50% moderate and 75% high heterogeneity.") Generell, also für beliebige Effektstärkemaße
+außerhalb des Fixed-Effects-Modells, muss $Q$ jedoch nicht $\chi^2(k-1)$ verteilt sein.
+ @hoaglin2016 gibt eine kritische Diskussion der Verwendung der $Q$- und $I^2$
+ Statistiken in der Metaanalyse.
+
+#
+\vfill
+\setstretch{2.7}
+\large
+Einführung
+
+Effektstärkeschätzung
+
+Fixed-Effects-Modelle
+
+**Random-Effects-Modelle**
+
+Selbstkontrollfragen
+\vfill
+
+# Random-Effects-Modelle
+\footnotesize
+\begin{definition}[Random-Effects-Modell der Metaanalyse]
+\justifying
+Für Studien $i = 1,...,k$ seien $y_i$ und $\sigma_i^2$ bekannte studienspezifische
+standardisierte Effektstärkeschätzer und ihre Varianzschätzer, respektive. Dann ist das
+\textit{Random-Effects-Modell der Metaanalyse} gegeben durch
+\begin{align}
+\begin{split}
+y_i 		  \sim N\left(\delta_i,\sigma_i^2\right) \mbox{ und }
+\delta_i 	\sim N\left(\delta,\tau^2\right) ,
+\end{split}
+\end{align}
+wobei
+\begin{itemize}
+\item $\delta$ die \textit{wahre, aber unbekannte, standardisierte Effektstärke},
+\item $\tau^2$ die \textit{wahre, aber unbekannte, studienübergreifende standardisierte Effektstärkenvarianz} und
+\item $\delta_i$ die Zufallsvariable der \textit{latenten standardisierten Effektstärke der $i$ten Studie}
+\end{itemize}
+bezeichnen, wobei die $\delta_i$ als unabhängig und die $y_i$ bedingt auf die $\delta_i$ als unabhängig angenommen werden.
+\end{definition}
+
+Bemerkungen
+
+* Für die $y_i$ und $\sigma_i^2$ ergeben sich die gleichen Bemerkungen wie für das Fixed-Effects-Modell.
+* Die studienübergreifende Varianz der standardisierten Effektstärken wird auch als *Heterogenität* bezeichnet.
+
+# Random-Effects-Modelle
+\footnotesize
+Bemerkungen (fortgesetzt)
+
+* Für $i = 1,...,k$ impliziert die Definition die marginalen und die bedingten Wahrscheinlichkeitsdichtefunktionen
+\begin{equation}
+ p(y_i | \delta_i) = N(y_i; \delta_i,\sigma_i^2)   \mbox{ und } p(\delta_i) = N(\delta_i;\delta,\tau^2)
+\end{equation}
+und damit die gemeinsame WDF
+\begin{equation}
+p(y_i,\delta_i) = p(y_i|\delta_i)p(\delta_i) =  N(y_i; \delta_i,\sigma_i^2)N(\delta_i;\delta,\tau^2).
+\end{equation}
+* Mit den Eigenschaften der multivariaten Normalverteilung impliziert dies die Marginalverteilung
+\begin{equation}
+p(y_i) = N(y_i;\delta, \sigma_i^2 + \tau^2)
+\end{equation}
+* In struktureller Form impliziert die Definition, dass
+\begin{equation}
+y_i = \delta + \xi_i + \varepsilon_i \mbox{ mit } \xi_i \sim N(0,\tau^2) \mbox{ und } \varepsilon_i \sim N(0,\sigma_i^2)
+\end{equation}
+* Generativ betrachtet nimmt das Random-Effects-Modell also eine wahre, aber
+unbekannte, standardisierte Effektstärke $\delta$ an. Diese wahre, aber unbekannte,
+standardisierte Effektstärke wird in der $i$ten Studie unter dem Einfluss additiven
+normalverteilten Fehlers mit unbekannter Varianz $\tau^2$ als $\delta_i$ indirekt
+beobachtet. Direkt beobachtet wird dann mit $y_i$ eben dieses $\delta_i$
+unter dem Einfluss additiven normalverteilten Fehlers mit bekannter Varianz $\sigma_i^2$.
+
+# Random-Effects-Modelle
+
+\footnotesize
+Bemerkungen (fortgesetzt)
+
+* Bei dem Random-Effects-Modell der Metaanalyse handelt es sich um das LMM in Kompaktdarstellung
+\begin{equation}
+y = X\beta + Zb + \varepsilon
+\end{equation}
+mit
+\begin{equation}
+y := \left(y_1, ..., y_k\right)^T,
+X  := 1_k,
+\beta := \delta,
+Z := I_k
+\end{equation}
+sowie
+\begin{equation}
+b \sim N\left(0_k,\tau^2 I_k\right)
+\mbox{ und }
+\varepsilon \sim N\left(0_k, \mbox{diag}\left(\sigma_1^2,...,\sigma_k^2\right)\right)
+\end{equation}
+* Mit $A := 1_k$ und damit $X = ZA$ ergibt dabei eine Populationsparameterinterpretation
+für die wahre, aber unbekannte, standardisierte Effektstärke $\delta$ (vgl. Theorem
+zur Populationsparameterdarstellung eines Linear Mixed Models).
+
+
+# Random-Effects-Modelle
+\footnotesize
+\begin{definition}[REM-DerSimonian-Laird-Schätzer]
+\justifying
+Gegeben sei das Random-Effects-Modell der Metaanalyse mit wahrer, aber unbekannter,
+standardisierter Effektstärke $\delta$ und wahrer, aber unbekannter,
+studienübergreifender Effektstärkevarianz (Heterogenität) $\tau^2$.
+\begin{itemize}
+\item Der \textit{DerSimonian-Laird-Schätzer von $\tau^2$} ist definiert als
+\begin{equation}
+\hat{\tau}_{\tiny \mbox{DL}}^2
+= \max\left\lbrace 0, \frac{Q - (k-1)}{c}\right\rbrace
+\mbox{ mit }
+c := \sum_{i=1}^k w_i - \frac{\sum_{i=1}^k w_i^2}{\sum_{i=1}^k w_i},
+\end{equation}
+wobei
+\begin{equation}
+Q := \sum_{i=1}^k w_i(y_i - \hat{\delta})^2
+\mbox{ und }
+\hat{\delta} := \frac{1}{\sum_{i=1}^k w_i}\sum_{i=1}^k w_i y_i
+\mbox{ mit }
+w_i := \frac{1}{\sigma_i^2}
+\mbox{ für }
+i = 1,...,k
+\end{equation}
+die $Q$-Statistik bzw. den FEM-ML-SES-Schätzer bezeichnen.
+\item Der \textit{DerSimonian-Laird-Schätzer von $\delta$} ist definiert als
+\begin{equation}
+\hat{\delta}_{\tiny \mbox{DL}} := \frac{1}{\sum_{i=1}^k \tilde{w}_i}\sum_{i=1}^k \tilde{w}_i y_i
+\mbox{ mit } \tilde{w}_i := \frac{1}{\hat{\tau}_{\tiny \mbox{DL}}^2 + \sigma_i^2} \mbox{ für } i = 1,...,k.
+\end{equation}
+\end{itemize}
+\end{definition}
+\vspace{-2mm}
+Bemerkungen
+
+* Die REM-DerSimonian-Laird-Schätzer gehen auf @dersimonian1986 zurück.
+* Es gibt viele verschiedene Schätzer für $\tau^2$ und $\delta$ im REM, vgl. @viechtbauer2005 und @veroniki2016.
+* Heutzutage wird meist eine Linear-Mixed-Modell-REML-basierte Schätzung bevorzugt.
+
+
+# Random-Effects-Modelle
+\footnotesize
+\begin{theorem}[Motivation der DerSimonian-Laird-Schätzung]
+\justifying
+\normalfont
+Gegeben sei das Random-Effects-Modell der Metaanalyse mit wahrer, aber unbekannter,
+standardisierter Effektstärke $\delta$ und wahrer, aber unbekannter, studienübergreifender
+Effektstärkevarianz (Heterogenität) $\tau^2$. Weiterhin seien $\hat{\tau}_{\tiny \mbox{DL}}^2$
+und $\hat{\delta}_{\tiny \mbox{DL}}$ die DerSimonian-Laird-Schätzer von $\tau^2$ und $\delta$, respektive.
+\vspace{1mm}
+
+Dann gelten
+\begin{itemize}
+\item[(1)] $\hat{\tau}_{\tiny \mbox{DL}}^2$ ist ein bei 0 abgeschnittener Momentenmethodenschätzer von $\tau^2$ basierend auf dem Erwartungswert der $Q$-Statistik.
+\item[(2)] $\hat{\delta}_{\tiny \mbox{DL}}$ ist ein Maximum-Likelihood Schätzer hinsichtlich der marginalen Datenverteilung mit $\tau^2 := \hat{\tau}_{\tiny \mbox{DL}}^2$.
+\end{itemize}
+\end{theorem}
+\vspace{-2mm}
+
+Bemerkungen
+
+Die Momentenmethode zur Schätzergewinnung besteht aus drei Schritten
+
+(1) Schreiben der Momente als Funktionen des zu schätzenden Parameters.
+(2) Ersetzen der Momente durch ihre Stichprobenäquivalente.
+(3) Auflösen der Gleichung hinsichtlich des zu schätzenden Parameters.
+
+Nach @dersimonian1986: "(...) $Q$ is used to derive a noniterative estimate of $\tau^2$ by equating the
+sample statistic with the corresponding expected value. This yields a weighted estimator (...)."
+
+# Random-Effects-Modelle
+\footnotesize
+\underline{Beweis}
+
+\noindent (1) Wir bestimmen zunächst den Erwartungswert der $Q$-Statistik als
+Funktion der nach Voraussetzung bekannten Werte von $\sigma_1^2, ..., \sigma_k^2$
+und des unbekannten Parameters $\tau^2$ (vgl. @kacker2004, @dersimonian2007)
+\begin{align}
+\begin{split}
+\mathbb{E}(Q)
+& = \mathbb{E}\left(\sum_{i=1}^k w_i(y_i - \hat{\delta})^2 \right) \\
+& = \sum_{i=1}^k w_i\mathbb{E}\left((y_i - \hat{\delta})^2 \right) \\
+& = \sum_{i=1}^k w_i\mathbb{E}\left(((y_i - \hat{\delta}) - 0 )^2 \right) \\
+& = \sum_{i=1}^k w_i\mathbb{E}\left(((y_i - \hat{\delta}) - (\mathbb{E}(y_i) - \mathbb{E}(\hat{\delta})))^2 \right) \\
+& = \sum_{i=1}^k w_i\mathbb{E}\left(((y_i - \hat{\delta}) - \mathbb{E}(y_i - \hat{\delta}))^2 \right) \\
+& = \sum_{i=1}^k w_i\mathbb{V}\left(y_i - \hat{\delta}\right)  \\
+& = \sum_{i=1}^k w_i\left(\mathbb{V}(y_i) + \mathbb{V}(\hat{\delta}) - 2\mathbb{C}(y_i,\hat{\delta})\right).    \\
+\end{split}
+\end{align}
+
+# Random-Effects-Modelle
+\footnotesize
+\underline{Beweis (fortgeführt)}
+
+Dabei gilt nach dem Theorem zu den Eigenschaften des FEM-ML-SES-Schätzers, dass
+\begin{equation}
+\mathbb{V}(\hat{\delta}) = \frac{\sum_{i=1}^k w_i^2 \mathbb{V}(y_i)}{(\sum_{i=1}^k w_i)^2}.
+\end{equation}
+Mit der Eigenschaft der Kovarianz bei linear-affinen Transformationen sowie der Unabhängigkeit der $y_i$ gilt ferner
+\begin{align}
+\begin{split}
+\mathbb{C}(y_i,\hat{\delta})
+& =
+\mathbb{C}\left(y_i, \frac{1}{\sum_{j=1}^k w_j}\sum_{j=1}^k w_j y_j \right)  \\
+& =
+\frac{1}{\sum_{j=1}^k w_j} \mathbb{C}\left(\sum_{j=1}^k w_j y_j, y_i\right)  \\
+& =
+\frac{\sum_{j=1}^k w_j \mathbb{C}\left(y_j, y_i\right)}{\sum_{j=1}^k w_j}     \\
+& =
+\frac{w_i \mathbb{C}(y_i,y_i)}{\sum_{j=1}^k w_j}     \\
+& =
+\frac{w_i \mathbb{V}(y_i)}{\sum_{j=1}^k w_j}.     \\
+\end{split}
+\end{align}
+
+# Random-Effects-Modelle
+\footnotesize
+\underline{Beweis (fortgeführt)}
+
+Es ergibt sich also
+\begin{align}
+\begin{split}
+\mathbb{E}(Q)
+& =
+\sum_{i=1}^k w_i\left(\mathbb{V}(y_i) + \mathbb{V}(\hat{\delta}) - 2\mathbb{C}(y_i,\hat{\delta})\right)    \\
+& =
+\sum_{i=1}^k w_i\left(\mathbb{V}(y_i) + \frac{\sum_{i=1}^k w_i^2 \mathbb{V}(y_i)}{(\sum_{i=1}^k w_i)^2} - 2\frac{w_i\mathbb{V}(y_i)}{\sum_{i=1}^k w_i}\right) \\
+& =
+\sum_{i=1}^k w_i\mathbb{V}(y_i) + \sum_{i=1}^k w_i\left(\frac{\sum_{i=1}^k w_i^2 \mathbb{V}(y_i)}{(\sum_{i=1}^k w_i)^2}\right) - 2\sum_{i=1}^k w_i\frac{w_i\mathbb{V}(y_i)}{\sum_{i=1}^k w_i}  \\
+& =
+\sum_{i=1}^k w_i\mathbb{V}(y_i) + \frac{\sum_{i=1}^k w_i \sum_{i=1}^k w_i^2 \mathbb{V}(y_i)}{(\sum_{i=1}^k w_i)^2} - 2\sum_{i=1}^k w_i\frac{w_i\mathbb{V}(y_i)}{\sum_{i=1}^k w_i}  \\
+& =
+\sum_{i=1}^k w_i\mathbb{V}(y_i) + \frac{\sum_{i=1}^k w_i^2 \mathbb{V}(y_i)}{\sum_{i=1}^k w_i} - 2\sum_{i=1}^k w_i\frac{w_i\mathbb{V}(y_i)}{\sum_{i=1}^k w_i}  \\
+& =
+\sum_{i=1}^k w_i\mathbb{V}(y_i) + \frac{\sum_{i=1}^k w_i^2 \mathbb{V}(y_i)}{\sum_{i=1}^k w_i} - 2\frac{\sum_{i=1}^k w_i^2 \mathbb{V}(y_i)}{\sum_{i=1}^k w_i} \\
+& =
+\sum_{i=1}^k w_i\mathbb{V}(y_i) - \frac{\sum_{i=1}^k w_i^2 \mathbb{V}(y_i)}{\sum_{i=1}^k w_i}. \\
+\end{split}
+\end{align}
+
+# Random-Effects-Modelle
+\footnotesize
+\underline{Beweis (fortgeführt)}
+
+Mit $\mathbb{V}(y_i) = \tau^2 + \sigma_i^2$ und $w_i = 1/\sigma_i^2$ ergibt sich schließlich
+\begin{align}
+\begin{split}
+\mathbb{E}(Q)
+& = \sum_{i=1}^k w_i\mathbb{V}(y_i) - \frac{\sum_{i=1}^k w_i^2 \mathbb{V}(y_i)}{\sum_{i=1}^k w_i} \\
+& = \sum_{i=1}^k w_i(\tau^2 + \sigma_i^2) - \frac{\sum_{i=1}^k w_i^2 (\tau^2 + \sigma_i^2)}{\sum_{i=1}^k w_i} \\
+& = \tau^2\sum_{i=1}^k w_i  + \sum_{i=1}^k w_i\sigma_i^2  - \tau^2\frac{\sum_{i=1}^k w_i^2}{\sum_{i=1}^k w_i} - \frac{\sum_{i=1}^k w_i^2 \sigma_i^2}{\sum_{i=1}^k w_i} \\
+& = \tau^2\left(\sum_{i=1}^k w_i  - \frac{\sum_{i=1}^k w_i^2}{\sum_{i=1}^k w_i}\right) + \left(\sum_{i=1}^k w_i  \sigma_i^2 - \frac{\sum_{i=1}^k w_i^2 \sigma_i^2}{\sum_{i=1}^k w_i}\right) \\
+& = \tau^2\left(\sum_{i=1}^k w_i  - \frac{\sum_{i=1}^k w_i^2}{\sum_{i=1}^k w_i}\right) +
+\left(\sum_{i=1}^k \frac{\sigma_i^2}{\sigma_i^2} - \frac{\sum_{i=1}^k \frac{\sigma_i^2}{(\sigma_i^2)^2} }{\sum_{i=1}^k\frac{1}{\sigma_i^2}}\right) \\
+& = \tau^2\left(\sum_{i=1}^k w_i  - \frac{\sum_{i=1}^k w_i^2}{\sum_{i=1}^k w_i}\right) + \left(\sum_{i=1}^k 1 - 1\right) \\
+& = \tau^2\left(\sum_{i=1}^k w_i  - \frac{\sum_{i=1}^k w_i^2}{\sum_{i=1}^k w_i}\right) + (k - 1). \\
+\end{split}
+\end{align}
+
+# Random-Effects-Modelle
+\footnotesize
+\underline{Beweis (fortgeführt)}
+
+Das Stichprobenäquivalent des Erwartungswerts der $Q$-Statistik ist der Mittelwert der
+$Q$-Statistik, allerdings bei nur einer Beobachtung. Gleichsetzen des Erwartungswerts
+von $Q$ mit seinem Stichprobenäquivalent ergibt also folgende Bedingung für den
+Momentenmethodenschätzer von $\tau^2$
+\begin{equation}
+Q = \mathbb{E}(Q) \Leftrightarrow
+Q =  \hat{\tau}_{\tiny \mbox{DL}}^2\left(\sum_{i=1}^k w_i  - \frac{\sum_{i=1}^k w_i^2}{\sum_{i=1}^k w_i}\right)  +  (k - 1).
+\end{equation}
+Auflösen nach $\hat{\tau}_{\tiny \mbox{DL}}^2$ und Beachtung von $\tau^2 \ge 0$ ergibt dann den bei 0 abgeschnittenen Momentenmethodenschätzer von $\tau^2$
+\begin{equation}
+\hat{\tau}_{\tiny \mbox{DL}}^2\left(\sum_{i=1}^k w_i  - \frac{\sum_{i=1}^k w_i^2}{\sum_{i=1}^k w_i}\right)  +  (k - 1) = Q \Leftrightarrow
+\hat{\tau}_{\tiny \mbox{DL}}^2= \max\left\lbrace 0, \frac{Q - (k-1)}{c}\right\rbrace \mbox{ mit } c := \sum_{i=1}^k w_i  - \frac{\sum_{i=1}^k w_i^2}{\sum_{i=1}^k w_i}.
+\end{equation}
+
+\noindent (2) In Analogie zum Beweis des FEM-ML-SES-Schätzer führt die marginale Datenverteilung
+\begin{equation}
+y_i \sim N\left(\delta, \sigma_i^2 + \hat{\tau}_{\tiny \mbox{DL}}^2\right) \mbox{ unabhängig für } i = 1,...,k
+\end{equation}
+auf die Maximum-Likelihood-Bedingung
+\begin{equation}
+\sum_{i=1}^k \frac{1}{\sigma_i^2+ \hat{\tau}_{\tiny \mbox{DL}}^2}(y_i - \hat{\delta}_{\tiny \mbox{DL}}) = 0.
+\end{equation}
+und Auflösen nach $\hat{\delta}_{\tiny \mbox{DL}}$ dann zur Aussage des Theorems.
+$\hfill\Box$
+
+
+# Random-Effects-Modelle
+\small
+Qualität der DerSimonian-Laird-Schätzung
+
+\footnotesize
+\setstretch{3}
+
+* Die frequentistischen Eigenschaften der DerSimonian-Laird-Schätzung sind Gegenstand aktueller Forschung.
+* Vgl. @viechtbauer2005, @jackson2010, @veroniki2016, @langan2019.
+* Generell lässt sich wohl festhalten, dass der DerSimonian-Laird Heterogenitätsschätzer verzerrt sein kann.
+* Es wird eher die Restricted Maximum-Likelihood Schätzung von $\tau^2$ empfohlen (vgl. @langan2019).
+* Die Restricted-Maximum-Likelihood-Schätzung von $\tau^2$ ist die Default-Einstellung in `metafor`.
+* Der DerSimonian-Laird-Schätzer $\hat{\delta}_{\tiny \mbox{DL}}$ ist wohl unverzerrt (vgl. @jackson2010).
+* Die Betrachtung von Metaanalysen als Linear Mixed Models wird in der Metaanalyse-Community Mainstream.
+
+
+# Random-Effects-Modelle
+\small
+Simulation mit $k := 10$, $\delta := 1$, $\tau^2 := 0.1$, $\sigma_i^2 \sim U(0,0.2)$
+\vspace{2mm}
+
+\tiny
+\setstretch{1.2}
+```{r, echo = T}
+set.seed(2)                                                     # reproduzierbare Ergebnisse
+k               = 10                                            # Anzahl an Studien
+delta           = 1                                             # wahre, aber unbekannte, SES
+tausqr          = .1                                            # wahre, aber unbekannte, Heterogenität
+sigsqr_i        = rep(NaN,k)                                    # Studienspezifische Varianzenarray
+delta_i         = rep(NaN,k)                                    # Latente Effektstärken Array
+y_i             = rep(NaN,k)                                    # Empirische Effektstärken Array
+for(i in 1:k){                                                  # Studieniterationen
+    delta_i[i]  = rnorm(1,delta, sqrt(tausqr))                  # latente SES
+    sigsqr_i[i] = runif(1,.0,.2)                                # bekannte studienspezifische Varianz
+    y_i [i]     = rnorm(1,delta_i[i],sqrt(sigsqr_i[i]))}        # empirische SES
+w_i             = 1/sigsqr_i                                    # Wichtungsparameter des FEM-ML-SES-Schätzers
+delta_hat       = sum(w_i*y_i)/sum(w_i)                         # FEM-ML-SES-Schätzer
+Q               = sum((w_i*(y_i-delta_hat)^2))                  # Q-Statistik
+I2              = max(0, (Q - (k-1))/Q)                         # I^2-Statistik
+c               = sum(w_i) - (sum(w_i**2)/sum(w_i))             # c für DerSimonian-Laird
+tau_hat_dl      = max(0, (Q - (k-1))/c)                         # DerSimonian-Laird tau^2 Schätzer
+w_i_dl          = 1/(sigsqr_i + tau_hat_dl)                     # Wichtungsparameter des REM-SES-Schätzers
+delta_hat_dl    = sum(w_i_dl*y_i)/sum(w_i_dl)                   # REM-DL-SES-Schätzer
+```
+
+```{r}
+cat("Q-Statistik                            : " , round(Q,4),
+    "\nI^2-Statistik                          : ", 100*round(I2,4),
+    "\nDerSimonian-Laird-Schätzer von tau^2   : ", round(tau_hat_dl,4),
+    "\nMaximum-Likelihood-SES des FEM         : ", round(delta_hat,4),
+    "\nDerSimonian-Laird-SES des REM          : ", round(delta_hat_dl,4))
+```
+
+# Random-Effects-Modelle
+\small
+Simulation mit $k := 10$, $\delta := 1$, $\tau^2 := 0.1$, $\sigma_i^2 \sim U(0,0.2)$
+\vspace{2mm}
+
+\footnotesize
+Anwendung von `metafor`
+\vspace{2mm}
+
+\tiny
+```{r, echo = T}
+library(metafor)                                          # R Paket
+res = rma(yi = y_i, vi = sigsqr_i, method = "DL")         # Daten und DerSimonian-Laird ("DL") Methode
+print(res)                                                # Ergebnisausgabe
+```
+
+
+# Random-Effects-Modelle
+\footnotesize
+\begin{theorem}[Asymptotische Verteilung eines REM-SES-Schätzers]
+\justifying
+\normalfont
+Gegeben sei das Random-Effects-Modell der Metaanalyse mit bekannten studienspezifischen
+Varianzen $\sigma_{i}^2$ für $i = 1,...,k$, studienübergreifenden standardisierter Effektstärkevarianz (Heterogenität)
+$\tau^2$ und es sei $\hat{\delta}$ ein Schätzer der wahren, aber unbekannten, standardisierten Effektstärke $\delta$.
+Schließlich seien
+\begin{equation}
+\tilde{w}_i := \frac{1}{\tau^2 + \sigma_i^2} \mbox{ für } i = 1,...,k.
+\end{equation}
+Dann ist $\hat{\delta}$ asymptotisch normalverteilt und es gilt speziell
+\begin{equation}
+\hat{\delta} \stackrel{a}{\sim} N\left(\delta, \left(\sum_{i=1}^k \tilde{w}_i\right)^{-1} \right).
+\end{equation}
+\end{theorem}
+
+Bemerkungen
+
+* Das Theorem ist ein Spezialfall der asymptotischen Verteilung von Fixed-Effects-Parameterschätzern in LMMs.
+* @rencher2012 17.5.1 zitieren @fuller1974 für einen Beweis.
+* $\hat{\delta}$ muss nicht notwendigerweise der DerSimonian-Laird-Schätzer von $\delta$ sein.
+
+# Random-Effects-Modelle
+\footnotesize
+\begin{definition}[Asymptotische Varianz für einen REM-SES-Schätzer]
+\justifying
+Gegeben sei das Random-Effects-Modell der Metaanalyse mit bekannten studienspezifischen
+Varianzen $\sigma_{i}^2$ für $i = 1,...,k$, studienübergreifender standardisierter Effektstärkenvarianz (Heterogenität)
+$\tau^2$ und es sei $\hat{\delta}$ ein Schätzer der wahren, aber unbekannten, standardisierten Effektstärke $\delta$.
+Dann wird der Varianzparameter der asymptotischen Verteilung von $\hat{\delta}$ die \textit{asymptotische Varianz}
+von $\hat{\delta}$ genannt und mit
+\begin{equation}
+\mathbb{V}_{a}(\hat{\delta}) =
+\left(\sum_{i=1}^k \tilde{w}_i\right)^{-1} \mbox{ mit }
+\tilde{w}_i := \frac{1}{\tau^2 + \sigma_i^2} \mbox{ für } i = 1,...,k.
+\end{equation}
+bezeichnet. Ein häufig genutzter Schätzer für die asymptotische Varianz von $\hat{\delta}$ ist
+\begin{equation}
+\hat{\mathbb{V}}_{a}(\hat{\delta}) =
+\left(\sum_{i=1}^k \hat{\tilde{w}}_i\right)^{-1} \mbox{ mit }
+\hat{\tilde{w}}_i := \frac{1}{\hat{\tau}^2 + \sigma_i^2} \mbox{ für } i = 1,...,k.
+\end{equation}
+für einen Schätzer $\hat{\tau}^2$ der studienübergreifenden standardisierten Effektstärkevarianz $\tau^2$.
+\end{definition}
+
+Bemerkungen
+
+* Die Definitionen sind analog zu denen zur asymptotischen Varianz von Hedges $g$ im Einzelstudienmodell.
+
+# Random-Effects-Modelle
+\footnotesize
+\begin{theorem}[Asymptotisches Konfidenzintervall für die SES]
+\justifying
+\normalfont
+Gegeben sei das Random-Effects-Modell der Metaanalyse, $\hat{\delta}$ sei ein
+REM-basierter Schätzer der standardisierten Effektstärke $\delta$, $\mathbb{V}_{a}(\hat{\delta})$
+sei seine Varianz und für ein Konfidenzlevel $\gamma \in ]0,1[$ sei
+\begin{equation}
+z_\gamma := \Phi^{-1}\left(\frac{1+\gamma}{2}\right)
+\end{equation}
+wobei $\Phi^{-1}$ die inverse kumulative Verteilungsfunktion der Standardnormalverteilung bezeichne.
+Dann ist
+\begin{equation}
+\kappa := \left[\hat{\delta} - \sqrt{\mathbb{V}_{a}(\hat{\delta})}z_{\gamma}, \hat{\delta} + \sqrt{\mathbb{V}_{a}(\hat{\delta})}z_{\gamma}\right]
+\end{equation}
+ein asymptotisches $\gamma$-Konfidenzintervall für die standardisierte Effektstärke $\delta$.
+\end{theorem}
+
+Bemerkungen
+
+* Wir nutzen hier $\gamma$ für das Konfidenzlevel, da $\delta$ schon belegt ist.
+* $\kappa$ entspricht einem Konfidenzintervall für den Erwartungswert der Normalverteilung bei bekannter Varianz.
+* In der Anwendung wird man $\mathbb{V}_{a}(\hat{\delta})$ durch seinen Schätzer $\hat{\mathbb{V}}_{a}(\hat{\delta})$ ersetzen.
+
+# Random-Effects-Modelle
+\footnotesize
+\underline{Beweis}
+
+Wir müssen zeigen, dass
+\begin{equation}
+\mathbb{P}(\kappa \ni \delta) = \gamma.
+\end{equation}
+Dazu halten wir zunächst fest, dass
+\begin{align}
+\begin{split}
+\hat{\delta} \stackrel{a}{\sim} N\left(\delta, \mathbb{V}_{a}(\hat{\delta}) \right).
+\end{split}
+\end{align}
+Mit dem Theorem zur $Z$-Transformation gilt dann
+\begin{equation}
+Z_{\hat{\delta}} := \frac{\hat{\delta}-\delta}{\sqrt{\mathbb{V}_{a}(\hat{\delta})}} \sim N(0,1).
+\end{equation}
+
+
+Weiterhin gilt per Definition von $z_\gamma$, dass
+\begin{equation}
+\mathbb{P}\left(-z_\gamma \le Z_{\hat{\delta}} \le z_\gamma \right) = \gamma.
+\end{equation}
+
+# Random-Effects-Modelle
+\footnotesize
+\underline{Beweis (fortgeführt)}
+
+Aus der Definition eines $\gamma$-Konfidenzintervalls folgt dann
+\begin{align}
+\begin{split}
+\gamma
+& = \mathbb{P}\left(-z_\gamma \le Z_{\hat{\delta}} \le z_\gamma \right) \\
+& = \mathbb{P}\left(-z_\gamma \le  \frac{\hat{\delta} - \delta}{\sqrt{\mathbb{V}_{a}(\hat{\delta})}} \le z_\gamma \right) \\
+& = \mathbb{P}\left(-z_\gamma\sqrt{\mathbb{V}_{a}(\hat{\delta})} \le \hat{\delta} - \delta \le z_\gamma\sqrt{\mathbb{V}_{a}(\hat{\delta})} \right) \\
+& = \mathbb{P}\left(-\hat{\delta} -z_\gamma\sqrt{\mathbb{V}_{a}(\hat{\delta})} \le - \delta \le -\hat{\delta} + z_\gamma\sqrt{\mathbb{V}_{a}(\hat{\delta})} \right) \\
+& = \mathbb{P}\left(\hat{\delta} + z_\gamma\sqrt{\mathbb{V}_{a}(\hat{\delta})} \ge \delta \ge \hat{\delta} - z_\gamma\sqrt{\mathbb{V}_{a}(\hat{\delta})} \right) \\
+& = \mathbb{P}\left(\hat{\delta} - z_\gamma\sqrt{\mathbb{V}_{a}(\hat{\delta})}  \le \delta \le \hat{\delta} + z_\gamma\sqrt{\mathbb{V}_{a}(\hat{\delta})} \right) \\
+& = \mathbb{P}\left(\left[\hat{\delta} - z_{\gamma}\sqrt{\mathbb{V}_{a}(\hat{\delta})},\hat{\delta} + z_{\gamma}\sqrt{\mathbb{V}_{a}(\hat{\delta})}\right]  \ni \delta \right) \\
+& = \mathbb{P}(\kappa \ni \delta)
+\end{split}
+\end{align}
+und damit ist alles gezeigt.
+
+# Random-Effects-Modelle
+\small
+Simulation mit $k := 10$, $\delta := 1$, $\tau^2 := 0.1$, $\sigma_i^2 \sim U(0,0.2)$
+\vspace{2mm}
+
+\tiny
+\setstretch{1.2}
+```{r, echo = T}
+set.seed(2)                                                     # reproduzierbare Ergebnisse
+k                = 10                                           # Anzahl an Studien
+delta            = 1                                            # wahre, aber unbekannte, SES
+tausqr           = .1                                           # w.a.u. Heterogenität
+sigsqr_i         = rep(NaN,k)                                   # Studienspezifische Varianzenarray
+delta_i          = rep(NaN,k)                                   # Latente Effektstärken Array
+y_i              = rep(NaN,k)                                   # Empirische Effektstärken Array
+for(i in 1:k){                                                  # Studieniterationen
+    delta_i[i]   = rnorm(1,delta, sqrt(tausqr))                 # latente Studieneffektstärke
+    sigsqr_i[i]  = runif(1,.0,.2)                               # bekannte studienspezifische Varianz
+    y_i [i]      = rnorm(1,delta_i[i],sqrt(sigsqr_i[i]))}       # empirische Effektstärke
+w_i              = 1/sigsqr_i                                   # Wichtungsparameter des FEM-ML-SES-Schätzers
+delta_hat        = sum(w_i*y_i)/sum(w_i)                        # FEM-ML-SES-Schätzer
+Q                = sum((w_i*(y_i-delta_hat)^2))                 # Q-Statistik
+I2               = max(0, (Q - (k-1))/Q)                        # I^2-Statistik
+c                = sum(w_i) - (sum(w_i**2)/sum(w_i))            # c für DerSimonian-Laird
+tau_hat_dl       = max(0, (Q - (k-1))/c)                        # DerSimonian-Laird tau^2 Schätzer
+w_i_dl           = 1/(sigsqr_i + tau_hat_dl)                    # Wichtungsparameter des REM-SES-Schätzers
+delta_hat_dl     = sum(w_i_dl*y_i)/sum(w_i_dl)                  # REM-DL-SES-Schätzer
+delta_hat_dl_var = 1/sum(w_i_dl)                                # asymptotische Varianz des DL-SES-Schätzers
+gamma_level      = 0.95                                         # Konfidenzlevel
+z_gamma          = qnorm((1 + gamma_level)/2)                   # z-Konfidenzkonstante
+ci.lb            = delta_hat_dl-sqrt(delta_hat_dl_var)*z_gamma  # untere KI Grenze
+ci.ub            = delta_hat_dl+sqrt(delta_hat_dl_var)*z_gamma  # obere  KI Grenze
+```
+
+```{r}
+R  = data.frame(estimate = round(delta_hat_dl,4), ci.lb = round(ci.lb,4), ci.up = round(ci.ub,4))
+print(R, row.names = FALSE)
+```
+
+# Random-Effects-Modelle
+\small
+Simulation mit $k := 10$, $\delta := 1$, $\tau^2 := 0.1$, $\sigma_i^2 \sim U(0,0.2)$
+\vspace{1mm}
+
+\footnotesize
+Anwendung von `metafor`
+\vspace{2mm}
+
+\tiny
+```{r, echo = T}
+library(metafor)                                          # R Paket
+res = rma(yi = y_i, vi = sigsqr_i, method = "DL")         # Daten und DerSimonian-Laird ("DL") Methode
+print(res)                                                # Ergebnisausgabe
+```
+
+# Random-Effects-Modelle
+\small
+\vspace{2mm}
+Simulation der asymptotischen Verteilung und des 95%-Konfidenzintervalls mit `metafor`
+\vspace{2mm}
+
+\vspace{1mm}
+\tiny
+\setstretch{1.2}
+```{r, echo = T}
+set.seed(2)                                                         # reproduzierbare Ergebnisse
+k                   = 10                                            # Anzahl an Studien
+delta               = 2                                             # wahre, aber unbekannte, SES
+tausqr              = .5                                            # w.a.u. Heterogenität
+sigsqr_i            = runif(k,.1,.2)                                # bekannte studienspezifische Varianzen
+sim                 = 1e2                                           # Anzahl Simulationen
+delta_hat_dl        = rep(NaN,sim)                                  # SES Array
+kappa               = array(rep(NaN, 2*sim), dim = c(2,sim))        # Konfidenzintervallarray
+for(s in 1:sim){                                                    # Simulationsiterationen
+    delta_i         = rep(NaN,k)                                    # Latente standardisierte Effektstärkenarray
+    y_i             = rep(NaN,k)                                    # Empirische standardisierte Effektstärkenarray
+    for(i in 1:k){                                                  # Studieniterationen
+        delta_i[i]  = rnorm(1,delta, sqrt(tausqr))                  # latente Studieneffektstärke
+        y_i[i]      = rnorm(1,delta_i[i],sqrt(sigsqr_i[i]))}        # empirische Effektstärke
+    res             = rma(yi = y_i, vi = sigsqr_i, method = "DL")   # metafor-basierte Konfidenzintervallbestimmung
+    delta_hat_dl[s] = res$b                                         # Standardisierte Effektstärkeschätzer
+    kappa[1,s]      = res$ci.lb                                     # untere Konfidenzintervallgrenze
+    kappa[2,s]      = res$ci.ub}                                    # obere  Konfidenzintervallgrenze
+```
+
+# Random-Effects-Modelle
+\small
+\vspace{2mm}
+Simulation der asymptotischen Verteilung und des 95%-Konfidenzintervalls mit `metafor`
+
+```{r, echo = F, eval = F}
+pdf(file = "./6-Abbildungen/ivf-6-asymptotische-verteilung.pdf", width = 8, height = 5)
+library(latex2exp)
+par(
+family     = "sans",
+mfcol      = c(1,1),
+pty        = "m",
+bty        = "l",
+lwd        = 1,
+las        = 1,
+mgp        = c(2,1,0),
+xaxs         = "i",
+yaxs         = "i",
+font.main  = 1,
+cex        = 1.2,
+cex.main   = 1.3)
+
+# Histogramm und WDF
+hist(
+delta_hat_dl,
+breaks  = 100,
+col     = "gray90",
+prob    = TRUE,
+xlim    = c(1,3),
+ylim    = c(0,2),
+xlab    = TeX("$\\hat{\\delta}$"),
+ylab    = "",
+main    = TeX(""))
+d_min   = 0
+d_max   = 50
+d_res   = 1e3
+d_space = seq(d_min, d_max, len = d_res)
+lines(
+d_space,
+dnorm(d_space, delta, sqrt(1/sum(1/(sigsqr_i + tausqr)))),
+lwd   = 2,
+col   = "darkorange")
+dev.off()
+```
+
+```{r, echo = FALSE, out.width = "80%", fig.align = "center"}
+knitr::include_graphics("6-Abbildungen/ivf-6-asymptotische-verteilung.pdf")
+```
+
+
+# Random-Effects-Modelle
+\small
+\vspace{2mm}
+Simulation der asymptotischen Verteilung und des 95%-Konfidenzintervalls mit `metafor`
+
+```{r, eval = F, echo = F}
+pdf(
+file         = "./6-Abbildungen/ivf-6-konfidenzintervalle.pdf",
+width       = 6,
+height      = 4)
+par(
+family      = "sans",
+mfcol       = c(1,1),
+pty         = "m",
+bty         = "l",
+lwd         = 1,
+las         = 1,
+mgp         = c(3,2,0),
+xaxs        = "i",
+yaxs        = "i",
+xpd         = TRUE,
+font.main   = 1,
+cex         = 1,
+cex.main    = 1)
+P_idx       = rep(NaN,sim)
+P_idx[delta < kappa[1,] | delta > kappa[2,]] = 3
+nci         = 100
+plot(
+1:nci,
+delta_hat_dl[1:nci],
+type     = "p",
+xlim     = c(0,100),
+ylim     = c(0,4),
+xlab     = "Simulationen",
+ylab     = "",
+pch      =  19,
+cex      =  .5)
+arrows(
+x0       = 1:nci,
+y0       = kappa[1,1:nci],
+x1       = 1:nci,
+y1       = kappa[2,1:nci],
+code     = 3,
+angle    = 90,
+length   = 0.01,
+lwd      = .7)
+lines(
+1:nci,
+rep(delta, nci),
+col      = "gray80",
+lty      = 1)
+lines(
+1:nci,
+P_idx[1:nci],
+type    = "p",
+pch     = 13,
+col     = "darkorange")
+dev.off()
+```
+
+```{r, echo = FALSE, out.width = "80%", fig.align = "center"}
+knitr::include_graphics("6-Abbildungen/ivf-6-konfidenzintervalle.pdf")
+```
+
+
+<!-- # Random-Effects-Modelle
+\vspace{2mm}
+Anwendungsbeispiel
+\vfill
+```{r, echo = FALSE, out.width = "50%", fig.align = "center"}
+knitr::include_graphics("6-Abbildungen/ivf-6-schaeuffele-abstract.pdf")
+```
+\vfill
+
+
+# Random-Effects-Modelle
+\vspace{2mm}
+Anwendungsbeispiel
+
+\footnotesize
+
+"All analyses were conducted in R (v.4.3.1), using the metafor (v.4.2-0),
+meta (v.6.5-0) and dmetar packages (v.0.1.0). We calculated controlled effect
+sizes for the difference between the transdiagnostic treatment and the control
+conditions in main outcomes (depression and anxiety) at posttreatment (relative efficacy),
+using the bias-corrected Hedges’ g and the 95% CI. These were calculated by
+subtracting the mean posttreatment score of the transdiagnostic
+condition from the mean score of the control condition, divided by the pooled
+standard deviation of both conditions. Values of 0.2, 0.5 and 0.8 of Hedges’ g
+represent a small, moderate and large effect size, respectively.
+
+**Building on previous work, we expected considerable variability
+and thus used a random-effects model to account for heterogeneity
+of included studies. We tested heterogeneity of effect sizes
+with the $Q$ statistic, the $I^2$ statistic and by visual inspection of forest
+plots**.
+
+\flushright
+@schaeuffele2024
+
+# Random-Effects-Modelle
+\vspace{2mm}
+Anwendungsbeispiel
+
+```{r, echo = FALSE, out.width = "80%", fig.align = "center"}
+knitr::include_graphics("6-Abbildungen/ivf-6-schaeuffele-delta-reml.pdf")
+```
+
+\footnotesize
+"Across settings, TD-CBT revealed significantly stronger symptom
+reduction in depression (g = 0.74, 95% CI = 0.57–0.92, P < 0.001) (...)
+than controls at posttreatment."
+
+\flushright
+@schaeuffele2024
+
+# Random-Effects-Modelle
+\vspace{2mm}
+Anwendungsbeispiel
+
+\small
+DerSimonian-Laird-basierte standardisierte Effektstärkeschätzung im Random-Effects-Modell
+\vspace{4mm}
+
+\tiny
+\setstretch{1.2}
+```{r, echo = T}
+D                = read.csv("6-Daten/TD-CBT-GI.csv")          # Einlesen des Datensatzes
+k                = nrow(D)                                      # Anzahl an Studien
+y_i              = D$hgi                                        # Empirische Effektstärken Array
+sigsqr_i         = D$vgi                                        # Studienspezifische Varianzenarray
+w_i              = 1/sigsqr_i                                   # Wichtungsparameter des FEM-ML-SES-Schätzers
+delta_hat        = sum(w_i*y_i)/sum(w_i)                        # FEM-ML-SES-Schätzer
+Q                = sum((w_i*(y_i-delta_hat)^2))                 # Q-Statistik
+I2               = max(0, (Q - (k-1))/Q)                        # I^2-Statistik
+c                = sum(w_i) - (sum(w_i**2)/sum(w_i))            # c für DerSimonian-Laird
+tau_hat_dl       = max(0, (Q - (k-1))/c)                        # DerSimonian-Laird tau^2 Schätzer
+w_i_dl           = 1/(sigsqr_i + tau_hat_dl)                    # Wichtungsparameter des REM-DL-SES-Schätzers
+delta_hat_dl     = sum(w_i_dl*y_i)/sum(w_i_dl)                  # REM-DL-SES-Schätzer
+delta_hat_dl_var = 1/sum(w_i_dl)                                # Asymptotische Varianz des REM-DL-SES-Schätzers
+gamma_level      = 0.95                                         # Konfidenzlevel
+z_gamma          = qnorm((1 + gamma_level)/2)                   # z-Konfidenzkonstante
+ci.lb            = delta_hat_dl-sqrt(delta_hat_dl_var)*z_gamma  # untere KI Grenze
+ci.ub            = delta_hat_dl+sqrt(delta_hat_dl_var)*z_gamma  # obere  KI Grenze
+```
+
+```{r}
+cat("Q-Statistik                            :" , round(Q,4),
+    "\nI^2-Statistik                          :", 100*round(I2,4),
+    "\nDerSimonian-Laird-Schätzer von tau^2   :", round(tau_hat_dl,4))
+```
+```{r}
+R  = data.frame(estimate = delta_hat_dl, ci.lb = ci.lb, ci.up = ci.ub)
+print(R, digits = 4, row.names = FALSE)
+```
+
+# Random-Effects-Modelle
+\vspace{2mm}
+Anwendungsbeispiel
+
+\small
+DerSimonian-Laird-basierte standardisierte Effektstärkeschätzung im Random-Effects-Modell
+\vspace{4mm}
+
+\tiny
+```{r, echo = T}
+library(metafor)                                  # R Paket
+D   = read.csv("6-Daten/TD-CBT-GI.csv")         # Einlesen des Datensatzes
+res = rma(yi = D$hgi, vi = D$vgi, method = "DL")  # Daten und DerSimonian-Laird ("DL") Methode
+print(res)                                        # Ergebnisausgabe
+```
+
+# Random-Effects-Modelle
+\vspace{2mm}
+Anwendungsbeispiel
+
+\small
+REML-basierte standardisierte Effektstärkeschätzung im Random-Effects-Modell
+\vspace{4mm}
+
+\tiny
+
+```{r, echo = T}
+library(metafor)                                  # R Paket
+D   = read.csv("6-Daten/TD-CBT-GI.csv")         # Einlesen des Datensatzes
+res = rma(yi = D$hgi, vi = D$vgi)                 # Daten und REML-Default-Methode
+print(res)                                        # Ergebnisausgabe
+```
+
+# Random-Effects-Modelle
+\vspace{2mm}
+Anwendungsbeispiel
+
+\small
+REML-basierte standardisierte Effektstärkeschätzung im Random-Effects-Modell
+\vspace{4mm}
+
+\tiny
+\setstretch{1.2}
+```{r, echo = T}
+D               = read.csv("6-Daten/TD-CBT-GI.csv")         # Einlesen des Datensatzes
+k               = nrow(D)                                     # Anzahl an Studien
+y_i             = D$hgi                                       # Empirische Effektstärken Array
+sigsqr_i        = D$vgi                                       # Studienspezifische Varianzenarray
+w_i             = 1/sigsqr_i                                  # Wichtungsparameter des FEM-ML-SES-Schätzers
+delta_hat       = sum(w_i*y_i)/sum(w_i)                       # FEM-ML-SES-Schätzer
+Q               = sum((w_i*(y_i-delta_hat)^2))                # Q-Statistik
+I2              = max(0, (Q - (k-1))/Q)                       # I^2-Statistik
+tau_hat_reml    = res$tau2                                    # REML-tau^2-Schätzer aus metafor
+w_i_reml        = 1/(sigsqr_i + tau_hat_reml)                 # Wichtungsparameter des REM-DL-SES-Schätzers
+delta_hat_reml  = sum(w_i_reml*y_i)/sum(w_i_reml)             # REM-DL-SES-Schätzer
+delta_hat_var   = 1/sum(w_i_reml)                             # Asymptotische Varianz des REM-DL-SES-Schätzers
+gamma_level     = 0.95                                        # Konfidenzlevel
+z_gamma         = qnorm((1 + gamma_level)/2)                  # z-Konfidenzkonstante
+ci.lb           = delta_hat_reml-sqrt(delta_hat_var)*z_gamma  # untere KI Grenze
+ci.ub           = delta_hat_reml+sqrt(delta_hat_var)*z_gamma  # obere  KI Grenze
+```
+
+```{r}
+cat("Q-Statistik               :" , round(Q,2),
+    "\nI^2-Statistik             :", 100*round(I2,4),
+    "\nREML-Schätzer von tau^2   :", round(tau_hat_reml,4))
+```
+```{r}
+R  = data.frame(estimate = delta_hat_reml, ci.lb = ci.lb, ci.ub = ci.ub)
+print(R, digits = 2, row.names = FALSE)
+```
+-->
+
+#
+\vfill
+\setstretch{2.7}
+\large
+Einführung
+
+Effektstärkeschätzung
+
+Fixed-Effects-Modelle
+
+Random-Effects-Modelle
+
+**Selbstkontrollfragen**
+\vfill
+
+# Selbstkontrollfragen
+\footnotesize
+\setstretch{2}
+
+1. Erläutern Sie, warum Metaanalysen aus ethischer Sicht sinnvoll sind.
+1. Erläutern Sie den Unterschied zwischen Narrativen Reviews und Systematischen Reviews/Metaanalysen.
+1. Nennen und erläutern Sie vier typische Probleme des Metaanalyse-Genres.
+1. Geben Sie die Definition von Cohen's $d$ im Treatment- und Kontrollgruppen-Design wieder.
+1. Geben Sie die Definition des Einzelstudienmodells (ESMs) wieder.
+1. Geben Sie die Definition des Effektstärkeschätzers im ESM wieder.
+1. Geben Sie Aussage (1) und (2) des Theorems zu den Eigenschaften des Effektstärkeschätzers im ESM wieder.
+1. Geben Sie das Theorem zum Unverzerrten Effektstärkeschätzer im ESM - Hedges' $g$ wieder.
+1. Geben Sie das Theorem zur Asymptotischen Normalverteilung von Hedges' $g$ wieder.
+1. Geben Sie die Definition des Fixed-Effects-Modells der Metaanalyse wieder und erläutern Sie es.
+1. Geben Sie das Theorem zum FEM-ML-SES-Schätzer wieder.
+1. Geben Sie das Theorem zur $Q$-Statistik wieder.
+1. Geben Sie die Definition der $I^2$-Statistik wieder.
+1. Geben Sie die Definition des Random-Effects-Modells der Metaanalyse wieder und erläutern Sie es.
+
+# Appendix
+\footnotesize
+\begin{definition}[Nichtzentrale $t$-Zufallsvariable]
+\justifying
+$T$ sei eine Zufallsvariable mit Ergebnisraum $\mathbb{R}$ und WDF
+\begin{equation}
+p : \mathbb{R} \to \mathbb{R}_{>0}, t \mapsto p(t) :=
+\frac{1}{2^{\frac{\nu-1}{2}}\Gamma\left(\frac{\nu}{2} \right)(\nu \pi)^{\frac{1}{2}}}
+\int_{0}^\infty \tau^{\frac{\nu-1}{2}} \exp\left(-\frac{\tau}{2}\right)
+\exp\left(-\frac{1}{2}\left(t \left(\frac{\tau}{\nu}\right)^{\frac{1}{2}} - \mu \right)^2 \right)\,d\tau.
+\end{equation}
+Dann sagen wir, dass $T$ einer nichtzentralen $t$-Verteilung mit
+Nichtzentralitätsparameter $\mu$ und Freiheitsgradparameter $\nu$ unterliegt
+und nennen $T$ eine \textit{nichtzentrale $t$-Zufallsvariable mit Nichtzentralitätsparameter
+$\mu$ und Freiheitsgradparameter $\nu$}. Wir kürzen dies mit $T \sim t(\mu, \nu)$ ab.
+Erwartungswert und Varianz einer nichtzentral $t$-verteilten Zufallsvariablen $T$
+mit Nichtzentralitätsparameter $\mu$ und Freiheitsgradparameter $\nu > 1$ ergeben sich zu
+\begin{equation}
+\mathbb{E}(T) = \mu \sqrt{\frac{\nu}{2}}\frac{\Gamma((\nu - 1)/2)}{\Gamma(\nu/2)}
+\mbox{ und }
+\mathbb{V}(T)
+= \frac{\nu(1 + \mu^2)}{\nu - 2} - \frac{\mu^2 \nu}{2}\left(\frac{\Gamma((\nu - 1)/2)}{\Gamma(\nu/2)}\right)^2.
+\end{equation}
+\end{definition}
+
+Bemerkung
+
+* Nichtzentrale $t$-Zufallsvariablen sind für die Testgütefunktion des T-Tests essenziell.
+* Für die Herleitung von Erwartungswert und Varianz verweisen wir auf @hogben1961.
+
+# Appendix
+Wahrscheinlichkeitsdichtefunktionen spezieller nichtzentraler $t$-Zufallsvariablen.
+
+```{r, echo = F, eval = F}
+options(warn=-1)                                                                # warning off
+t_min     = -5                                                                  # Minimum T-Wert
+t_max     = 30                                                                  # Maximum T-Wert
+t_res     = 1e3                                                                 # T-Wert Auflösung
+t         = seq(t_min, t_max, len = t_res)                                      # T-Raum
+delta     = c(0,5,15)                                                           # Nichtzentralitätsparameter
+nu        = c(5, 30)                                                            # Freiheitsgrade
+p         = cbind(
+            matrix(dt(t, nu[1], delta[1]),nrow=length(t)),
+            matrix(dt(t, nu[2], delta[1]),nrow=length(t)),
+            matrix(dt(t, nu[1], delta[2]),nrow=length(t)),
+            matrix(dt(t, nu[2], delta[2]),nrow=length(t)),
+            matrix(dt(t, nu[1], delta[3]),nrow=length(t)),
+            matrix(dt(t, nu[2], delta[3]),nrow=length(t)))
+
+# Visualisierung
+pdf(
+file        = "./6-Abbildungen/ivf-6-nichtzentrale-t-wdf.pdf",
+width       = 7,
+height      = 4.5)
+library(latex2exp)
+par(
+family      = "sans",
+pty         = "m",
+bty         = "l",
+lwd         = 1,
+las         = 1,
+mgp         = c(2,1,0),
+xaxs        = "i",
+yaxs        = "i",
+font.main   = 1,
+cex         = 1,
+cex.main    = 1.2)
+matplot(
+t,
+p,
+type        = "l",
+lty         = c(1,2,1,2,1,2),
+col         = c("gray10", "gray10", "gray50", "gray50", "gray70", "gray70"),
+lwd         = 2,
+xlab        = "T",
+ylab        = "",
+ylim        = c(0,.4),
+main        = TeX("$t(T;\\mu,\\nu)$"))
+legend(
+18,
+.4,
+c(TeX("$\\mu = 0 , \\,\\,\\,\\nu = 5$"),
+  TeX("$\\mu = 0 , \\,\\,\\, \\nu = 30$"),
+  TeX("$\\mu = 5 , \\,\\,\\,\\nu = 5$"),
+  TeX("$\\mu = 5 , \\,\\,\\,\\nu = 30$"),
+  TeX("$\\mu = 15, \\, \\nu = 5$"),
+  TeX("$\\mu = 15, \\, \\nu = 30$")),
+lty         = c(1,2,1,2,1,2),
+col         = c("gray10", "gray10", "gray50", "gray50", "gray70", "gray70"),
+lwd         = 2,
+bty         = "n",
+seg.len     = 1.75)
+dev.off()
+```
+
+```{r, echo = FALSE, out.width = "90%", fig.align = "center"}
+knitr::include_graphics("6-Abbildungen/ivf-6-nichtzentrale-t-wdf.pdf")
+```
+
+# Referenzen {.allowframebreaks}
+\footnotesize

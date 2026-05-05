@@ -99,11 +99,11 @@ integrierter Verkehrsplanung – als auch die Anwendung partizipativer Verfahren
 Im Bereich der **Transformationspsychologie** fokussieren die Studieninhalte auf
 die unterschiedlichen Rollen, in denen Menschen als Individuen und als Teil von
 Gruppen zur sozial-ökologischen Transformation beitragen können, beispielsweise
-als Konsument:innen, Bürger:innen, oder Aktivist:innen. In diesem Zusammenhang
+als Konsument:innen, Bürger:innen oder Aktivist:innen. In diesem Zusammenhang
 werden auch Erkenntnisse der **Interventions- und Akzeptanzforschung** einbezogen.
 Im Feld der **Mensch-Technik-Interaktion** erlangen die Studierenden
 gestaltungsorientierte Kompetenzen im Umgang mit soziotechnischen Innovationen.
-Die Studierenden werden befähigt, Menschen dabei zu unterstützen die
+Die Studierenden werden befähigt, Menschen dabei zu unterstützen, die
 vielfältigen Veränderungen einer zunehmend technologiegeprägten Arbeits- und
 Lebenswelt – etwa neue Mobilitätsformen – aktiv mitzugestalten und konstruktiv
 zu bewältigen.
@@ -115,7 +115,7 @@ zu bewältigen.
 
 Die Vorlesung orientiert die psychotherapeutische und umweltpsychologische
 Evaluations- und Interventionsforschung am Goldstandard der klinischen
-Interventionsforschung. Für spezielle Aspekte der Umwelt- und Transformationspsychologie,
+Interventionsforschung. Für spezielle Aspekte der Umwelt- und Transformationspsychologie
 betrachten wir die Prinzipien umweltpsychologischer Interventionsforschung in
 der entsprechenden Seminareinheit.
 
@@ -247,14 +247,14 @@ Lehrbuchdefinitionen
 
 * Evaluationsforschung als "die wissenschaftlich fundierte, empirische und
 hypothesenorientierte Forschung unter systematischer Anwendung sozialwissenschaftlicher
-Forschungsmethoden. Die Ergebnisse diese Forschung bilden die wesentliche, wenn auch
+Forschungsmethoden. Die Ergebnisse dieser Forschung bilden die wesentliche, wenn auch
 nicht die einzige Grundlage einer wissenschaftlichen Evaluation oder Bewertung der
 Konzeption, Ausgestaltung, Umsetzung und des Nutzens sozialer und psychologischer
 Interventionsprogramme."
 
-Attkinson and Broskowski (1978)
+Atkinson and Broskowski (1978)
 
-* Programmevaluation als "ein Prozess der Durchführung vernunftgeleiter Beurteilung
+* Programmevaluation als "ein Prozess der Durchführung vernunftgeleiteter Beurteilung
 eines Programms [umfangreiche Intervention] hinsichtlich Aufwand, Effektivität
 und Angemessenheit auf der Grundlage systematischer Datenerhebung und Datenanalyse."
 
@@ -262,7 +262,7 @@ und Angemessenheit auf der Grundlage systematischer Datenerhebung und Datenanaly
 # Evaluationsforschung
 \setstretch{1.8}
 \large
-Evaluation von Psychologischen Interventionen
+Evaluation von psychologischen Interventionen
 
 \normalsize
 Psychologische Intervention
@@ -287,7 +287,7 @@ Entwicklung und Evaluation psychologischer Interventionen
 
 
 # Evaluationsforschung
-Funktionen der Evaluation von Psychologischen Interventionen
+Funktionen der Evaluation von psychologischen Interventionen
 
 \small
 Erkenntnisfunktion
@@ -296,7 +296,7 @@ Erkenntnisfunktion
 
 Optimierungsfunktion
 
-* Welche Stärken, Schwächen, oder Nebenwirkungen hat eine Intervention?
+* Welche Stärken, Schwächen oder Nebenwirkungen hat eine Intervention?
 
 Kontrollfunktion
 
@@ -428,7 +428,7 @@ Interventionsevaluation
 * Wirkt eine bestimmte Psychotherapie bei einer spezifischen Störung überhaupt?
 * Wirkt eine neu entwickelte Therapieform besser als die momentane Standardtherapie?
 * Konservativer, auf die Wirksamkeit von Interventionen, gerichteter Ansatz
-* Essentieller Ansatz zur Entwicklung von [\textcolor{darkblue}{Behandlungsleitlinien}](https://www.dgppn.de/publikationen/leitlinien.html)
+* Essenzieller Ansatz zur Entwicklung von [\textcolor{darkblue}{Behandlungsleitlinien}](https://www.dgppn.de/publikationen/leitlinien.html)
 
 \normalsize
 Prozessforschung
@@ -474,7 +474,7 @@ Phasen klinischer Studien
 Präklinische Phase
 \vspace{-1mm}
 
-* In-vitro Forschung zu möglicherweise wirksamen Substanzen oder Behandlungsansätzen
+* In-vitro-Forschung zu möglicherweise wirksamen Substanzen oder Behandlungsansätzen
 * Überprüfung von Sicherheit und Verträglichkeit in Zellkulturen und Tiermodellen
 
 \vspace{-1mm}
@@ -569,7 +569,7 @@ Standardisierung der Pharmakotherapieforschung
 \small
 International Conference on Harmonisation of Technical Requirements for Registration of
 
-Pharmaceuticals for Humans ([\textcolor{darkblue}{www.ich.org}](https://www.ich.org/))
+Pharmaceuticals for Human Use ([\textcolor{darkblue}{www.ich.org}](https://www.ich.org/))
 
 \setstretch{2.3}
 \vspace{1mm}
@@ -599,7 +599,7 @@ $\Rightarrow$ Standards für die Durchführung und Dokumentation von Studien
 Beispiele
 
 * Consolidated Standards of Reporting Trials ([\textcolor{darkblue}{CONSORT}](https://www.equator-network.org/reporting-guidelines/consort/))
-* Standard Protocol Items: Recommendations for Interventional Trials ([\textcolor{darkblue}{SPIRIT})](https://www.equator-network.org/reporting-guidelines/spirit-2013-statement-defining-standard-protocol-items-for-clinical-trials))
+* Standard Protocol Items: Recommendations for Interventional Trials ([\textcolor{darkblue}{SPIRIT}](https://www.equator-network.org/reporting-guidelines/spirit-2013-statement-defining-standard-protocol-items-for-clinical-trials))
 * Preferred Reporting Items for Systematic Reviews and Meta-Analyses ([\textcolor{darkblue}{PRISMA}](https://www.prisma-statement.org/))
 * Strengthening the Reporting of Observational Studies in Epidemiology ([\textcolor{darkblue}{STROBE}](https://www.strobe-statement.org/))
 
@@ -640,7 +640,7 @@ Phasen der Psychotherapieforschung
 
 Anforderungen an Wirksamkeitsstudien
 
-**Grundmodell randomisierter kontrollierter Studien **
+**Grundmodell randomisierter kontrollierter Studien**
 
 Ablaufprinzipien randomisierter kontrollierter Studien
 
@@ -731,7 +731,7 @@ knitr::include_graphics("1-Abbildungen/ivf-1-additiv-subtraktives-design-modell-
 \footnotesize
 Beispielprozesse: Prozess 1 Menschliche Interaktion, Prozess 2 Katharsis, Prozess X: CBASP
 
-Proband:innenunterschiedsbeispiele: Alter, Geschlecht, Bildungsgrad, ....
+Proband:innenunterschiedsbeispiele: Alter, Geschlecht, Bildungsgrad, ...
 \vfill
 
 # Grundmodell randomisierter kontrollierter Studien
@@ -745,7 +745,7 @@ knitr::include_graphics("1-Abbildungen/ivf-1-additiv-subtraktives-design-modell-
 \footnotesize
 Beispielprozesse: Prozess 1 Menschliche Interaktion, Prozess 2 Katharsis, Prozess X: CBASP
 
-Proband:innenunterschiedsbeispiele: Alter, Geschlecht, Bildungsgrad, ....
+Proband:innenunterschiedsbeispiele: Alter, Geschlecht, Bildungsgrad, ...
 \vfill
 
 # Grundmodell randomisierter kontrollierter Studien
@@ -759,7 +759,7 @@ knitr::include_graphics("1-Abbildungen/ivf-1-additiv-subtraktives-design-modell-
 \footnotesize
 Beispielprozesse: Prozess 1 Menschliche Interaktion, Prozess 2 Katharsis, Prozess X: CBASP
 
-Proband:innenunterschiedsbeispiele: Alter, Geschlecht, Bildungsgrad, ....
+Proband:innenunterschiedsbeispiele: Alter, Geschlecht, Bildungsgrad, ...
 \vfill
 
 #
@@ -808,7 +808,7 @@ Primary Outcome Variable
 
 * Im Vorfeld der Studie festgelegtes zentrales Maß zur Messung des Interventionseffekts
 * Aka "Primäre Zielvariable", "Target variable", "Primary endpoint"
-* Beispiel: BDI-II Score als Maß für Depressionssymptomatik
+* Beispiel: BDI-II-Score als Maß für Depressionssymptomatik
 * Häufig dichotomisiert im Sinne eines Therapieerfolgs bzw. -nichterfolgs
 * Im Gegensatz zur Pharmakologieforschung oft Erfassung von Sekundärvariablen
 * Zum Teil auch globale Zustandsbeurteilungen (Global Assessment of Functioning)
@@ -821,8 +821,8 @@ Häufig genutzte Kontrollgruppen
 | Kontrollbedingung                     | Kurzbeschreibung                                                                                   |
 |---------------------------------------|----------------------------------------------------------------------------------------------------|
 | Active comparator                     | Eine evidenzbasiert wirksame Behandlung, die sich von der experimentellen Behandlung unterscheidet |
-| Minimal treatment control             | Treatment-Behandlung, die weniger als vier Sitzungen umfassen |
-| Nonspecific factors control | Zeit mit Therapeut:innen von gleicher Dauer und Häufigkeit wie die experimentelle Behandlung, aber keine Durchführung als therapeutisch angesehenen Übungen oder Techniken. Diese Kontrollbedingung umfasst oft edukative Sitzungen, in denen Patienten nur über verfügbare Behandlungen oder Selbsthilfemöglichkeiten informiert werden |
+| Minimal treatment control             | Behandlung, die weniger als vier Sitzungen umfasst |
+| Nonspecific factors control | Zeit mit Therapeut:innen von gleicher Dauer und Häufigkeit wie die experimentelle Behandlung, aber keine Durchführung von als therapeutisch angesehenen Übungen oder Techniken. Diese Kontrollbedingung umfasst oft edukative Sitzungen, in denen Patienten nur über verfügbare Behandlungen oder Selbsthilfemöglichkeiten informiert werden |
 | No-Treatment control                  | Enthält keine Studienbehandlung und wird nicht in einem Umfeld durchgeführt, in dem eine Behandlung verfügbar wäre |
 | Patient choice                        | Patienten können frei zwischen den in einer Studie angebotenen Behandlungen wählen (z. B. eine von mehreren Arten der Psychotherapie oder zwischen Psychotherapie und Medikation) |
 
@@ -889,7 +889,7 @@ Parallelgruppendesigns
 Crossover-Designs
 
 * Wechsel zwischen aktiver und Placebobehandlung
-* Potentielle Carry-over-Effekte
+* Potenzielle Carry-over-Effekte
 * Evtl. besseres Proband:innenerwartungsmanagement
 
 Multizentrenstudien
@@ -932,7 +932,7 @@ Intention-To-Treat-Analyse
 Datenanalyse anhand der randomisierten Gruppenzuweisung, unabhängig davon, ob
 
 * die Proband:innen das entsprechende Gruppentreatment tatsächlich erhalten haben,
-* es individuelle Treatmentabweichungen (z.B. Noncompliance) gab oder
+* es individuelle Treatmentabweichungen (z. B. Noncompliance) gab oder
 * die Proband:innen im Studienverlauf aus der Studie ausgeschieden sind.
 
 Vorteile
@@ -941,18 +941,18 @@ Vorteile
 * Minimierung von Verzerrungen durch systematischen Dropout
 * Klinisch-realistische, konservative Schätzung von Treatmenteffekten
 
-Per-Protocol Analyse als weiterführende Kontrollanalyse
+Per-Protocol-Analyse als weiterführende Kontrollanalyse
 
 * Analyse der Proband:innendaten anhand der tatsächlich durchgeführten Intervention
 
 
 # Ablaufprinzipien randomisierter kontrollierter Studien
 \vspace{3mm}
-Intention-To-Treat Analyse | Beispiel
+Intention-To-Treat-Analyse | Beispiel
 \footnotesize
 
 * Nichteffektive Psychotherapie zur Prävention von Panikattacken vs. Wartelistenkontrolle
-* Relative Häufigkeit einer Panikattacke im Beobachtungszeitraum als primäres Outcomemaß
+* Relative Häufigkeit einer Panikattacke im Beobachtungszeitraum als primäres Outcome-Maß
 * Auftreten einer Panikattacke führt zum Ausschluss aus der Studie und klinischer Standardbehandlung
 * Bestimmung der relativen Häufigkeit unter Intention-To-Treat (ITT) und Per-Protocol (PP)
 
