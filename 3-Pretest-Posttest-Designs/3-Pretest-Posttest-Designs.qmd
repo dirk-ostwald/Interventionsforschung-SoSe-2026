@@ -150,24 +150,24 @@ Anwendungsbeispiel
 
 ```{r}
 set.seed(0)                                                                     # Zufallszahlengeneratorzustand
-library(MASS)
+library(MASS)                                                                   # multivariate Normalverteilung
 n_1     = 8                                                                     # Anzahl Proband:innen Kontrollgruppe
 n_2     = 8                                                                     # Anzahl Proband:innen Treatmentgruppe
 n       = n_1 + n_2                                                             # Gesamtanzahl Proband:innen
 P       = 1:n                                                                   # Proband:innen ID
-group   = c(rep("Control", n_1), rep("Treatment", n_2))                         # Gruppenfaktor
+gruppe  = c(rep("Kontrolle", n_1), rep("Treatment", n_2))                       # Gruppenfaktor
 mu_1    = matrix(c(35,30), nrow = 2)                                            # Kontrollgruppen-Pre-Post-Erwartungswert
 Sigma_1 = matrix(c(5,2,2,5), nrow = 2)                                          # Kontrollgruppen-Pre-Post-Kovarianmatrix
 mu_2    = matrix(c(33,24), nrow = 2)                                            # Treatmentgruppen-Pre-Post-Erwartungswert
 Sigma_2 = matrix(c(5,2,2,5), nrow = 2)                                          # Treatmentgruppen-Pre-Post-Kovarianzmatrix
 Y       = rbind(mvrnorm(n_1, mu_1, Sigma_1), mvrnorm(n_2, mu_2, Sigma_2))       # Datensatz
-D       = data.frame(P = P, Group = group, Pre = Y[,1], Post = Y[,2])           # Dataframe
-write.csv(D, "./3-Daten/pre-post.csv")                                          # Speichern
+D       = data.frame(P = P, Gruppe = gruppe, Pre = Y[,1], Post = Y[,2])         # Dataframe
+write.csv(D, "3-Daten/pre-post.csv")                                            # Speichern
 ```
 
 \setstretch{1.2}
 ```{r}
-D           = read.csv(paste0("./3-Daten/pre-post.csv"), row.names = 1)
+D           = read.csv(paste0("3-Daten/pre-post.csv"), row.names = 1)
 knitr::kable(D, digits = 0)
 ```
 
@@ -183,16 +183,16 @@ Anwendungsbeispiel
 
 \vspace{-3mm}
 ```{r, echo = F, eval = F}
-D           = read.csv("./3-Daten/pre-post.csv", row.names = 1)             	# Dataframe
-C           = D[D$Group == "Control", ]                                         # Kontrolldaten
-T           = D[D$Group == "Treatment", ]                                       # Treatment data
+D           = read.csv("3-Daten/pre-post.csv", row.names = 1)             	    # Dataframe
+C           = D[D$Gruppe == "Kontrolle", ]                                      # Kontrolldaten
+T           = D[D$Gruppe == "Treatment", ]                                      # Treatment data
 means       = rbind(Kontrolle   = colMeans(C[, c("Pre", "Post")]),              # Kontrollgruppenmittelwerte
                     Treatment   = colMeans(T[, c("Pre", "Post")]))              # Treatment means
 sds         = rbind(Kontrolle   = apply(C[, c("Pre", "Post")], 2, sd),          # Kontrollgruppenstandardabweichungen
                     Treatment   = apply(T[, c("Pre", "Post")], 2, sd))          # Treatment standard deviation
 library(latex2exp)
 pdf(
-file        = "./3-Abbildungen/ivf-3-pre-post-means.pdf",
+file        = "3-Abbildungen/ivf-3-pre-post-means.pdf",
 width       = 4,
 height      = 4)
 par(
@@ -230,7 +230,7 @@ for (i in 1:2) {
     col     = "white",
     bg      = cols[i])
 }
-axis(1, at = x, labels = c("Pre", "Post"))
+axis(1, at = x, labels = c("Pretest", "Posttest"))
 for (i in 1:2) {
     arrows(
     x,
@@ -270,11 +270,11 @@ Anwendungsbeispiel
 
 ```{r, echo = F, eval = F}
 library(tidyr)
-trt         = c("Control", "Treatment")
-trt_lab     = c("Kontrolle", "Treatment")
-D           = read.csv("./3-Daten/pre-post.csv", row.names = 1)
+grp         = c("Kontrolle", "Treatment")
+grp_lab     = c("Kontrolle", "Treatment")
+D           = read.csv("3-Daten/pre-post.csv", row.names = 1)
 pdf(
-file        = "./3-Abbildungen/ivf-3-pre-post-subjects.pdf",
+file        = "3-Abbildungen/ivf-3-pre-post-subjects.pdf",
 width       = 8,
 height      = 4)
 par(
@@ -294,28 +294,28 @@ cols        = c("grey80", "black")
 for(t in 1:2){
     matplot(
     rbind(
-    matrix(D$Pre[D$Group  == trt[t]], ncol = nrow(D)),
-    matrix(D$Post[D$Group == trt[t]], ncol = nrow(D))),
+    matrix(D$Pre[D$Gruppe  == grp[t]], ncol = nrow(D)),
+    matrix(D$Post[D$Gruppe == grp[t]], ncol = nrow(D))),
     type        = "l",
     lty         = 1,
     col         = cols[t],
     xaxt        = "n",
     xlab        = "",
     ylab        = "Zielvariable",
-    main        = trt_lab[t],
+    main        = grp_lab[t],
     xlim        = c(0.8,2.2),
     ylim        = c(20,40))
     matpoints(
     rbind(
-    matrix(D$Pre[D$Group  == trt[t]], ncol = nrow(D)),
-    matrix(D$Post[D$Group == trt[t]], ncol = nrow(D))),
+    matrix(D$Pre[D$Gruppe  == grp[t]], ncol = nrow(D)),
+    matrix(D$Post[D$Gruppe == grp[t]], ncol = nrow(D))),
     pch         = 21,
     col         = "white",
     bg          = cols[t])
     axis(
     1,
     at          = c(1, 2),
-    labels      = c("Pre", "Post"))}
+    labels      = c("Pretest", "Posttest"))}
 dev.off()
 ```
 
@@ -391,17 +391,22 @@ Literaturhinweise
 \small
 Vergleichsarbeiten zu den hier betrachteten Analyseverfahren
 
+\footnotesize
 * @crager1987, @frison1992, @fitzmaurice2001, @oakes2001
 * @yang2001, @senn2006,  @winkens2007, @oconnell2017
 * @tango2017 für einen exzellenten Überblick insbesondere bezüglich Linear-Mixed-Models
 
+\small
 Arbeiten mit einem Fokus auf bivariater Modellierung des Pretest-Posttest-Szenarios
 
+\footnotesize
 * @chen2006, @funatogawa2011
 * @funatogawa2011a, @funatogawa2020
 
+\small
 Zur Repeated-Measures ANOVA (Split-Plot ANOVA) Frage
 
+\footnotesize
 * Generell für Parallelgruppen-Pretest-Posttest-Designs nicht empfohlen
 * @winer1971 gibt einen ausführlichen Überblick und zu Repeated-Measures ANOVA
 * @huck1975, @brogan1980, @jennings1988, @mcculloch2005
@@ -551,10 +556,10 @@ Modellevaluation für das Anwendungsbeispiel
 \footnotesize
 \vspace{2mm}
 ```{r, echo = T}
-D   = read.csv("./3-Daten/pre-post.csv", row.names = 1)     # Dateneinlesen
-M   = lm(Post ~ Group, data = D)                            # Modellformulierung und -schätzung
-coefs       = summary(M)$coefficients                         # Parameterschätzer
-ci          = confint(M, level = 0.95)                         # Konfidenzintervalle
+D       = read.csv("3-Daten/pre-post.csv", row.names = 1)   # Dateneinlesen
+M       = lm(Post ~ Gruppe, data = D)                       # Modellformulierung und -schätzung
+coefs   = summary(M)$coefficients                           # Parameterschätzer
+ci      = confint(M, level = 0.95)                          # Konfidenzintervalle
 ```
 ```{r, echo = F}
 print(cbind(coefs, KI.u = ci[, 1], KI.o = ci[, 2]), digits = 4)
@@ -569,11 +574,11 @@ Visualisierung für das Anwendungsbeispiel
 \vspace{-2mm}
 ```{r, eval = F}
 library(latex2exp)
-trt         = c("Control", "Treatment")
+grp         = c("Kontrolle", "Treatment")
 trc         = c("gray80", "black")
-D           = read.csv("./3-Daten/pre-post.csv", row.names = 1)
+D           = read.csv("3-Daten/pre-post.csv", row.names = 1)
 pdf(
-file        = "./3-Abbildungen/ivf-3-pre-post-posttest-anova.pdf",
+file        = "3-Abbildungen/ivf-3-pre-post-posttest-anova.pdf",
 width       = 4.5,
 height      = 4.5)
 par(
@@ -594,19 +599,19 @@ NA,
 type        = "n",
 xlim        = c(28,40),
 ylim        = c(20,35),
-xlab         = "Pretest",
+xlab        = "Pretest",
 ylab        = "Posttest",
 main        = "")
 for(t in 1:2){
     points(
-    D$Pre[D$Group  == trt[t]],
-    D$Post[D$Group == trt[t]],
+    D$Pre[D$Gruppe  == grp[t]],
+    D$Post[D$Gruppe == grp[t]],
     pch         = 21,
     col         = "white",
     bg          = trc[t])
     lines(
-    D$Pre[D$Group == trt[t]],
-    predict(M)[D$Group == trt[t]],
+    D$Pre[D$Gruppe == grp[t]],
+    predict(M)[D$Gruppe == grp[t]],
     col         = trc[t])
 }
 dev.off()
@@ -794,10 +799,10 @@ Modellevaluation für das Anwendungsbeispiel
 \footnotesize
 \vspace{2mm}
 ```{r, echo = T}
-D   = read.csv("./3-Daten/pre-post.csv", row.names = 1)     # Dateneinlesen
-M   = lm(Post ~ Group + Pre, data = D)                      # Modellformulierung und -schätzung
-coefs       = summary(M)$coefficients                         # Parameterschätzer
-ci          = confint(M, level = 0.95)                         # Konfidenzintervalle
+D     = read.csv("3-Daten/pre-post.csv", row.names = 1)   # Dateneinlesen
+M     = lm(Post ~ Gruppe + Pre, data = D)                 # Modellformulierung und -schätzung
+coefs = summary(M)$coefficients                           # Parameterschätzer
+ci    = confint(M, level = 0.95)                          # Konfidenzintervalle
 ```
 ```{r, echo = F}
 print(cbind(coefs, KI.u = ci[, 1], KI.o = ci[, 2]), digits = 4)
@@ -812,11 +817,11 @@ Visualisierung für das Anwendungsbeispiel
 \vspace{-2mm}
 ```{r, eval = F}
 library(latex2exp)
-trt         = c("Control", "Treatment")
+grp         = c("Kontrolle", "Treatment")
 trc         = c("gray80", "black")
-D           = read.csv("./3-Daten/pre-post.csv", row.names = 1)
+D           = read.csv("3-Daten/pre-post.csv", row.names = 1)
 pdf(
-file        = "./3-Abbildungen/ivf-3-pre-post-posttest-ancova.pdf",
+file        = "3-Abbildungen/ivf-3-pre-post-posttest-ancova.pdf",
 width       = 4.5,
 height      = 4.5)
 par(
@@ -842,19 +847,18 @@ ylab        = "Posttest",
 main        = "")
 for(t in 1:2){
     points(
-    D$Pre[D$Group  == trt[t]],
-    D$Post[D$Group == trt[t]],
+    D$Pre[D$Gruppe  == grp[t]],
+    D$Post[D$Gruppe == grp[t]],
     pch         = 21,
     col         = "white",
     bg          = trc[t])
     lines(
-    D$Pre[D$Group == trt[t]],
-    predict(M)[D$Group == trt[t]],
+    D$Pre[D$Gruppe == grp[t]],
+    predict(M)[D$Gruppe == grp[t]],
     col         = trc[t])
 }
 dev.off()
 ```
-
 
 ```{r, echo = FALSE, out.width = "60%", fig.align = "center"}
 knitr::include_graphics("3-Abbildungen/ivf-3-pre-post-posttest-ancova.pdf")
@@ -909,8 +913,8 @@ Adjustierte Posttest-Gruppenmittelwerte
 \vspace{3mm}
 
 ```{r, echo = T}
-D           = read.csv("./3-Daten/pre-post.csv", row.names = 1) # Dateneinlesen
-M           = lm(Post ~ Group  + Pre, data = D)                 # Modellformulierung und -schätzung
+D           = read.csv("3-Daten/pre-post.csv", row.names = 1)   # Dateneinlesen
+M           = lm(Post ~ Gruppe  + Pre, data = D)                # Modellformulierung und -schätzung
 beta_hat    = M$coefficients                                    # Betaparameterschätzer
 y_0_bar     = mean(D$Pre)                                       # Marginaler Mittelwert Pretest-Daten
 X_p         = matrix(c(1,1,0,1,y_0_bar,y_0_bar), nrow = 2)      # Prädiktionsdesignmatrix
@@ -926,7 +930,7 @@ cat("Adjusted marginal means",
 
 ```{r, echo = T}
 library(emmeans)                                                # R Paket für adjustierte Gruppenmittelwerte
-AMM         = emmeans(M, "Group")                               # Adjustierte Gruppenmittelwerte
+AMM         = emmeans(M, "Gruppe")                               # Adjustierte Gruppenmittelwerte
 ```
 ```{r, echo = F}
 print(AMM)
@@ -935,13 +939,13 @@ print(AMM)
 # Posttest-Kovarianzanalyse mit Pretest-Kovariate
 ```{r, eval = F}
 library(latex2exp)
-trt         = c("Control", "Treatment")
+grp         = c("Kontrolle", "Treatment")
 trc         = c("gray80", "black")
 xlimits     = c(28,40)
 ylimits     = c(20,35)
-D           = read.csv("./3-Daten/pre-post.csv", row.names = 1)
+D           = read.csv("3-Daten/pre-post.csv", row.names = 1)
 pdf(
-file        = "./3-Abbildungen/ivf-3-pre-post-posttest-ancova-apgms.pdf",
+file        = "3-Abbildungen/ivf-3-pre-post-posttest-ancova-apgms.pdf",
 width       = 4.5,
 height      = 4.5)
 par(
@@ -966,18 +970,18 @@ ylim        = ylimits,
 xlab        = "Pretest",
 ylab        = "Posttest",
 main        = "")
-premeans   = c(mean(D$Pre[D$Group  == trt[1]]), mean(D$Pre[D$Group  == trt[2]]))
-postmeans  = c(mean(D$Post[D$Group == trt[1]]), mean(D$Post[D$Group == trt[2]]))
+premeans   = c(mean(D$Pre[D$Gruppe  == grp[1]]), mean(D$Pre[D$Gruppe  == grp[2]]))
+postmeans  = c(mean(D$Post[D$Gruppe == grp[1]]), mean(D$Post[D$Gruppe == grp[2]]))
 for(t in 1:2){
     points(
-    D$Pre[D$Group  == trt[t]],
-    D$Post[D$Group == trt[t]],
+    D$Pre[D$Gruppe  == grp[t]],
+    D$Post[D$Gruppe == grp[t]],
     pch         = 21,
     col         = "white",
     bg          = trc[t])
     lines(
-    D$Pre[D$Group == trt[t]],
-    predict(M)[D$Group == trt[t]],
+    D$Pre[D$Gruppe == grp[t]],
+    predict(M)[D$Gruppe == grp[t]],
     col         = trc[t])
     points(
     premeans[t],
@@ -1082,9 +1086,6 @@ adjustierten Posttest-Mittelwerte bei 29.9 in der Kontrollgruppe und 24.2 in der
 Feedbackgruppe. Der Stromverbrauch war in der Feedbackgruppe somit auch nach
 Adjustierung für den Pretest-Stromverbrauch geschätzt 5.75 Einheiten geringer.*
 
-
-
-
 # Posttest-Kovarianzanalyse mit Pretest-Kovariate
 \small
 Adjustierte Posttest-Gruppenmittelwerte
@@ -1094,7 +1095,7 @@ Adjustierte Posttest-Gruppenmittelwerte
 set.seed(0)                                                                     # Zufallszahlengeneratorzustand
 library(MASS)                                                                   # Multivariate Normalverteilung
 library(latex2exp)                                                              # Latex Annotation
-trt     = c("Control", "Treatment")                                             # Gruppenfaktorlevel
+grp     = c("Kontrolle", "Treatment")                                           # Gruppenfaktorlevel
 trc     = c("gray80", "black")                                                  # Gruppenfarben
 xlimits = c(20,40)                                                              # x-Limits
 ylimits = c(10,30)                                                              # y-limits
@@ -1102,21 +1103,21 @@ n_1     = 50                                                                    
 n_2     = 50                                                                    # Anzahl Proband:innen Treatmentgruppe
 n       = n_1 + n_2                                                             # Gesamtanzahl Proband:innen
 P       = 1:n                                                                   # Proband:innen ID
-group   = c(rep("Control", n_1), rep("Treatment", n_2))                         # Gruppenfaktor
+gruppe  = c(rep("Kontrolle", n_1), rep("Treatment", n_2))                       # Gruppenfaktor
 mu_1    = array(c(30,25,25,20,25,22,25,25)  , dim = c(2,4))                     # Kontrollgruppen-Pre-Post-Erwartungswert
 mu_2    = array(c(30,20,35,20,35,17,35,20)  , dim = c(2,4))                     # Treatmentgruppen-Pre-Post-Erwartungswert
 Sigma   = array(c(4,2,2,4,4,2,2,4,4,-2,-2,4,4,0,0,4), dim = c(2,2,4))           # Treatmentgruppen-Pre-Post-Kovarianzmatrix
 for(s in 1:4){                                                                  # Szenarieniterationen
     Y           = rbind(mvrnorm(n_1, mu_1[,s], Sigma[,,s]),                     # Kontrollgruppen daten
                         mvrnorm(n_2, mu_2[,s], Sigma[,,s]))                     # Treatmentgruppendaten
-    D           = data.frame(P = P, Group = group, Pre = Y[,1], Post = Y[,2])   # Dataframe
-    M           = lm(Post ~ Group  + Pre, data = D)                             # Modellformulierung und -schätzung
+    D           = data.frame(P = P, Gruppe = gruppe, Pre = Y[,1], Post = Y[,2]) # Dataframe
+    M           = lm(Post ~ Gruppe  + Pre, data = D)                            # Modellformulierung und -schätzung
     beta_hat    = M$coefficients                                                # Betaparameterschätzer
     y_0_bar     = mean(D$Pre)                                                   # Marginaler Mittelwert Pretest-Daten
     X_p         = matrix(c(1,1,0,1,y_0_bar,y_0_bar), nrow = 2)                  # Prädiktionsdesignmatrix
     y_1_bar_adj = X_p %*% beta_hat
     pdf(
-    file        = sprintf("./3-Abbildungen/ivf-3-pre-post-posttest-ancova-apgms-%d.pdf",s),
+    file        = sprintf("3-Abbildungen/ivf-3-pre-post-posttest-ancova-apgms-%d.pdf",s),
     width       = 4.5,
     height      = 4.5)
     par(
@@ -1141,18 +1142,18 @@ for(s in 1:4){                                                                  
     xlab        = "Pretest",
     ylab        = "Posttest",
     main        = "")
-    premeans    = c(mean(D$Pre[D$Group  == trt[1]]), mean(D$Pre[D$Group  == trt[2]]))
-    postmeans   = c(mean(D$Post[D$Group == trt[1]]), mean(D$Post[D$Group == trt[2]]))
+    premeans    = c(mean(D$Pre[D$Gruppe  == grp[1]]), mean(D$Pre[D$Gruppe  == grp[2]]))
+    postmeans   = c(mean(D$Post[D$Gruppe == grp[1]]), mean(D$Post[D$Gruppe == grp[2]]))
     for(t in 1:2){
         points(
-        D$Pre[D$Group  == trt[t]],
-        D$Post[D$Group == trt[t]],
+        D$Pre[D$Gruppe  == grp[t]],
+        D$Post[D$Gruppe == grp[t]],
         pch         = 21,
         col         = "white",
         bg          = trc[t])
         lines(
-        D$Pre[D$Group == trt[t]],
-        predict(M)[D$Group == trt[t]],
+        D$Pre[D$Gruppe == grp[t]],
+        predict(M)[D$Gruppe == grp[t]],
         col         = trc[t])
         points(
         premeans[t],
@@ -1461,11 +1462,11 @@ Modellevaluation für das Anwendungsbeispiel
 \footnotesize
 \vspace{2mm}
 ```{r, echo = T}
-D       = read.csv("./3-Daten/pre-post.csv", row.names = 1) # Dateneinlesen
+D       = read.csv("3-Daten/pre-post.csv", row.names = 1)   # Dateneinlesen
 D$CS    = D$Post - D$Pre                                    # Change-Score-Berechnung
-M       = lm(CS ~ Group, data = D)                           # Modellformulierung und -schätzung
-coefs       = summary(M)$coefficients                         # Parameterschätzer
-ci          = confint(M, level = 0.95)                         # Konfidenzintervalle
+M       = lm(CS ~ Gruppe, data = D)                         # Modellformulierung und -schätzung
+coefs   = summary(M)$coefficients                           # Parameterschätzer
+ci      = confint(M, level = 0.95)                         # Konfidenzintervalle
 ```
 ```{r, echo = F}
 print(cbind(coefs, KI.u = ci[, 1], KI.o = ci[, 2]), digits = 4)
@@ -1479,18 +1480,17 @@ $\Rightarrow$ Geschätzter Erwartungswertunterschied zwischen Treatment- und Kon
 Visualisierung für das Anwendungsbeispiel
 
 ```{r, echo = F, eval = F}
-trt         = c("Control", "Treatment")
-trt_lab     = c("Kontrolle", "Treatment")
-D           = read.csv("./3-Daten/pre-post.csv", row.names = 1)
+grp         = c("Kontrolle", "Treatment")
+D           = read.csv("3-Daten/pre-post.csv", row.names = 1)
 D$CS        = D$Post - D$Pre
-C           = D[D$Group == "Control", ]
-T           = D[D$Group == "Treatment", ]
+C           = D[D$Gruppe == "Kontrolle", ]
+T           = D[D$Gruppe == "Treatment", ]
 n_1         = nrow(C)
 n_2         = nrow(T)
 x_1         = 1 + seq(-.07, .07, length.out = n_1)
 x_2         = 2 + seq(-.07, .07, length.out = n_2)
 pdf(
-file        = "./3-Abbildungen/ivf-3-pre-post-change-score-anova.pdf",
+file        = "3-Abbildungen/ivf-3-pre-post-change-score-anova.pdf",
 width       = 4,
 height      = 4)
 par(
@@ -1533,7 +1533,7 @@ cex         = 1.1)
 axis(
 1,
 at          = c(1, 2),
-labels      = trt_lab)
+labels      = grp)
 cmean       = mean(C$CS)
 tmean       = mean(T$CS)
 points(
@@ -1587,7 +1587,6 @@ Feedbackgruppe somit im Mittel um geschätzt 4.43 Einheiten stärker zurück als
 der Kontrollgruppe.*
 
 
-
 # Change-Score-Varianzanalyse
 \small
 Spezielle Äquivalenzen der bisher betrachteten Modelle für $i = 1,...,n$
@@ -1631,24 +1630,29 @@ Proband:inneneffekt
 \small
 \setstretch{1.6}
 Lord Paradox
-\vspace{-2mm}
+\vspace{-1mm}
 
+\footnotesize
 * Divergierende Resultate bei Posttest-Kovarianz- und Change-Score-Varianzanalyse
 * $\Leftrightarrow$ Divergierende Resultate bei unterschiedlichen "Korrekturen" für Pretestunterschiede
 * Insbesondere bei Pretest-Gruppenunterschieden ("Quasiexperimenten") bedeutsam
 * Letztlich unterschiedliche korrekte Antworten auf unterschiedliche Fragen
 
+\small
 Lord Paradox Beispiel Annahmen
-\vspace{-2mm}
+\vspace{-1mm}
 
+\footnotesize
 * Parallelgruppen-Pretest-Posttest-Design
 * Kein Effekt der Treatment- bzw. Kontrollintervention
 * Pretest-Gruppenerwartungswertunterschiede
 * Positive Pretest-Post-Korrelation
 
+\small
 Lord Paradox Beispiel Resultate
-\vspace{-2mm}
+\vspace{-1mm}
 
+\footnotesize
 * Change-Score-Varianzanalyse zeigt keinen Gruppenunterschied der Veränderung
 * Mit Pretest-Kovariate adjustierte Posttestmittelwerte zeigen Gruppenunterschied
 
@@ -1673,13 +1677,13 @@ n_1         = 100                                                           # An
 n_2         = 100                                                           # Anzahl Proband:innen Treatmentgruppe
 n           = n_1 + n_2                                                     # Gesamtanzahl Proband:innen
 P           = 1:n                                                           # Proband:innen ID
-group       = c(rep("Control", n_1), rep("Treatment", n_2))                 # Gruppenfaktor
+gruppe       = c(rep("Kontrolle", n_1), rep("Treatment", n_2))              # Gruppenfaktor
 mu_1        = matrix(c(25,25), nrow = 2)                                    # Kontroll-Pre-Post-Erwartungswerte
 mu_2        = matrix(c(30,30), nrow = 2)                                    # Treatment-Pre-Post-Erwartungswerte
 Sigma       = matrix(c(4,1,1,4), nrow = 2)                                  # Pre-Post-Kovarianzmatrix
 Y           = rbind(mvrnorm(n_1, mu_1, Sigma), mvrnorm(n_2, mu_2, Sigma))   # Datensatz
-D           = data.frame(P = P, Group = group, Pre = Y[,1], Post = Y[,2])   # Dataframe
-write.csv(D, "./3-Daten/pre-post-lord.csv")                                 # Speichern
+D           = data.frame(P = P, Gruppe = gruppe, Pre = Y[,1], Post = Y[,2]) # Dataframe
+write.csv(D, "3-Daten/pre-post-lord.csv")                                   # Speichern
 ```
 
 
@@ -1693,15 +1697,14 @@ Kontrolle für Pretest-Unterschiede durch Change-Score-Analyse
 \vspace{2mm}
 \tiny
 ```{r, echo = T}
-D       = read.csv("./3-Daten/pre-post-lord.csv", row.names = 1)    # Dateneinlesen
+D       = read.csv("3-Daten/pre-post-lord.csv", row.names = 1)      # Dateneinlesen
 D$CS    = D$Post - D$Pre                                            # Change-Score-Berechnung
-M1      = lm(CS ~ Group, data = D)                                  # Modellformulierung und -schätzung
+M1      = lm(CS ~ Gruppe, data = D)                                 # Modellformulierung und -schätzung
 round(summary(M1)$coefficients,2)                                   # Ausgabe
 ```
 
 \footnotesize
 $\Rightarrow$ Geringer und nicht signifikanter Effekt von Treatment
-
 
 # Change-Score-Varianzanalyse
 \small
@@ -1713,11 +1716,11 @@ Kontrolle für Pretest-Unterschiede durch Auswertung Pretest-adjustierter Postte
 \tiny
 ```{r, echo = T}
 library(emmeans)
-D       = read.csv("./3-Daten/pre-post-lord.csv", row.names = 1) # Dateneinlesen
-M2      = lm(Post ~ Group + Pre, data = D)                       # Modellformulierung und -schätzung
-M2a     = emmeans(M2, "Group")                                   # Adjustierte Posttest-Gruppenmittelwerte
-summary(M2a)                                                     # Adjustierte Posttest-Gruppenmittelwerte
-pairs(M2a)                                                       # Adjustierte Posttest-Gruppenmittelwertsdifferenz
+D       = read.csv("3-Daten/pre-post-lord.csv", row.names = 1)  # Dateneinlesen
+M2      = lm(Post ~ Gruppe + Pre, data = D)                     # Modellformulierung und -schätzung
+M2a     = emmeans(M2, "Gruppe")                                 # Adjustierte Posttest-Gruppenmittelwerte
+summary(M2a)                                                    # Adjustierte Posttest-Gruppenmittelwerte
+pairs(M2a)                                                      # Adjustierte Posttest-Gruppenmittelwertsdifferenz
 ```
 
 \footnotesize
@@ -1733,15 +1736,14 @@ Beispiel Visualisierung
 
 ```{r, eval = F}
 library(latex2exp)
-trt         = c("Control", "Treatment")
-trt_lab     = c("Kontrolle", "Treatment")
+grp         = c("Kontrolle", "Treatment")
 trc         = c("gray80", "black")
-D           = read.csv("./3-Daten/pre-post-lord.csv", row.names = 1)
+D           = read.csv("3-Daten/pre-post-lord.csv", row.names = 1)
 n_1         = 100
 n_2         = 100
 D$CS        = D$Post - D$Pre
 pdf(
-file        = "./3-Abbildungen/ivf-3-pre-post-lord.pdf",
+file        = "3-Abbildungen/ivf-3-pre-post-lord.pdf",
 width       = 10,
 height      = 5)
 par(
@@ -1783,9 +1785,9 @@ bg          = trc[2])
 axis(
 1,
 at          = c(1, 2),
-labels      = trt_lab)
-cmean       = mean(D$Post[D$Group == "Control"]   - D$Pre[D$Group == "Control"])
-tmean       = mean(D$Post[D$Group == "Treatment"] - D$Pre[D$Group == "Treatment"])
+labels      = grp_lab)
+cmean       = mean(D$Post[D$Gruppe == "Kontrolle"] - D$Pre[D$Gruppe == "Kontrolle"])
+tmean       = mean(D$Post[D$Gruppe == "Treatment"] - D$Pre[D$Gruppe == "Treatment"])
 points(
 x           = c(1,2),
 y           = c(cmean, tmean),
@@ -1797,7 +1799,7 @@ cex         = 2)
 # Kovarianzanalyse
 xlimits     = c(20,35)
 ylimits     = c(20,35)
-M           = lm(Post ~ Group  + Pre, data = D)                             # Modellformulierung und -schätzung
+M           = lm(Post ~ Gruppe  + Pre, data = D)                            # Modellformulierung und -schätzung
 beta_hat    = M$coefficients                                                # Betaparameterschätzer
 y_0_bar     = mean(D$Pre)                                                   # Marginaler Mittelwert Pretest-Daten
 X_p         = matrix(c(1,1,0,1,y_0_bar,y_0_bar), nrow = 2)                  # Prädiktionsdesignmatrix
@@ -1811,18 +1813,18 @@ ylim        = ylimits,
 xlab        = "Pretest",
 ylab        = "Posttest",
 main        = "Posttest-Kovarianzanalyse")
-premeans    = c(mean(D$Pre[D$Group  == trt[1]]), mean(D$Pre[D$Group  == trt[2]]))
-postmeans   = c(mean(D$Post[D$Group == trt[1]]), mean(D$Post[D$Group == trt[2]]))
+premeans    = c(mean(D$Pre[D$Gruppe  == grp[1]]), mean(D$Pre[D$Gruppe  == grp[2]]))
+postmeans   = c(mean(D$Post[D$Gruppe == grp[1]]), mean(D$Post[D$Gruppe == grp[2]]))
 for(t in 1:2){
     points(
-    D$Pre[D$Group  == trt[t]],
-    D$Post[D$Group == trt[t]],
+    D$Pre[D$Gruppe  == grp[t]],
+    D$Post[D$Gruppe == grp[t]],
     pch         = 21,
     bg          = trc[t],
     col         = "white")
     lines(
-    D$Pre[D$Group == trt[t]],
-    predict(M)[D$Group == trt[t]],
+    D$Pre[D$Gruppe == grp[t]],
+    predict(M)[D$Gruppe == grp[t]],
     col         = trc[t])
     points(
     premeans[t],
@@ -1889,17 +1891,17 @@ Lord Paradox
 
 Fragestellung bei Change-Score-Varianzanalyse
 
-* "Gibt es einen Erwartungswertunterschied in der Pretest-Posttest-Veränderung zwischen Kontrolle und Treatment?"
-* Die Frage wird unabhängig von, d.h. gemittelt über alle, möglichen Pretestwerte gestellt
-* In diesem Sinn ist die Fragestellung bei Change-Score-Varianzanalyse "unbedingt" bzw. "marginal"
-* Die Fragestellung ist die entscheidende Fragestellung in der Evaluation von Interventionen
+* "Gibt es einen Erwartungswertunterschied in der Pre-Post-Veränderung zwischen Kontrolle und Treatment?"
+* Die Frage wird unabhängig von, d.h. gemittelt über alle, möglichen Pretestwerte gestellt.
+* In diesem Sinn ist die Fragestellung bei Change-Score-Varianzanalyse "unbedingt" bzw. "marginal".
+* Die Fragestellung ist die entscheidende Fragestellung in der Evaluation von Interventionen.
 
 Fragestellung bei Posttest-Kovarianzanalyse mit Pretest-Kovariate und adjustierten Posttest-Gruppenmittelwerten
 
-* "Gibt es einen Posttest-Erwartungswertunterschied zwischen einer Kontrollproband:in und einer
-   Treatmentproband:in mit identischem Pretest-Wert?"
-* Die Frage wird explizit bedingt auf einen der möglichen Pretestwerte gestellt
-* In diesem Sinn ist die Fragestellung bei Posttest-Kovarianzanalysen "bedingt" bzw. "conditional"
+* "Gibt es einen Posttest-Erwartungswertunterschied zwischen einer Kontrollgruppenproband:in und einer
+   Treatmentgruppenproband:in mit identischem Pretest-Wert?"
+* Die Frage wird explizit bedingt auf einen der möglichen Pretestwerte gestellt.
+* In diesem Sinn ist die Fragestellung bei Posttest-Kovarianzanalysen "bedingt" bzw. "conditional".
 * Bestehen Pretestunterschiede zwischen Gruppen und haben zwei Proband:innen den gleichen Pretestwert
   (z.B. den marginalen Pretestgruppenmittelwert), so sind sie per Definition bezüglich ihrer Gruppenerwartungswerte
   untypisch und der Regression-zur-Mitte-Effekt induziert adjustierte Posttest-Gruppenunterschiede,
@@ -2147,7 +2149,7 @@ beta_lab    = c(TeX("$\\beta = (3,0,-1,0)^T$"),
                 TeX("$\\beta = (3,-1,-1,0)^T$"),
                 TeX("$\\beta = (3,-1,-1,-1)^T$"))
 pdf(
-file        = "./3-Abbildungen/ivf-3-pre-post-lmm-parameters.pdf",
+file        = "3-Abbildungen/ivf-3-pre-post-lmm-parameters.pdf",
 width       = 8,
 height      = 8)
 par(
@@ -2188,7 +2190,7 @@ for(i in 1:ncol(beta)){
         col     = "white",
         bg      = cols[g])
     }
-    axis(1, at = x, labels = c("Pre", "Post"))
+    axis(1, at = x, labels = c("Pretest", "Posttest"))
     legend(
     "topright",
     legend  = c("Kontrolle", "Treatment"),
@@ -2215,9 +2217,10 @@ Modellevaluation für das Anwendungsbeispiel
 \tiny
 ```{r, echo = TRUE}
 library(tidyverse)
-D = read.csv("./3-Daten/pre-post.csv", row.names = 1)                             # Dateneinlesen
-D = D %>% pivot_longer(cols = c(Pre, Post), names_to = "Time", values_to = "Y")   # Long format
-D$Time = factor(D$Time, levels = c("Pre", "Post"))                                # Zeitfaktor-Kodierung
+D      = read.csv("3-Daten/pre-post.csv", row.names = 1)                        # Dateneinlesen
+D      = D %>% pivot_longer(cols = c(Pre, Post), names_to = "Zeitpunkt",        # Zeitpunktkodierung
+                            values_to = "Y")                                    # Zielvariablenkodierung
+D$Zeit = factor(D$Zeitpunkt, levels = c("Pre", "Post"))                         # Zeitfaktor-Kodierung
 ```
 \setstretch{.8}
 ```{r}
@@ -2231,18 +2234,19 @@ Modellevaluation für das Anwendungsbeispiel
 \tiny
 \vspace{2mm}
 ```{r, echo = T}
-library(nlme)                                                                           # nlme
-D         = read.csv("./3-Daten/pre-post.csv", row.names = 1)                           # Dateneinlesen
-D         = D %>% pivot_longer(cols = c(Pre, Post), names_to = "Time", values_to = "Y") # Long format
-D$Time    = factor(D$Time, levels = c("Pre", "Post"))                                  # Zeitfaktor-Kodierung
-M         = lme(Y ~ Group*Time, data = D, random = ~ 1 | P)                             # LMM
-X         = model.matrix(M,D)                                                           # Fixed-Effects-Designmatrix
-Z         = model.matrix(~ M$groups[[1]] - 1)                                           # Random-Effects-Designmatrix
-beta_hat  = M$coefficients$fixed                                                        # Fixed-Effects-Schätzer
-b_hat     = M$coefficients$random$P                                                     # Random-Effects-Schätzer
-s_eps_hat = M$sigma**2                                                                  # Varianzkomponentenschätzer
-s_b_hat   = diag(getVarCov(M))                                                          # Varianzkomponentenschätzer
-ci        = intervals(M, level = 0.95, which = "fixed")                                 # Konfidenzintervalle
+library(nlme)                                                                   # nlme
+D         = read.csv("3-Daten/pre-post.csv", row.names = 1)                     # Dateneinlesen
+D         = D %>% pivot_longer(cols = c(Pre, Post), names_to = "Zeitpunkt",     # Zeitpunktkodierung
+                               values_to = "Y")                                 # Zielvariablenkodierung
+D$Zeit    = factor(D$Zeitpunkt, levels = c("Pre", "Post"))                      # Zeitfaktor-Kodierung
+M         = lme(Y ~ Gruppe*Zeitpunkt, data = D, random = ~ 1 | P)               # LMM
+X         = model.matrix(M,D)                                                   # Fixed-Effects-Designmatrix
+Z         = model.matrix(~ M$groups[[1]] - 1)                                   # Random-Effects-Designmatrix
+beta_hat  = M$coefficients$fixed                                                # Fixed-Effects-Schätzer
+b_hat     = M$coefficients$random$P                                             # Random-Effects-Schätzer
+s_eps_hat = M$sigma**2                                                          # Varianzkomponentenschätzer
+s_b_hat   = diag(getVarCov(M))                                                  # Varianzkomponentenschätzer
+ci        = intervals(M, level = 0.95, which = "fixed")                         # Konfidenzintervalle
 ```
 \setstretch{1.1}
 ```{r, echo = F}
@@ -2504,7 +2508,7 @@ for(s in 1:length(sigsqr_eps)){
   Sigma       = matrix(c(1,sigsqr_01, sigsqr_01, 1), nrow = 2)
   Y           = mvrnorm(n, mu, Sigma)
   pdf(
-  file        = sprintf("./3-Abbildungen/ivf-3-pre-post-bivariate-%d.pdf",s),
+  file        = sprintf("3-Abbildungen/ivf-3-pre-post-bivariate-%d.pdf",s),
   width       = 8,
   height      = 4)
   par(
@@ -2543,7 +2547,7 @@ for(s in 1:length(sigsqr_eps)){
   axis(
   1,
   at          = c(1, 2),
-  labels      = c("Pre", "Post"))
+  labels      = c("Pretest", "Posttest"))
   plot(
   Y[,1],
   Y[,2],
@@ -2554,7 +2558,7 @@ for(s in 1:length(sigsqr_eps)){
   xlim        = c(0, 6),
   ylim        = c(-2,4),
   xlab        = "Pre ",
-  ylab        = "Post",
+  ylab        = "Posttest",
   main        = "")
   dev.off()
 }
@@ -2949,6 +2953,5 @@ Linear-Mixed-Model-Analyse
 # Referenzen {.allowframebreaks}
 \footnotesize
 
- -->
 
 
