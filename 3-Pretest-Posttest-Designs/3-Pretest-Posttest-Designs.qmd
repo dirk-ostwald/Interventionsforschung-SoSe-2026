@@ -130,7 +130,7 @@ Nomenklatur im Kontext faktorieller Designs
 
 * Zweifaktorielles Design mit Messwiederholung
 * Between-Group Faktor *Gruppe* mit den Leveln *Kontrolle* und *Treatment*
-* Within-Group-Faktor *Zeit* mit den Leveln *Pretest* und *Posttest*
+* Within-Group-Faktor *Zeitpunkt* mit den Leveln *Pretest* und *Posttest*
 
 Motivation
 
@@ -556,13 +556,26 @@ Modellevaluation für das Anwendungsbeispiel
 \footnotesize
 \vspace{2mm}
 ```{r, echo = T}
-D       = read.csv("3-Daten/pre-post.csv", row.names = 1)   # Dateneinlesen
-M       = lm(Post ~ Gruppe, data = D)                       # Modellformulierung und -schätzung
-coefs   = summary(M)$coefficients                           # Parameterschätzer
-ci      = confint(M, level = 0.95)                          # Konfidenzintervalle
+D          = read.csv("3-Daten/pre-post.csv", row.names = 1)  # Dateneinlesen
+M          = lm(Post ~ Gruppe, data = D)                      # Modellformulierung und -schätzung
+beta_hat   = summary(M)$coefficients                          # Betaparameterschätzer
+sigsqr_hat = summary(M)$sigma^2                               # Varianzparmeterschätzer
+ki         = confint(M, level = 0.95)                         # Betaparameterkonfidenzintervalle
 ```
 ```{r, echo = F}
-print(cbind(coefs, KI.u = ci[, 1], KI.o = ci[, 2]), digits = 4)
+tab         = cbind(beta_hat, KI.u = ki[, 1], KI.o = ki[, 2]) # Tabellierung der Ergebnisse
+tab         = as.data.frame(format(round(tab, 3), nsmall = 2))# Formatierung der Ergebnisse
+srow        = data.frame(                                     # Zeile für Varianzschätzer
+Estimate    = format(round(sigsqr_hat, 3), nsmall = 2),       # Varianzschätzer
+Std..Error  = "",                                             # NA
+t.value     = "",                                             # NA
+Pr...t..    = "",                                             # NA
+KI.u        = "",                                             # NA
+KI.o        = "",                                             # NA
+row.names   = "sigma^2")                                      # Zeilenname für Varianzschätzer
+names(srow) = names(tab)                                      # Spaltennamen anpassen
+tab         = rbind(tab, srow)                                # Tabellenerweiterung
+print(tab)                                                    # Ausgabe der Ergebnisse
 ```
 
 \small
@@ -692,9 +705,6 @@ Strukturelle Modellform
 \footnotesize
 Für $i = 1,...,n$ Proband:innen seien $y_{i0}$ und $y_{i1}$ die Pretest- bzw. Posttest-Daten.
 
-Der Pretestwert $y_{i0}$ übernimmt in diesem Modell die Rolle der Kovariate
-$x_{i2}$ aus dem allgemeinen Kovarianzanalysemodell.
-
 Dann hat das Posttest-Kovarianzanalysemodell mit Pretest-Kovariate die strukturelle Modellform
 \begin{equation}
 y_{i1} = \beta_0 + \beta_1x_i + \beta_2y_{i0}  + \eps_{i}
@@ -799,15 +809,29 @@ Modellevaluation für das Anwendungsbeispiel
 \footnotesize
 \vspace{2mm}
 ```{r, echo = T}
-D     = read.csv("3-Daten/pre-post.csv", row.names = 1)   # Dateneinlesen
-M     = lm(Post ~ Gruppe + Pre, data = D)                 # Modellformulierung und -schätzung
-coefs = summary(M)$coefficients                           # Parameterschätzer
-ci    = confint(M, level = 0.95)                          # Konfidenzintervalle
+D          = read.csv("3-Daten/pre-post.csv", row.names = 1)  # Dateneinlesen
+M          = lm(Post ~ Gruppe + Pre, data = D)                # Modellformulierung und -schätzung
+beta_hat   = summary(M)$coefficients                          # Betaparameterschätzer
+sigsqr_hat = summary(M)$sigma^2                               # Varianzparmeterschätzer
+ki         = confint(M, level = 0.95)                         # Betaparameterkonfidenzintervalle
 ```
 ```{r, echo = F}
-print(cbind(coefs, KI.u = ci[, 1], KI.o = ci[, 2]), digits = 4)
+tab         = cbind(beta_hat, KI.u = ki[, 1], KI.o = ki[, 2]) # Tabellierung der Ergebnisse
+tab         = as.data.frame(format(round(tab, 3), nsmall = 2))# Formatierung der Ergebnisse
+srow        = data.frame(                                     # Zeile für Varianzschätzer
+Estimate    = format(round(sigsqr_hat, 3), nsmall = 2),       # Varianzschätzer
+Std..Error  = "",                                             # NA
+t.value     = "",                                             # NA
+Pr...t..    = "",                                             # NA
+KI.u        = "",                                             # NA
+KI.o        = "",                                             # NA
+row.names   = "sigma^2")                                      # Zeilenname für Varianzschätzer
+names(srow) = names(tab)                                      # Spaltennamen anpassen
+tab         = rbind(tab, srow)                                # Tabellenerweiterung
+print(tab)                                                    # Ausgabe der Ergebnisse
 ```
 
+\vspace{2mm}
 \small
 $\Rightarrow$ Geschätzter Erwartungswertunterschied zwischen Treatment- und Kontrollgruppe: -5.75 ($\pm$ 1.15)
 
@@ -929,7 +953,7 @@ cat("Adjusted marginal means",
 \vspace{3mm}
 
 ```{r, echo = T}
-library(emmeans)                                                # R Paket für adjustierte Gruppenmittelwerte
+library(emmeans)                                                 # R Paket für adjustierte Gruppenmittelwerte
 AMM         = emmeans(M, "Gruppe")                               # Adjustierte Gruppenmittelwerte
 ```
 ```{r, echo = F}
@@ -1047,8 +1071,8 @@ knitr::include_graphics("3-Abbildungen/ivf-3-pre-post-posttest-ancova-apgms.pdf"
 \textcolor{black}{$\bullet$} Treatmentgruppe, $\,$
 \textcolor{lightgray}{$-$}, \textcolor{black}{$-$} $\hat{y} = X\hat{\beta}$, $\,$
 
-\textcolor{lightgray}{$\blacklozenge$} Pretest-Kontrollgruppenmittelwert,
-\textcolor{black}{$\blacklozenge$} Pretest-Treatmentgruppenmittelwert,
+\textcolor{lightgray}{$\blacklozenge$} Kontrollgruppenmittelwert,
+\textcolor{black}{$\blacklozenge$} Treatmentgruppenmittelwert,
 \textcolor{gray}{$\blacksquare$} Marginaler Pretest-Mittelwert
 
 
@@ -1216,8 +1240,8 @@ knitr::include_graphics("3-Abbildungen/ivf-3-pre-post-posttest-ancova-apgms-1.pd
 \textcolor{black}{$\bullet$} Treatmentgruppe, $\,$
 \textcolor{lightgray}{$-$}, \textcolor{black}{$-$} $\hat{y} = X\hat{\beta}$, $\,$
 
-\textcolor{lightgray}{$\blacklozenge$} Pretest-Kontrollgruppenmittelwert,
-\textcolor{black}{$\blacklozenge$} Pretest-Treatmentgruppenmittelwert,
+\textcolor{lightgray}{$\blacklozenge$} Kontrollgruppenmittelwert,
+\textcolor{black}{$\blacklozenge$} Treatmentgruppenmittelwert,
 \textcolor{gray}{$\blacksquare$} Marginaler Pretest-Mittelwert
 
 # Posttest-Kovarianzanalyse mit Pretest-Kovariate
@@ -1238,8 +1262,8 @@ knitr::include_graphics("3-Abbildungen/ivf-3-pre-post-posttest-ancova-apgms-2.pd
 \textcolor{black}{$\bullet$} Treatmentgruppe, $\,$
 \textcolor{lightgray}{$-$}, \textcolor{black}{$-$} $\hat{y} = X\hat{\beta}$, $\,$
 
-\textcolor{lightgray}{$\blacklozenge$} Pretest-Kontrollgruppenmittelwert,
-\textcolor{black}{$\blacklozenge$} Pretest-Treatmentgruppenmittelwert,
+\textcolor{lightgray}{$\blacklozenge$} Kontrollgruppenmittelwert,
+\textcolor{black}{$\blacklozenge$} Treatmentgruppenmittelwert,
 \textcolor{gray}{$\blacksquare$} Marginaler Pretest-Mittelwert
 
 # Posttest-Kovarianzanalyse mit Pretest-Kovariate
@@ -1260,8 +1284,8 @@ knitr::include_graphics("3-Abbildungen/ivf-3-pre-post-posttest-ancova-apgms-3.pd
 \textcolor{black}{$\bullet$} Treatmentgruppe, $\,$
 \textcolor{lightgray}{$-$}, \textcolor{black}{$-$} $\hat{y} = X\hat{\beta}$, $\,$
 
-\textcolor{lightgray}{$\blacklozenge$} Pretest-Kontrollgruppenmittelwert,
-\textcolor{black}{$\blacklozenge$} Pretest-Treatmentgruppenmittelwert,
+\textcolor{lightgray}{$\blacklozenge$} Kontrollgruppenmittelwert,
+\textcolor{black}{$\blacklozenge$} Treatmentgruppenmittelwert,
 \textcolor{gray}{$\blacksquare$} Marginaler Pretest-Mittelwert
 
 # Posttest-Kovarianzanalyse mit Pretest-Kovariate
@@ -1462,14 +1486,27 @@ Modellevaluation für das Anwendungsbeispiel
 \footnotesize
 \vspace{2mm}
 ```{r, echo = T}
-D       = read.csv("3-Daten/pre-post.csv", row.names = 1)   # Dateneinlesen
-D$CS    = D$Post - D$Pre                                    # Change-Score-Berechnung
-M       = lm(CS ~ Gruppe, data = D)                         # Modellformulierung und -schätzung
-coefs   = summary(M)$coefficients                           # Parameterschätzer
-ci      = confint(M, level = 0.95)                         # Konfidenzintervalle
+D          = read.csv("3-Daten/pre-post.csv", row.names = 1)  # Dateneinlesen
+D$CS       = D$Post - D$Pre                                   # Change-Score-Berechnung
+M          = lm(CS ~ Gruppe, data = D)                        # Modellformulierung und -schätzung
+beta_hat   = summary(M)$coefficients                          # Betaparameterschätzer
+sigsqr_hat = summary(M)$sigma^2                               # Varianzparmeterschätzer
+ki         = confint(M, level = 0.95)                         # Betaparameterkonfidenzintervalle
 ```
 ```{r, echo = F}
-print(cbind(coefs, KI.u = ci[, 1], KI.o = ci[, 2]), digits = 4)
+tab         = cbind(beta_hat, KI.u = ki[, 1], KI.o = ki[, 2]) # Tabellierung der Ergebnisse
+tab         = as.data.frame(format(round(tab, 3), nsmall = 2))# Formatierung der Ergebnisse
+srow        = data.frame(                                     # Zeile für Varianzschätzer
+Estimate    = format(round(sigsqr_hat, 3), nsmall = 2),       # Varianzschätzer
+Std..Error  = "",                                             # NA
+t.value     = "",                                             # NA
+Pr...t..    = "",                                             # NA
+KI.u        = "",                                             # NA
+KI.o        = "",                                             # NA
+row.names   = "sigma^2")                                      # Zeilenname für Varianzschätzer
+names(srow) = names(tab)                                      # Spaltennamen anpassen
+tab         = rbind(tab, srow)                                # Tabellenerweiterung
+print(tab)                                                    # Ausgabe der Ergebnisse
 ```
 
 \small
@@ -1697,10 +1734,24 @@ Kontrolle für Pretest-Unterschiede durch Change-Score-Analyse
 \vspace{2mm}
 \tiny
 ```{r, echo = T}
-D       = read.csv("3-Daten/pre-post-lord.csv", row.names = 1)      # Dateneinlesen
-D$CS    = D$Post - D$Pre                                            # Change-Score-Berechnung
-M1      = lm(CS ~ Gruppe, data = D)                                 # Modellformulierung und -schätzung
-round(summary(M1)$coefficients,2)                                   # Ausgabe
+D          = read.csv("3-Daten/pre-post-lord.csv", row.names = 1) # Dateneinlesen
+D$CS       = D$Post - D$Pre                                       # Change-Score-Berechnung
+M1         = lm(CS ~ Gruppe, data = D)                            # Modellformulierung und -schätzung
+beta_hat   = summary(M1)$coefficients                             # Betaparameterschätzer
+sigsqr_hat = summary(M1)$sigma^2                                  # Varianzparmeterschätzer
+```
+
+```{r, echo = FALSE}
+tab         = as.data.frame(format(round(beta_hat, 2), nsmall = 2)) # Formatierung der Ergebnisse
+srow        = data.frame(                                           # Zeile für Varianzschätzer
+Estimate    = format(round(sigsqr_hat, 2), nsmall = 2),             # Varianzschätzer
+Std..Error  = "",                                                   # NA
+t.value     = "",                                                   # NA
+Pr...t..    = "",                                                   # NA
+row.names   = "sigma^2")                                            # Zeilenname für Varianzschätzer
+names(srow) = names(tab)                                            # Spaltennamen anpassen
+tab         = rbind(tab, srow)                                      # Tabellenerweiterung
+print(tab)                                                          # Ausgabe der Ergebnisse
 ```
 
 \footnotesize
@@ -2952,6 +3003,3 @@ Linear-Mixed-Model-Analyse
 
 # Referenzen {.allowframebreaks}
 \footnotesize
-
-
-

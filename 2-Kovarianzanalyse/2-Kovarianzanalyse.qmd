@@ -1231,12 +1231,27 @@ Modellschätzung und Modellevaluation mit `lm()`
 \tiny
 \setstretch{1.6}
 ```{r, echo = T}
-D           = read.csv("2-Daten/pgd.csv", head = T)             # Dataframe
-D$TRM       = as.factor(D$TRM)                                  # R Faktor Kodierung
-M           = lm(Y ~ TRM, data = D)                             # ALM Schätzung
-coefs       = summary(M)$coefficients                           # Betaparameterschätzer
-ci          = confint(M, level  = 0.95)                         # Konfidenzintervalle
-print(cbind(coefs, KI.u = ci[, 1], KI.o = ci[, 2]), digits = 4) # Ausgabe
+D          = read.csv("2-Daten/pgd.csv", head = T)              # Dateneinlesen
+D$TRM      = as.factor(D$TRM)                                   # R Faktor Kodierung
+M          = lm(Y ~ TRM, data = D)                              # Modellformulierung und -schätzung
+beta_hat   = summary(M)$coefficients                            # Betaparameterschätzer
+sigsqr_hat = summary(M)$sigma^2                                 # Varianzparmeterschätzer
+ki         = confint(M, level  = 0.95)                          # Betaparameterkonfidenzintervalle
+```
+```{r, echo = F}
+tab         = cbind(beta_hat, KI.u = ki[, 1], KI.o = ki[, 2])   # Tabellierung der Ergebnisse
+tab         = as.data.frame(format(round(tab, 3), nsmall = 2))  # Formatierung der Ergebnisse
+srow        = data.frame(                                       # Zeile für Varianzschätzer
+Estimate    = format(round(sigsqr_hat, 3), nsmall = 2),         # Varianzschätzer
+Std..Error  = "",                                               # NA
+t.value     = "",                                               # NA
+Pr...t..    = "",                                               # NA
+KI.u        = "",                                               # NA
+KI.o        = "",                                               # NA
+row.names   = "sigma^2")                                        # Zeilenname für Varianzschätzer
+names(srow) = names(tab)                                        # Spaltennamen anpassen
+tab         = rbind(tab, srow)                                  # Tabellenerweiterung
+print(tab)                                                      # Ausgabe der Ergebnisse
 ```
 
 # Parallelgruppendesign
@@ -1577,11 +1592,26 @@ Modellschätzung und Modellevaluation mit `lm()`
 \tiny
 \setstretch{1.6}
 ```{r, echo = T}
-D           = read.csv("2-Daten/elr.csv", head = T)             # Dataframe
-M           = lm(AV ~ UV, data = D)                             # ALM Schätzung
-coefs       = summary(M)$coefficients                           # Betaparameterschätzer
-ci          = confint(M, level  = 0.95)                         # Konfidenzintervalle
-print(cbind(coefs, KI.u = ci[, 1], KI.o = ci[, 2]), digits = 4) # Ausgabe
+D          = read.csv("2-Daten/elr.csv", head = T)              # Dateneinlesen
+M          = lm(AV ~ UV, data = D)                              # Modellformulierung und -schätzung
+beta_hat   = summary(M)$coefficients                            # Betaparameterschätzer
+sigsqr_hat = summary(M)$sigma^2                                 # Varianzparmeterschätzer
+ki         = confint(M, level  = 0.95)                          # Betaparameterkonfidenzintervalle
+```
+```{r, echo = F}
+tab         = cbind(beta_hat, KI.u = ki[, 1], KI.o = ki[, 2])   # Tabellierung der Ergebnisse
+tab         = as.data.frame(format(round(tab, 3), nsmall = 2))  # Formatierung der Ergebnisse
+srow        = data.frame(                                       # Zeile für Varianzschätzer
+Estimate    = format(round(sigsqr_hat, 3), nsmall = 2),         # Varianzschätzer
+Std..Error  = "",                                               # NA
+t.value     = "",                                               # NA
+Pr...t..    = "",                                               # NA
+KI.u        = "",                                               # NA
+KI.o        = "",                                               # NA
+row.names   = "sigma^2")                                        # Zeilenname für Varianzschätzer
+names(srow) = names(tab)                                        # Spaltennamen anpassen
+tab         = rbind(tab, srow)                                  # Tabellenerweiterung
+print(tab)                                                      # Ausgabe der Ergebnisse
 ```
 
 # Einfache lineare Regression
@@ -1652,6 +1682,7 @@ Dokumentation
 Anwendungsbeispiel Klinische Psychologie
 \vspace{2mm}
 
+\footnotesize
 *Das allgemeine interpersonelle Vertrauen sagte die Bereitschaft zur
 Therapieaufnahme positiv vorher; eine lineare Regressionsanalyse zeigte einen
 signifikanten positiven Regressionskoeffizienten, b = 0.58, SE = 0.12, 95%-KI [0.31, 0.84],
@@ -2466,14 +2497,16 @@ Modellschätzung und Modellevaluation mit `lm()`
 \setstretch{2}
 
 ```{r, echo = TRUE}
-D           = read.csv("2-Daten/kva-1.csv")                        # Dataframe
-D$TRM       = as.factor(D$TRM)                                     # R Faktor Kodierung
-M1          = lm(Y ~ TRM, data = D)                                # ALM Schätzung Modell 1
-M2          = lm(Y ~ TRM + x, data = D)                            # ALM Schätzung Modell 2
-coefs1      = summary(M1)$coefficients                             # Betaparameterschätzer Modell 1
-coefs2      = summary(M2)$coefficients                             # Betaparameterschätzer Modell 2
-ci1         = confint(M1, level  = 0.95)                           # Konfidenzintervalle Modell 1
-ci2         = confint(M2, level  = 0.95)                           # Konfidenzintervalle Modell 2
+D           = read.csv("2-Daten/kva-1.csv")                       # Dateneinlesen
+D$TRM       = as.factor(D$TRM)                                    # R Faktor Kodierung
+M1          = lm(Y ~ TRM, data = D)                               # Modellformulierung und -schätzung Modell 1
+M2          = lm(Y ~ TRM + x, data = D)                           # Modellformulierung und -schätzung Modell 2
+beta_hat_1  = summary(M1)$coefficients                            # Betaparameterschätzer Modell 1
+beta_hat_2  = summary(M2)$coefficients                            # Betaparameterschätzer Modell 2
+sigsqr_hat_1 = summary(M1)$sigma^2                                # Varianzparmeterschätzer Modell 1
+sigsqr_hat_2 = summary(M2)$sigma^2                                # Varianzparmeterschätzer Modell 2
+ki_1        = confint(M1, level  = 0.95)                          # Betaparameterkonfidenzintervalle Modell 1
+ki_2        = confint(M2, level  = 0.95)                          # Betaparameterkonfidenzintervalle Modell 2
 ```
 
 
@@ -2487,14 +2520,38 @@ Ergebnisse M1
 \vspace{2mm}
 
 ```{r, echo = F}
-print(cbind(coefs1, KI.u = ci1[, 1], KI.o = ci1[, 2]), digits = 4) # Ausgabe Modell 1
+tab1        = cbind(beta_hat_1, KI.u = ki_1[, 1], KI.o = ki_1[, 2])# Tabellierung der Ergebnisse
+tab1        = as.data.frame(format(round(tab1, 3), nsmall = 2))    # Formatierung der Ergebnisse
+srow1       = data.frame(                                          # Zeile für Varianzschätzer
+Estimate    = format(round(sigsqr_hat_1, 3), nsmall = 2),          # Varianzschätzer
+Std..Error  = "",                                                  # NA
+t.value     = "",                                                  # NA
+Pr...t..    = "",                                                  # NA
+KI.u        = "",                                                  # NA
+KI.o        = "",                                                  # NA
+row.names   = "sigma^2")                                           # Zeilenname für Varianzschätzer
+names(srow1) = names(tab1)                                         # Spaltennamen anpassen
+tab1        = rbind(tab1, srow1)                                   # Tabellenerweiterung
+print(tab1)                                                        # Ausgabe der Ergebnisse
 ```
 
 Ergebnisse M2
 \vspace{2mm}
 
 ```{r, echo = F}
-print(cbind(coefs2, KI.u = ci2[, 1], KI.o = ci2[, 2]), digits = 4) # Ausgabe Modell 2
+tab2        = cbind(beta_hat_2, KI.u = ki_2[, 1], KI.o = ki_2[, 2])# Tabellierung der Ergebnisse
+tab2        = as.data.frame(format(round(tab2, 3), nsmall = 2))    # Formatierung der Ergebnisse
+srow2       = data.frame(                                          # Zeile für Varianzschätzer
+Estimate    = format(round(sigsqr_hat_2, 3), nsmall = 2),          # Varianzschätzer
+Std..Error  = "",                                                  # NA
+t.value     = "",                                                  # NA
+Pr...t..    = "",                                                  # NA
+KI.u        = "",                                                  # NA
+KI.o        = "",                                                  # NA
+row.names   = "sigma^2")                                           # Zeilenname für Varianzschätzer
+names(srow2) = names(tab2)                                         # Spaltennamen anpassen
+tab2        = rbind(tab2, srow2)                                   # Tabellenerweiterung
+print(tab2)                                                        # Ausgabe der Ergebnisse
 ```
 
 
