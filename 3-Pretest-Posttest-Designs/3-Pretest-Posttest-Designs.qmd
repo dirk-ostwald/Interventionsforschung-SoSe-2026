@@ -39,7 +39,7 @@ Prof. Dr. Dirk Ostwald
 
 #
 \vfill
-\setstretch{2.3}
+\setstretch{2}
 \large
 
 Einführung
@@ -51,6 +51,8 @@ Posttest-Kovarianzanalyse mit Pretest-Kovariate
 Change-Score-Varianzanalyse
 
 Linear-Mixed-Model-Analyse
+
+Bivariate Analyse
 
 Selbstkontrollfragen
 \vfill
@@ -157,7 +159,7 @@ n       = n_1 + n_2                                                             
 P       = 1:n                                                                   # Proband:innen ID
 gruppe  = c(rep("Kontrolle", n_1), rep("Treatment", n_2))                       # Gruppenfaktor
 mu_1    = matrix(c(35,30), nrow = 2)                                            # Kontrollgruppen-Pre-Post-Erwartungswert
-Sigma_1 = matrix(c(5,2,2,5), nrow = 2)                                          # Kontrollgruppen-Pre-Post-Kovarianmatrix
+Sigma_1 = matrix(c(5,2,2,5), nrow = 2)                                          # Kontrollgruppen-Pre-Post-Kovarianzmatrix
 mu_2    = matrix(c(33,24), nrow = 2)                                            # Treatmentgruppen-Pre-Post-Erwartungswert
 Sigma_2 = matrix(c(5,2,2,5), nrow = 2)                                          # Treatmentgruppen-Pre-Post-Kovarianzmatrix
 Y       = rbind(mvrnorm(n_1, mu_1, Sigma_1), mvrnorm(n_2, mu_2, Sigma_2))       # Datensatz
@@ -413,7 +415,7 @@ Zur Repeated-Measures ANOVA (Split-Plot ANOVA) Frage
 
 #
 \vfill
-\setstretch{2.3}
+\setstretch{2}
 \large
 Einführung
 
@@ -424,6 +426,8 @@ Posttest-Kovarianzanalyse mit Pretest-Kovariate
 Change-Score-Varianzanalyse
 
 Linear-Mixed-Model-Analyse
+
+Bivariate Analyse
 
 Selbstkontrollfragen
 \vfill
@@ -559,7 +563,7 @@ Modellevaluation für das Anwendungsbeispiel
 D          = read.csv("3-Daten/pre-post.csv", row.names = 1)  # Dateneinlesen
 M          = lm(Post ~ Gruppe, data = D)                      # Modellformulierung und -schätzung
 beta_hat   = summary(M)$coefficients                          # Betaparameterschätzer
-sigsqr_hat = summary(M)$sigma^2                               # Varianzparmeterschätzer
+sigsqr_hat = summary(M)$sigma^2                               # Varianzparameterschätzer
 ki         = confint(M, level = 0.95)                         # Betaparameterkonfidenzintervalle
 ```
 ```{r, echo = F}
@@ -812,7 +816,7 @@ Modellevaluation für das Anwendungsbeispiel
 D          = read.csv("3-Daten/pre-post.csv", row.names = 1)  # Dateneinlesen
 M          = lm(Post ~ Gruppe + Pre, data = D)                # Modellformulierung und -schätzung
 beta_hat   = summary(M)$coefficients                          # Betaparameterschätzer
-sigsqr_hat = summary(M)$sigma^2                               # Varianzparmeterschätzer
+sigsqr_hat = summary(M)$sigma^2                               # Varianzparameterschätzer
 ki         = confint(M, level = 0.95)                         # Betaparameterkonfidenzintervalle
 ```
 ```{r, echo = F}
@@ -1132,7 +1136,7 @@ mu_1    = array(c(30,25,25,20,25,22,25,25)  , dim = c(2,4))                     
 mu_2    = array(c(30,20,35,20,35,17,35,20)  , dim = c(2,4))                     # Treatmentgruppen-Pre-Post-Erwartungswert
 Sigma   = array(c(4,2,2,4,4,2,2,4,4,-2,-2,4,4,0,0,4), dim = c(2,2,4))           # Treatmentgruppen-Pre-Post-Kovarianzmatrix
 for(s in 1:4){                                                                  # Szenarieniterationen
-    Y           = rbind(mvrnorm(n_1, mu_1[,s], Sigma[,,s]),                     # Kontrollgruppen daten
+    Y           = rbind(mvrnorm(n_1, mu_1[,s], Sigma[,,s]),                     # Kontrollgruppendaten
                         mvrnorm(n_2, mu_2[,s], Sigma[,,s]))                     # Treatmentgruppendaten
     D           = data.frame(P = P, Gruppe = gruppe, Pre = Y[,1], Post = Y[,2]) # Dataframe
     M           = lm(Post ~ Gruppe  + Pre, data = D)                            # Modellformulierung und -schätzung
@@ -1323,7 +1327,7 @@ Adjustierte Posttest-Gruppenmittelwerte
   führt auch eine starke Pretest-Posttest-Korrelation nicht zu einem Unterschied zwischen
   adjustierten und tatsächlichen Gruppenmittelwerten.
 
-* In randomisierten kontrollierten Studien ("Experimentellen Designs") ist der Zweck
+* In randomisierten kontrollierten Studien ("experimentellen Designs") ist der Zweck
   der Randomisierung gerade die Minimierung von Unterschieden zwischen Gruppen in den Pretest-Daten.
 
 * In randomisierten kontrollierten Studien sollten in der Regel die adjustierten
@@ -1340,7 +1344,7 @@ vgl. @maxwell2018, Kapitel 9
 
 #
 \vfill
-\setstretch{2.3}
+\setstretch{2}
 \large
 Einführung
 
@@ -1351,6 +1355,8 @@ Posttest-Kovarianzanalyse mit Pretest-Kovariate
 **Change-Score-Varianzanalyse**
 
 Linear-Mixed-Model-Analyse
+
+Bivariate Analyse
 
 Selbstkontrollfragen
 \vfill
@@ -1490,7 +1496,7 @@ D          = read.csv("3-Daten/pre-post.csv", row.names = 1)  # Dateneinlesen
 D$CS       = D$Post - D$Pre                                   # Change-Score-Berechnung
 M          = lm(CS ~ Gruppe, data = D)                        # Modellformulierung und -schätzung
 beta_hat   = summary(M)$coefficients                          # Betaparameterschätzer
-sigsqr_hat = summary(M)$sigma^2                               # Varianzparmeterschätzer
+sigsqr_hat = summary(M)$sigma^2                               # Varianzparameterschätzer
 ki         = confint(M, level = 0.95)                         # Betaparameterkonfidenzintervalle
 ```
 ```{r, echo = F}
@@ -1666,7 +1672,7 @@ Proband:inneneffekt
 # Change-Score-Varianzanalyse
 \small
 \setstretch{1.6}
-Lord Paradox
+Lord-Paradox
 \vspace{-1mm}
 
 \footnotesize
@@ -1676,7 +1682,7 @@ Lord Paradox
 * Letztlich unterschiedliche korrekte Antworten auf unterschiedliche Fragen
 
 \small
-Lord Paradox Beispiel Annahmen
+Lord-Paradox Beispiel Annahmen
 \vspace{-1mm}
 
 \footnotesize
@@ -1686,12 +1692,12 @@ Lord Paradox Beispiel Annahmen
 * Positive Pretest-Post-Korrelation
 
 \small
-Lord Paradox Beispiel Resultate
+Lord-Paradox Beispiel Resultate
 \vspace{-1mm}
 
 \footnotesize
 * Change-Score-Varianzanalyse zeigt keinen Gruppenunterschied der Veränderung
-* Mit Pretest-Kovariate adjustierte Posttestmittelwerte zeigen Gruppenunterschied
+* Mit Pretest-Kovariate adjustierte Posttest-Gruppenmittelwerte zeigen Gruppenunterschied
 
 \flushright
 \footnotesize
@@ -1700,7 +1706,7 @@ vgl. @lord1967, @fitzmaurice2001, @wainer2006
 
 # Change-Score-Varianzanalyse
 \small
-Lord Paradox
+Lord-Paradox
 
 \footnotesize
 Beispiel Datengeneration
@@ -1726,7 +1732,7 @@ write.csv(D, "3-Daten/pre-post-lord.csv")                                   # Sp
 
 # Change-Score-Varianzanalyse
 \small
-Lord Paradox
+Lord-Paradox
 
 \footnotesize
 Kontrolle für Pretest-Unterschiede durch Change-Score-Analyse
@@ -1738,7 +1744,7 @@ D          = read.csv("3-Daten/pre-post-lord.csv", row.names = 1) # Dateneinlese
 D$CS       = D$Post - D$Pre                                       # Change-Score-Berechnung
 M1         = lm(CS ~ Gruppe, data = D)                            # Modellformulierung und -schätzung
 beta_hat   = summary(M1)$coefficients                             # Betaparameterschätzer
-sigsqr_hat = summary(M1)$sigma^2                                  # Varianzparmeterschätzer
+sigsqr_hat = summary(M1)$sigma^2                                  # Varianzparameterschätzer
 ```
 
 ```{r, echo = FALSE}
@@ -1759,7 +1765,7 @@ $\Rightarrow$ Geringer und nicht signifikanter Effekt von Treatment
 
 # Change-Score-Varianzanalyse
 \small
-Lord Paradox
+Lord-Paradox
 
 \footnotesize
 Kontrolle für Pretest-Unterschiede durch Auswertung Pretest-adjustierter Posttest-Gruppenunterschiede
@@ -1780,7 +1786,7 @@ $\Rightarrow$ Adjustierte Posttest-Gruppenmittelwertsdifferenz signifikant unter
 
 # Change-Score-Varianzanalyse
 \small
-Lord Paradox
+Lord-Paradox
 
 \footnotesize
 Beispiel Visualisierung
@@ -1936,98 +1942,33 @@ knitr::include_graphics("3-Abbildungen/ivf-3-pre-post-lord.pdf")
 
 # Change-Score-Varianzanalyse
 \small
-Lord Paradox
+Lord-Paradox
 
 \footnotesize
 
 Fragestellung bei Change-Score-Varianzanalyse
 
-* "Gibt es einen Erwartungswertunterschied in der Pre-Post-Veränderung zwischen Kontrolle und Treatment?"
+"Gibt es einen Erwartungswertunterschied in der Pre-Post-Veränderung zwischen Kontrolle und Treatment?"
+
 * Die Frage wird unabhängig von, d.h. gemittelt über alle, möglichen Pretestwerte gestellt.
 * In diesem Sinn ist die Fragestellung bei Change-Score-Varianzanalyse "unbedingt" bzw. "marginal".
 * Die Fragestellung ist die entscheidende Fragestellung in der Evaluation von Interventionen.
 
 Fragestellung bei Posttest-Kovarianzanalyse mit Pretest-Kovariate und adjustierten Posttest-Gruppenmittelwerten
 
-* "Gibt es einen Posttest-Erwartungswertunterschied zwischen einer Kontrollgruppenproband:in und einer
-   Treatmentgruppenproband:in mit identischem Pretest-Wert?"
+"Gibt es einen Posttest-Erwartungswertunterschied zwischen einer Kontrollgruppenproband:in und einer Treatmentgruppenproband:in mit identischem Pretest-Wert?"
+
 * Die Frage wird explizit bedingt auf einen der möglichen Pretestwerte gestellt.
 * In diesem Sinn ist die Fragestellung bei Posttest-Kovarianzanalysen "bedingt" bzw. "conditional".
-* Bestehen Pretestunterschiede zwischen Gruppen und haben zwei Proband:innen den gleichen Pretestwert
-  (z.B. den marginalen Pretestgruppenmittelwert), so sind sie per Definition bezüglich ihrer Gruppenerwartungswerte
-  untypisch und der Regression-zur-Mitte-Effekt induziert adjustierte Posttest-Gruppenunterschiede,
-  die den Pretestunterschieden ähneln.
 * Die Fragestellung ist bei der Evaluation von Interventionen nicht entscheidend und im Idealfall gibt
-  es in randomisierten Designs sowieso keine Pretestgruppenunterschiede bezüglich der primären Zielvariablen.
+  es in randomisierten Designs sowieso keine Pretest-Gruppenunterschiede bezüglich der primären Zielvariablen.
 
 \flushright
 vgl. @fitzmaurice2001
 
-# Change-Score-Varianzanalyse
-\small
-Lord Paradox und Regression-zur-Mitte-Effekt
-
-\setstretch{2.3}
-\footnotesize
-Intuitive Erläuterung
-\vspace{-2mm}
-
-* Eine Proband:in habe einen festen Gruppenerwartungswert $\mu$ bezüglich der primären Zielvariable.
-* Für die Pretest- und Posttestfehlervariablen gelte $\eps_{i0} \sim N(0,\sigma^2)$ und $\eps_{i1} \sim N(0,\sigma^2)$, also $\mathbb{V}(\eps_{i0}) = \mathbb{V}(\eps_{i1})$
-* In der Pretest-Messung zeige sich ein hoher Wert $y_{i0} = \mu + \eps_{i0}$ durch einen hohen Fehlerbeitrag $\eps_{i0}$.
-* Hohe Abweichungen von $\eps_{i0} \sim N(0,\sigma^2)$ von $0$ sind unwahrscheinlicher als geringe Abweichungen.
-* Der Pretestwert für die Proband:in ist also bezüglich des Gruppenrerwartungswerts untypisch.
-* In der Posttest-Messung ist $\eps_{i1}$ mit hoher Wahrscheinlichkeit geringer als $\eps_{i0}$, da auch $\eps_{i1} \sim N(0,\sigma^2)$
-* Damit ist aber auch $y_{i1} = \mu + \eps_{i1}$ mit hoher Wahrscheinlichkeit geringer als $y_{i0}$.
-* Bedingt auf $y_{i0}$ zeigt sich eine durch den Zufallsfehler induzierte Reduktion in der primären Zielvariablen.
-* Marginal, d.h. gemittelt über viele Proband:innen gleichen sich positive und negative Effekte dieser Art aus.
-
-# Change-Score-Varianzanalyse
-\small
-Lord Paradox und Regression-zur-Mitte-Effekt
-
-\footnotesize
-Formale Erläuterung
-\vspace{-2mm}
-
-* Gegeben sei für $\sigma_{00}^2 := \sigma_{11}^2 := \sigma^2$
-\begin{equation}
-\begin{pmatrix}
-y_{i0} \\
-y_{i1}
-\end{pmatrix}
-\sim
-N\left(
-\begin{pmatrix}
-\mu \\ \mu
-\end{pmatrix},
-\begin{pmatrix}
-\sigma_{00}^2 & \sigma_{01}^2 \\
-\sigma_{10}^2 & \sigma_{11}^2
-\end{pmatrix}
-\right)
-\end{equation}
-* Dann gilt nach dem Theorem zu den bedingten Normalverteilungen
-\begin{align}
-\begin{split}
-\mathbb{E}(y_{i1}|y_{i0})
-& = \mu + \frac{\sigma_{01}^2}{\sigma_{11}^2}(y_{i0} - \mu)                                                     \\
-& = \mu + \frac{\mathbb{C}(y_{i0},y_{i1})}{\mathbb{V}(y_{11})}(y_{i0} - \mu)                                    \\
-& = \mu + \frac{\mathbb{C}(y_{i0},y_{i1})}{\sqrt{\mathbb{V}(y_{i1})}\sqrt{\mathbb{V}(y_{i0})}}(y_{i0} - \mu)    \\
-& = \mu + \rho(y_{i0}, y_{i1})(y_{i0} - \mu_0)                                                                    \\
-\end{split}
-\end{align}
-* Mit $|\rho(y_{i0}, y_{i1})| \le 1$ folgt dann
-\begin{equation}
-\mathbb{E}(y_{i1}|y_{i0}) - \mu \le  y_{i0} - \mu \Leftrightarrow \mathbb{E}(y_{i1} - \mu|y_{i0})  \le  y_{i0} - \mu
-\end{equation}
-* Gegeben den Pretest-Wert $y_{i0}$ ist die erwartete Abweichung des Posttest-Wertes
-   $y_{i1}$ vom Posttesterwartungswert also geringer als die Abweichung des Pretest-Wertes
-   $y_{i0}$ vom Pretesterwartungswert, sofern $|\rho(y_{i0}, y_{i1})| < 1$, also entsprechend $|\rho(\eps_{i0}, \eps_{i1})| < 1$.
-
 #
 \vfill
-\setstretch{2.3}
+\setstretch{2}
 \large
 Einführung
 
@@ -2039,6 +1980,8 @@ Change-Score-Varianzanalyse
 
 **Linear-Mixed-Model-Analyse**
 
+Bivariate Analyse
+
 Selbstkontrollfragen
 \vfill
 
@@ -2048,7 +1991,7 @@ Linear-Mixed-Model-Analyse
 \small
 
 * Aktuell präferierte Analyseform, vgl. @detry2016,  @yu2022
-* Parameter für Gruppeneffekte, Zeitpunkteffekte, Gruppen $\times$ Zeitpunkt Interaktionen
+* Parameter für Gruppeneffekte, Zeitpunkteffekte, Gruppen $\times$ Zeitpunkt-Interaktionen
 * Durch Hinzunahme von Random-Effects ergibt sich eine Vielzahl möglicher Analysemodelle
 * Für einen Überblick und einen systematischen Vergleiche, siehe @tango2017
 * Generell variable Kombinationen von Fixed- und Random Effekten möglich
@@ -2084,7 +2027,7 @@ Parameterbedeutungen
 
 \footnotesize
 \begin{tabular}{ll}
-$\beta_0$       & Erwartungswert im Pretests der Kontrollgruppe                                                                 \\
+$\beta_0$       & Erwartungswert im Pretest der Kontrollgruppe                                                                 \\
 $\beta_1$       & Erwartungswertunterschied im Pretest zwischen Kontroll- und Treatmentgruppe                                   \\
 $\beta_2$       & Erwartungswertunterschied zwischen Posttest und Pretest in der Kontrollgruppe                                 \\
 $\beta_3$       & Unterschied der Posttest-Pretest-Erwartungswertunterschiede zwischen Kontroll- und Treatmentgruppe    \\
@@ -2093,97 +2036,102 @@ $\sigma_b^2$    & Varianz des zufälligen Proband:innen-spezifischen Intercepts
 \end{tabular}
 
 # Linear-Mixed-Model-Analyse
+\vspace{2mm}
 \small
-Designmatrixform für Proband:innen $i = 1,2,3,9,10,11$  des Anwendungsbeispiels
+Designmatrixform für das Anwendungsbeispiel
+\vspace{2mm}
 
-\footnotesize
-\begin{align}
-\begin{split}
-y & = X\beta + Zb + \eps \\
-\Leftrightarrow
-\begin{pmatrix}
-y_{10} \\
-y_{11} \\
-y_{20} \\
-y_{21} \\
-y_{30} \\
-y_{31} \\
-y_{90} \\
-y_{91} \\
-y_{100} \\
-y_{101} \\
-y_{110} \\
-y_{111} \\
-\end{pmatrix}
-& =
-\begin{pmatrix}
-1 & 0 & 0 & 0 \\
-1 & 0 & 1 & 0 \\
-1 & 0 & 0 & 0 \\
-1 & 0 & 1 & 0 \\
-1 & 0 & 0 & 0 \\
-1 & 0 & 1 & 0 \\
-1 & 1 & 0 & 0 \\
-1 & 1 & 1 & 1 \\
-1 & 1 & 0 & 0 \\
-1 & 1 & 1 & 1 \\
-1 & 1 & 0 & 0 \\
-1 & 1 & 1 & 1 \\
-\end{pmatrix}
-\begin{pmatrix}
-\beta_0 \\
-\beta_1 \\
-\beta_2 \\
-\beta_3 \\
-\end{pmatrix}
+\begingroup
+\tiny
+\setlength{\arraycolsep}{1.1pt}
+\renewcommand{\arraystretch}{0.6}
+\vspace{-2mm}
+\begin{center}
+\resizebox{0.8\textwidth}{!}{%
+$\begin{aligned}
+y &
+= X\beta + Zb + \eps \\
+y =
+&
+\left(\begin{array}{c}
+y_{10}\\ y_{11}\\ y_{20}\\ y_{21}\\ y_{30}\\ y_{31}\\ y_{40}\\ y_{41}\\
+y_{50}\\ y_{51}\\ y_{60}\\ y_{61}\\ y_{70}\\ y_{71}\\ y_{80}\\ y_{81}\\
+y_{90}\\ y_{91}\\ y_{100}\\ y_{101}\\ y_{110}\\ y_{111}\\ y_{120}\\ y_{121}\\
+y_{130}\\ y_{131}\\ y_{140}\\ y_{141}\\ y_{150}\\ y_{151}\\ y_{160}\\ y_{161}
+\end{array}\right)
+=
+\left(\begin{array}{rrrr}
+1&0&0&0\\ 1&0&1&0\\ 1&0&0&0\\ 1&0&1&0\\
+1&0&0&0\\ 1&0&1&0\\ 1&0&0&0\\ 1&0&1&0\\
+1&0&0&0\\ 1&0&1&0\\ 1&0&0&0\\ 1&0&1&0\\
+1&0&0&0\\ 1&0&1&0\\ 1&0&0&0\\ 1&0&1&0\\
+1&1&0&0\\ 1&1&1&1\\ 1&1&0&0\\ 1&1&1&1\\
+1&1&0&0\\ 1&1&1&1\\ 1&1&0&0\\ 1&1&1&1\\
+1&1&0&0\\ 1&1&1&1\\ 1&1&0&0\\ 1&1&1&1\\
+1&1&0&0\\ 1&1&1&1\\ 1&1&0&0\\ 1&1&1&1
+\end{array}\right)
+\left(\begin{array}{c}
+\beta_0\\ \beta_1\\ \beta_2\\ \beta_3
+\end{array}\right)
 +
-\begin{pmatrix}
-1 & 0 & 0 & 0 & 0 & 0\\
-1 & 0 & 0 & 0 & 0 & 0\\
-0 & 1 & 0 & 0 & 0 & 0\\
-0 & 1 & 0 & 0 & 0 & 0\\
-0 & 0 & 1 & 0 & 0 & 0\\
-0 & 0 & 1 & 0 & 0 & 0\\
-0 & 0 & 0 & 1 & 0 & 0\\
-0 & 0 & 0 & 1 & 0 & 0\\
-0 & 0 & 0 & 0 & 1 & 0\\
-0 & 0 & 0 & 0 & 1 & 0\\
-0 & 0 & 0 & 0 & 0 & 1\\
-0 & 0 & 0 & 0 & 0 & 1\\
-\end{pmatrix}
-\begin{pmatrix}
-b_1     \\
-b_2     \\
-b_3     \\
-b_9     \\
-b_{10}  \\
-b_{11}  \\
-\end{pmatrix}
+\left(\begin{array}{rrrrrrrrrrrrrrrr}
+1&0&0&0&0&0&0&0&0&0&0&0&0&0&0&0\\
+1&0&0&0&0&0&0&0&0&0&0&0&0&0&0&0\\
+0&1&0&0&0&0&0&0&0&0&0&0&0&0&0&0\\
+0&1&0&0&0&0&0&0&0&0&0&0&0&0&0&0\\
+0&0&1&0&0&0&0&0&0&0&0&0&0&0&0&0\\
+0&0&1&0&0&0&0&0&0&0&0&0&0&0&0&0\\
+0&0&0&1&0&0&0&0&0&0&0&0&0&0&0&0\\
+0&0&0&1&0&0&0&0&0&0&0&0&0&0&0&0\\
+0&0&0&0&1&0&0&0&0&0&0&0&0&0&0&0\\
+0&0&0&0&1&0&0&0&0&0&0&0&0&0&0&0\\
+0&0&0&0&0&1&0&0&0&0&0&0&0&0&0&0\\
+0&0&0&0&0&1&0&0&0&0&0&0&0&0&0&0\\
+0&0&0&0&0&0&1&0&0&0&0&0&0&0&0&0\\
+0&0&0&0&0&0&1&0&0&0&0&0&0&0&0&0\\
+0&0&0&0&0&0&0&1&0&0&0&0&0&0&0&0\\
+0&0&0&0&0&0&0&1&0&0&0&0&0&0&0&0\\
+0&0&0&0&0&0&0&0&1&0&0&0&0&0&0&0\\
+0&0&0&0&0&0&0&0&1&0&0&0&0&0&0&0\\
+0&0&0&0&0&0&0&0&0&1&0&0&0&0&0&0\\
+0&0&0&0&0&0&0&0&0&1&0&0&0&0&0&0\\
+0&0&0&0&0&0&0&0&0&0&1&0&0&0&0&0\\
+0&0&0&0&0&0&0&0&0&0&1&0&0&0&0&0\\
+0&0&0&0&0&0&0&0&0&0&0&1&0&0&0&0\\
+0&0&0&0&0&0&0&0&0&0&0&1&0&0&0&0\\
+0&0&0&0&0&0&0&0&0&0&0&0&1&0&0&0\\
+0&0&0&0&0&0&0&0&0&0&0&0&1&0&0&0\\
+0&0&0&0&0&0&0&0&0&0&0&0&0&1&0&0\\
+0&0&0&0&0&0&0&0&0&0&0&0&0&1&0&0\\
+0&0&0&0&0&0&0&0&0&0&0&0&0&0&1&0\\
+0&0&0&0&0&0&0&0&0&0&0&0&0&0&1&0\\
+0&0&0&0&0&0&0&0&0&0&0&0&0&0&0&1\\
+0&0&0&0&0&0&0&0&0&0&0&0&0&0&0&1
+\end{array}\right)
+\left(\begin{array}{c}
+b_1\\ b_2\\ b_3\\ b_4\\ b_5\\ b_6\\ b_7\\ b_8\\
+b_9\\ b_{10}\\ b_{11}\\ b_{12}\\ b_{13}\\ b_{14}\\ b_{15}\\ b_{16}
+\end{array}\right)
 +
-\begin{pmatrix}
-\eps_{10} \\
-\eps_{11} \\
-\eps_{20} \\
-\eps_{21} \\
-\eps_{30} \\
-\eps_{31} \\
-\eps_{90} \\
-\eps_{91} \\
-\eps_{100} \\
-\eps_{101} \\
-\eps_{110} \\
-\eps_{111} \\
-\end{pmatrix}
-\end{split}
-\end{align}
+\left(\begin{array}{c}
+\eps_{10}\\ \eps_{11}\\ \eps_{20}\\ \eps_{21}\\ \eps_{30}\\ \eps_{31}\\ \eps_{40}\\ \eps_{41}\\
+\eps_{50}\\ \eps_{51}\\ \eps_{60}\\ \eps_{61}\\ \eps_{70}\\ \eps_{71}\\ \eps_{80}\\ \eps_{81}\\
+\eps_{90}\\ \eps_{91}\\ \eps_{100}\\ \eps_{101}\\ \eps_{110}\\ \eps_{111}\\ \eps_{120}\\ \eps_{121}\\
+\eps_{130}\\ \eps_{131}\\ \eps_{140}\\ \eps_{141}\\ \eps_{150}\\ \eps_{151}\\ \eps_{160}\\ \eps_{161}
+\end{array}\right)
+\end{aligned}$%
+}
+\end{center}
+\endgroup
+\tiny
 mit
-\begin{equation}
-\eps \sim N(0_{12}, \sigma_\eps^2I_{12}) \mbox{ und } b \sim N(0_{6},\sigma_b^2I_6) \mbox{ u.v. }
-\end{equation}
+\begin{equation*}
+\eps \sim N(0_{32}, \sigma_\eps^2I_{32}) \mbox{ und } b \sim N(0_{16},\sigma_b^2I_{16}) \mbox{ u.v. }
+\end{equation*}
 
 # Linear-Mixed-Model-Analyse
 \vspace{2mm}
-Expressivität der Fixed-Effects des Modells - Erwartungswerte
+Expressivität der Fixed-Effects-Erwartungswerte des Modells (vgl. 2 x 2 ANOVA)
 
 ```{r, echo = F, eval = F}
 library(latex2exp)
@@ -2262,7 +2210,7 @@ knitr::include_graphics("3-Abbildungen/ivf-3-pre-post-lmm-parameters.pdf")
 # Linear-Mixed-Model-Analyse
 \vspace{2mm}
 \small
-Modellevaluation für das Anwendungsbeispiel
+Longformat Datenrepräsentation für das Anwendungsbeispiel
 \vspace{1mm}
 
 \tiny
@@ -2273,13 +2221,14 @@ D      = D %>% pivot_longer(cols = c(Pre, Post), names_to = "Zeitpunkt",        
                             values_to = "Y")                                    # Zielvariablenkodierung
 D$Zeit = factor(D$Zeitpunkt, levels = c("Pre", "Post"))                         # Zeitfaktor-Kodierung
 ```
-\setstretch{.8}
+\setstretch{.7}
 ```{r}
 knitr::kable(D, digits = 0)
 ```
 
 # Linear-Mixed-Model-Analyse
 \small
+\vspace{2mm}
 Modellevaluation für das Anwendungsbeispiel
 
 \tiny
@@ -2350,11 +2299,29 @@ im Pretest und 23.74 im Posttest. Der negative Interaktionseffekt entspricht
 einer um geschätzt 4.43 Einheiten stärkeren Posttest-Pretest-Verringerung des
 Stromverbrauchs in der Feedbackgruppe.*
 
+#
+\vfill
+\setstretch{2}
+\large
+Einführung
 
-# Linear-Mixed-Model-Analyse
+Posttest-Varianzanalyse
+
+Posttest-Kovarianzanalyse mit Pretest-Kovariate
+
+Change-Score-Varianzanalyse
+
+Linear-Mixed-Model-Analyse
+
+**Bivariate Analyse**
+
+Selbstkontrollfragen
+\vfill
+
+
+# Bivariate Analyse
 \setstretch{1.8}
 \small
-Bivariate Analyse
 
 \small
 Überblick und Hauptaussagen
@@ -2367,25 +2334,25 @@ $\Rightarrow$ Induktion von Fehlerkovarianz durch zufällige Proband:inneneffekt
 
 \vspace{1mm}
 
-\noindent (2) Induktion des Change-Score-Varianzanalyse-Modells
+\noindent (2) Regression-zur-Mitte-Effekt
 
-$\Rightarrow$ Change-Score Varianzanalyse als Differenzvariante des LMMs
+$\Rightarrow$ Bedingte Bewegung extremer Messwerte in Richtung von Gruppenerwartungswerten
+
+\noindent (3) Induktion des Change-Score-Varianzanalyse-Modells
+
+$\Rightarrow$ Change-Score-Varianzanalyse als Differenzvariante des LMMs
 
 \vspace{1mm}
 
-\noindent (3) Posttest-Kovarianzanalysemodell mit Pretest-Kovariate als bedingte Verteilung der Change-Scores
+\noindent (4) Posttest-Kovarianzanalyse als bedingte Change-Score-Verteilung
 
 $\Rightarrow$ Kovarianzanalyse als spezialisierte Change-Score-Analyse
 
-
-
-# Linear-Mixed-Model-Analyse
+# Bivariate Analyse
 \small
-Bivariate Analyse
-
-\footnotesize
 \noindent (1) Marginale Datenverteilung des LMMs für Proband:in $i$
 
+\footnotesize
 Für Proband:in $i$ hat das Gruppen$\times$Zeitpunkt-LMM mit zufälligem Proband:inneneffekt die Designmatrixform
 \begin{align}
 \begin{split}
@@ -2479,14 +2446,12 @@ und
 \end{pmatrix}
 \end{equation}
 
-# Linear-Mixed-Model-Analyse
+# Bivariate Analyse
 \small
-Bivariate Analyse
-
-\footnotesize
 \noindent (1) Marginale Datenverteilung des LMMs für Proband:in $i$
+\footnotesize
 
-Für Proband:in gilt also
+Für Proband:in $i$ gilt also
 \begin{equation}
 \begin{pmatrix}
 y_{i0} \\
@@ -2608,30 +2573,25 @@ for(s in 1:length(sigsqr_eps)){
   col         = "white",
   xlim        = c(0, 6),
   ylim        = c(-2,4),
-  xlab        = "Pre ",
+  xlab        = "Pretest",
   ylab        = "Posttest",
   main        = "")
   dev.off()
 }
 ```
 
+# Bivariate Analyse
 
-# Linear-Mixed-Model-Analyse
 \small
-Bivariate Analyse
-
-\footnotesize
 \noindent (1) Marginale Datenverteilung des LMMs für Proband:in $i$ für $\sigma_b = 1$, $\sigma_\eps = 0.01$
 \vspace{1mm}
 
 ```{r, echo = FALSE, out.width = "100%", fig.align = "center"}
 knitr::include_graphics("3-Abbildungen/ivf-3-pre-post-bivariate-1.pdf")
 ```
-# Linear-Mixed-Model-Analyse
-\small
-Bivariate Analyse
 
-\footnotesize
+# Bivariate Analyse
+\small
 \noindent (1) Marginale Datenverteilung des LMMs für Proband:in $i$ für $\sigma_b = 1$, $\sigma_\eps = 100$
 \vspace{1mm}
 
@@ -2640,13 +2600,260 @@ knitr::include_graphics("3-Abbildungen/ivf-3-pre-post-bivariate-2.pdf")
 ```
 
 
-# Linear-Mixed-Model-Analyse
-\small
-Bivariate Analyse
+# Bivariate Analyse
+\small (2) Regression-zur-Mitte-Effekt
 
 \footnotesize
-\noindent(2) Induktion des Change-Score-Varianzanalyse-Modells durch lineare Transformation von Pre- und Posttest-Daten
 
+Begriff *Regression zur Mitte* bezeichnet das Phänomen, dass extrem hohe oder
+extrem niedrige Messwerte bei einer späteren Messung im Mittel weniger extrem
+ausfallen.
+
+Beobachtet wird der Effekt insbesondere bei Wiederholungsmessungen wie Pretest-Posttest-Designs.
+
+Beispiel
+
+* Personen mit extrem hohen Depressionswerten im Pretest zeigen im Mittel geringere Werte im Posttest.
+* Personen mit extrem niedrigen Depressionswerten im Pretest zeigen im Mittel höhere Werte im Posttest.
+
+Der Effekt tritt bereits ohne jede Intervention auf.
+
+Historisch wurde das Phänomen erstmals systematisch von @galton1886 im
+Kontext der Vererbung von Körpergrößen beschrieben. Galton beobachtete, dass
+sehr große Eltern im Mittel kleinere Kinder haben, während sehr kleine Eltern
+im Mittel größere Kinder haben. Galton bezeichnete dieses Phänomen als
+\textit{regression toward mediocrity}. Der moderne Begriff geht auf spätere
+statistische Literatur zurück, insbesondere auf @pearson1896.
+
+# Bivariate Analyse
+\small
+\noindent (2) Regression-zur-Mitte-Effekt
+
+\footnotesize
+
+Intuitive Erläuterung
+
+*	Eine Proband:in habe einen festen Gruppenerwartungswert $\mu$ bezüglich der primären Zielvariable.
+
+*	Für die Pretest- und Posttestfehlervariablen gelte
+\begin{equation}
+\eps_{i0} \sim N(0,\sigma^2) \mbox{ und } \eps_{i1} \sim N(0,\sigma^2) \mbox{, also } \mathbb{V}(\eps_{i0}) = \mathbb{V}(\eps_{i1}).
+\end{equation}
+
+*	In der Pretest-Messung zeige sich ein hoher Wert $y_{i0} = \mu + \eps_{i0}$ durch einen hohen Fehlerbeitrag $\eps_{i0}$.
+
+*	Hohe Abweichungen von $\eps_{i0} \sim N(0,\sigma^2)$ von $0$ sind unwahrscheinlicher als geringe Abweichungen.
+
+*	Der Pretestwert für die Proband:in ist also bezüglich des Gruppenerwartungswerts untypisch.
+
+*	In der Posttest-Messung ist $\eps_{i1}$ mit hoher Wahrscheinlichkeit geringer als $\eps_{i0}$, da auch $\eps_{i1} \sim N(0,\sigma^2)$
+
+*	Damit ist aber auch $y_{i1} = \mu + \eps_{i1}$ mit hoher Wahrscheinlichkeit geringer als $y_{i0}$.
+
+*	Bedingt auf $y_{i0}$ zeigt sich eine durch den Zufallsfehler induzierte Reduktion in der primären Zielvariablen.
+
+*	Marginal, d.h. über viele Proband:innen gemittelt, besitzt die Fehlervariable
+aber weiterhin den Erwartungswert $0$. Bezüglich von Gruppenanalysen in Pretest-Posttest-Designs
+ist der Regression-zur-Mitte-Effekt daher weitgehend unerheblich, allerdings nur
+sofern die Proband:innen nicht anhand extremer Pretest-Werte vorselektiert wurden.
+
+
+# Bivariate Analyse
+\small
+\vspace{3mm}
+\noindent (2) Regression-zur-Mitte-Effekt
+
+\footnotesize
+
+Formale Erläuterung
+
+\begin{itemize}
+\item Für Proband:in $i$ gelte die marginale Verteilung des LMMs mit $\mu_i := \mu_{i0} = \mu_{i1}$, also
+\begin{equation}
+\begin{pmatrix}
+y_{i0} \\
+y_{i1}
+\end{pmatrix}
+\sim
+N\left(
+\begin{pmatrix}
+\mu_i \\
+\mu_i
+\end{pmatrix},
+\begin{pmatrix}
+\sigma_{00}^2 & \sigma_{01}^2 \\
+\sigma_{10}^2 & \sigma_{11}^2
+\end{pmatrix}
+\right)
+\mbox{ mit }
+\sigma_{00}^2
+=
+\sigma_{11}^2
+=
+\sigma_b^2+\sigma_\eps^2
+\mbox{ und }
+\sigma_{01}^2
+=
+\sigma_{10}^2
+=
+\sigma_b^2.
+\end{equation}
+Dann gilt nach dem Theorem zu bedingten Normalverteilungen, dass
+\begin{align}
+\begin{split}
+\mathbb{E}(y_{i1}|y_{i0})
+=
+\mu_i
++
+\frac{\mathbb{C}(y_{i0},y_{i1})}
+{\mathbb{V}(y_{i0})}
+(y_{i0}-\mu_i)
+=
+\mu_i
++
+\frac{\sigma_b^2}
+{\sigma_b^2+\sigma_\eps^2}
+(y_{i0}-\mu_i)
+=
+\mu_i
++
+\rho(y_{i0},y_{i1})
+(y_{i0}-\mu_i).
+\end{split}
+\end{align}
+
+Damit folgt
+\begin{equation}
+\mathbb{E}(y_{i1}|y_{i0})-\mu_i
+=
+\rho(y_{i0},y_{i1})
+(y_{i0}-\mu_i).
+\end{equation}
+Wegen
+\begin{equation}
+0
+\le
+\rho(y_{i0},y_{i1})
+=
+\frac{\sigma_b^2}
+{\sigma_b^2+\sigma_\eps^2}
+\le
+1
+\end{equation}
+und mit Fallunterscheidung bezüglich der Vorzeichen gilt
+\begin{equation}
+\left|
+\mathbb{E}(y_{i1}|y_{i0})-\mu_i
+\right|
+\le
+|y_{i0}-\mu_i|.
+\end{equation}
+Bei $\sigma_\eps^2>0$, also $\rho(y_{i0},y_{i1}) < 1$, gilt obige Ungleichung insbesondere strikt. Extreme Pretest-Abweichungen werden dann in Erwartung also weniger extrem im Posttest reproduziert.
+\end{itemize}
+
+# Bivariate Analyse
+\small
+\noindent (2) Regression-zur-Mitte-Effekt
+
+\footnotesize
+Formale Erläuterung
+
+\begin{itemize}
+\item Für $\sigma_b^2 = 0$ gelten $\mathbb{C}(y_{i0},y_{i1}) = 0$ und
+$\rho(y_{i0},y_{i1}) = \frac{\sigma_b^2}{\sigma_b^2+\sigma_\eps^2} = 0$.
+Damit folgt in diesem Fall
+\begin{equation}
+\mathbb{E}(y_{i1}|y_{i0})
+=
+\mu_{i1}
++
+0\cdot(y_{i0}-\mu_{i0})
+=
+\mu_{i1}.
+\end{equation}
+Der erwartete Posttest-Wert entspricht also unabhängig vom beobachteten
+Pretest-Wert exakt dem marginalen Posttest-Erwartungswert.
+\item Für
+$\sigma_\eps^2 = 0$
+gilt
+$\sigma_{00}^2 = \sigma_{11}^2 = \sigma_b^2$. Damit folgt in diesem Fall
+\begin{equation}
+\rho(y_{i0},y_{i1})
+=
+\frac{\sigma_b^2}
+{\sigma_b^2}
+=
+1.
+\end{equation}
+und es folgt
+\begin{align}
+\begin{split}
+\mathbb{E}(y_{i1}|y_{i0})
+&=
+\mu_{i1}
++
+(y_{i0}-\mu_{i0}) = y_{i0}.
+\end{split}
+\end{align}
+Die Pretest-Abweichung wird also vollständig im erwarteten Posttest-Wert reproduziert:
+\begin{equation}
+\left|\mathbb{E}(y_{i1}|y_{i0})-\mu_{i1}\right| = |y_{i0}-\mu_{i0}|.
+\end{equation}
+Bei verschwindender Residualvarianz tritt daher keine Regression zur Mitte auf.
+\end{itemize}
+
+# Bivariate Analyse
+\small
+\vspace{2mm}
+\noindent (2) Regression-zur-Mitte-Effekt
+
+\footnotesize
+Regression-zur-Mitte-Effekt und Fehlerunabhängigkeit
+
+\begin{itemize}
+\item Bekanntlich heißen die Zufallsvariablen $\eps_{i0}$ und $\eps_{i1}$
+unabhängig, wenn ihre gemeinsame Dichte in das Produkt ihrer marginalen Dichten
+faktorisiert bzw. ihre bedingte Dichte ihrer marginalen Dichte gleicht,
+\begin{equation}
+p(\eps_{i0},\eps_{i1}) = p(\eps_{i0})p(\eps_{i1})
+\Leftrightarrow
+p(\eps_{i1}| \eps_{i0}) = p(\eps_{i1}).
+\end{equation}
+Die Beobachtung eines extremen Fehlerwertes $\eps_{i0}$ verändert die Verteilung
+von $\eps_{i1}$ also nicht und in diesem Sinne ist $\eps_{i0}$ für $\eps_{i1}$
+nicht prädiktiv.
+\item  Daraus folgt aber nicht, dass bei Beobachtung eines extremen Fehlerwertes $\eps_{i0}$
+ein erneut extremer Fehlerwert $\eps_{i1}$ wahrscheinlich ist. Vielmehr gilt im
+aktuellen Kontext weiterhin $\eps_{i1} \sim N(0,\sigma^2)$. Werte von $\eps_{i1}$ nahe $0$ liegen in Bereichen hoher Dichte, während sehr große positive oder negative Werte von $\eps_{i1}$ in Bereichen niedriger Dichte liegen.
+\item Wenn $\eps_{i0}$ extrem war, also in einem Bereich niedriger Dichte lag, dann
+ist ein typischerer Wert von $\eps_{i1}$ mit höherer Dichte wahrscheinlicher
+als erneut ein ähnlich extremer Wert. Dies ist allerdings keine Änderung der
+bedingten Verteilung. Die bedingte Verteilung bleibt unter Unabhängigkeit
+identisch mit der marginalen Verteilung. Es ist vielmehr eine Aussage über die
+Form dieser unveränderten Verteilung: extreme Werte sind selten, typische Werte
+nahe dem Erwartungswert sind häufig.
+\item Genau deshalb gilt bei unabhängigen Fehlern
+\begin{equation}
+\mathbb{E}(\eps_{i1}| \eps_{i0})
+=
+\mathbb{E}(\eps_{i1})
+=
+0
+\Leftrightarrow
+\mathbb{E}(y_{i1}| y_{i0})
+=
+\mu_{i1}.
+\end{equation}
+\item  Der Regression-zur-Mitte-Effekt entsteht hier also nicht durch eine negative Abhängigkeit der Fehler, sondern durch die Nicht-Reproduzierbarkeit extremer Fehlerwerte bei unabhängigen Wiederholungen.
+\end{itemize}
+
+
+
+# Bivariate Analyse
+\small
+\noindent(3) Induktion des Change-Score-Varianzanalyse-Modells
+
+\footnotesize
 Für den Change-Score für Proband:in $i$, also die Posttest-Pretest-Differenz
 \begin{equation}
 d_i := y_{i1} - y_{i0}
@@ -2692,13 +2899,11 @@ d_{i}  \\
 \end{pmatrix}
 \end{equation}
 
-# Linear-Mixed-Model-Analyse
+# Bivariate Analyse
 \small
-Bivariate Analyse
+\noindent(3) Induktion des Change-Score-Varianzanalyse-Modells
 
 \footnotesize
-\noindent(2) Induktion des Change-Score-Varianzanalyse-Modells durch lineare Transformation von Pre- und Posttest-Daten
-
 Also gilt mit dem Theorem zu linearen Transformation normalverteilter Zufallsvektoren, dass
 \begin{equation}\label{eq:pz}
 z \sim N(\mu_z, \Sigma_z)
@@ -2755,14 +2960,11 @@ Speziell ergibt sich
 \end{split}
 \end{align}
 
-
-# Linear-Mixed-Model-Analyse
+# Bivariate Analyse
 \small
-Bivariate Analyse
+\noindent(3) Induktion des Change-Score-Varianzanalyse-Modells
 
 \footnotesize
-\noindent(2) Induktion des Change-Score-Varianzanalyse-Modells durch lineare Transformation von Pre- und Posttest-Daten
-
 Weiterhin ergibt sich
 \begin{align}
 \begin{split}
@@ -2823,12 +3025,10 @@ Weiterhin ergibt sich
 \end{split}
 \end{align}
 
-# Linear-Mixed-Model-Analyse
+# Bivariate Analyse
 \small
-Bivariate Analyse
-
+\noindent(3) Induktion des Change-Score-Varianzanalyse-Modells
 \footnotesize
-\noindent(2) Induktion des Change-Score-Varianzanalyse-Modells durch lineare Transformation von Pre- und Posttest-Daten
 
 Ablesen der Marginalverteilung von $d_i = y_{i1} - y_{i0}$ ergibt damit mit
 \begin{equation}
@@ -2852,18 +3052,15 @@ y_{i1} - y_{i0} = \beta_0 + \beta_1x_i + \eps_i \mbox{ mit } \eps_i \sim  N\left
 \end{equation}
 Das Change-Score-Varianzanalysemodell ist also das ALM, das sich durch Posttest-Pretest-Differenzbildung
 im Gruppen$\times$Zeitpunkt-LMM mit zufälligen Proband:inneneffekten ergibt. Man beachte
-die identische Parameterbedeutungen der entsprechenden Fixed-Effects-Parameter sowie die Tatsache,
+die identischen Parameterbedeutungen der entsprechenden Fixed-Effects-Parameter sowie die Tatsache,
 dass der Varianzeffekt der Posttest-Pretest-Differenzen über Proband:innen $\left(\sigma_b^2\right)$
 durch Differenzbildung innerhalb der Proband:innen aus dem Modell entnommen wird.
 
-
-# Linear-Mixed-Model-Analyse
+# Bivariate Analyse
 \small
-Bivariate Analyse
+\noindent (4) Posttest-Kovarianzanalyse als bedingte Change-Score-Verteilung
 
 \footnotesize
-\noindent(3) Posttest-Kovarianzanalysemodell mit Pretest-Kovariate als bedingte Verteilung der Change-Scores
-
 Wir betrachten schließlich die bedingte Verteilung der Posttest-Pretest-Differenzen gegeben die Pretest-Werte.
 Anhand der gemeinsamen Verteilung (vgl. Gleichung \eqref{eq:pz}) von $y_{i0},y_{i1}$ und $d_i$ ergibt sich mit dem
 Theorem zu bedingten Normalverteilungen
@@ -2885,13 +3082,11 @@ Insbesondere ergibt sich mit $\rho_{01} := \rho(y_{i0},y_{i1}) = \sigma^2_{01}/\
 \end{align}
 
 
-# Linear-Mixed-Model-Analyse
+# Bivariate Analyse
 \small
-Bivariate Analyse
+\noindent (4) Posttest-Kovarianzanalyse als bedingte Change-Score-Verteilung
 
 \footnotesize
-\noindent(3) Posttest-Kovarianzanalysemodell mit Pretest-Kovariate als bedingte Verteilung der Change-Scores
-
 Weiterhin gilt
 \begin{align}
 \begin{split}
@@ -2907,13 +3102,11 @@ Weiterhin gilt
 \end{split}
 \end{align}
 
-# Linear-Mixed-Model-Analyse
+# Bivariate Analyse
 \small
-Bivariate Analyse
+\noindent (4) Posttest-Kovarianzanalyse als bedingte Change-Score-Verteilung
 
 \footnotesize
-\noindent(3) Posttest-Kovarianzanalysemodell mit Pretest-Kovariate als bedingte Verteilung der Change-Scores
-
 Es ergibt sich also
 \begin{equation}
 y_{i1} - y_{i0} | y_{i0}
@@ -2942,13 +3135,11 @@ y_{i1} | y_{i0}
 \end{split}
 \end{align}
 
-# Linear-Mixed-Model-Analyse
+# Bivariate Analyse
 \small
-Bivariate Analyse
+\noindent (4) Posttest-Kovarianzanalyse als bedingte Change-Score-Verteilung
 
 \footnotesize
-\noindent(3) Posttest-Kovarianzanalysemodell mit Pretest-Kovariate als bedingte Verteilung der Change-Scores
-
 Umbenennen der Parameter durch
 \begin{equation}
 (1-\rho_{01})\beta_0 + \beta_2  \mapsto \beta_0,\,\,
@@ -2970,7 +3161,7 @@ der Pretest-Posttest-Werte bzw. Fehlervariablen entspricht (vgl. Theorem A.1 in 
 
 #
 \vfill
-\setstretch{2.3}
+\setstretch{2}
 \large
 Einführung
 
@@ -2981,6 +3172,8 @@ Posttest-Kovarianzanalyse mit Pretest-Kovariate
 Change-Score-Varianzanalyse
 
 Linear-Mixed-Model-Analyse
+
+Bivariate Analyse
 
 **Selbstkontrollfragen**
 \vfill
@@ -2997,9 +3190,9 @@ Linear-Mixed-Model-Analyse
 1. Erläutern Sie die Bedeutung adjustierter Posttest-Gruppenmittelwerte für randomisierte ("experimentelle") und nicht-randomisierte ("quasiexperimentelle") Studien.
 1. Erläutern Sie das Modell der Change-Score-Varianzanalyse.
 1. Geben Sie die speziellen Äquivalenzen zwischen den Modellen der Posttest-Varianzanalyse, der Posttest-Kovarianzanalyse mit Pretest-Kovariate und der Change-Score-Varianzanalyse wieder.
-1. Erläutern Sie das Lord Paradox.
-1. Erläutern Sie den Regression-zur-Mitte-Effekt.
+1. Erläutern Sie das Lord-Paradox.
 1. Erläutern Sie das Gruppen $\times$ Zeitpunkt-LMM mit zufälligem Proband:inneneffekt
+1. Erläutern Sie die marginale Datenverteilung des LMMs für Proband:in $i$ im Kontext der bivariaten Analyse.
 
 # Referenzen {.allowframebreaks}
 \footnotesize
